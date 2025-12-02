@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandejita de Lata | Cocina de Autor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Bandejita De Lata | Cocina de Autor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,13 +14,13 @@
     <style>
         :root {
             /* 🎨 PALETA DE COLORES */
-            --blue: #135c96;       /* Azul Marca */
-            --green: #96b754;      /* Verde Marca */
-            --soft-green: #d2dc84; /* Verde Claro */
-            --bg: #f9f9f9;         /* Fondo General */
+            --blue: #135c96;       
+            --green: #96b754;      
+            --soft-green: #d2dc84; 
+            --bg: #f9f9f9;         
             --white: #ffffff;      
             --text-grey: #444444;
-            --light-text: #f2f2f2; /* Color claro para texto sobre fondo azul */
+            --light-text: #f2f2f2; 
             --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); 
         }
 
@@ -36,11 +36,10 @@
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--blue); font-weight: 700; margin-top: 0; }
         p { font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
 
-        /* --- ENCABEZADO (FOTO DE PORTADA) --- */
+        /* --- ENCABEZADO --- */
         header {
             height: 35vh;
             min-height: 250px;
-            /* 📷 FOTO: Enlace directo (RAW) a GitHub */
             background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/2c9e405ea2773f4f431c75880bb058fdbb1eb9ed/Encabezado%20bandejita.jpg'); 
             background-size: cover; 
             background-position: center; 
@@ -58,43 +57,46 @@
             display: block; background-color: #fff;
         }
         
-        /* --- BARRA DE NAVEGACIÓN DINÁMICA --- */
+        /* --- BARRA DE NAVEGACIÓN DINÁMICA (DISEÑO VERTICAL) --- */
         .nav-tabs {
             display: flex; 
-            justify-content: center; /* Centrado por defecto */
+            flex-direction: column; /* Apilar elementos verticalmente */
+            justify-content: center;
             align-items: center;
             background: var(--white); 
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             position: sticky; 
             top: 0; 
             z-index: 50; 
-            padding-top: 55px; /* Espacio inicial para el logo flotante */
-            transition: all 0.3s ease-in-out; /* Transición suave para el cambio de color */
+            padding-top: 55px; /* Espacio inicial para el logo */
+            padding-bottom: 0;
+            transition: all 0.4s ease-in-out; 
         }
 
-        /* Título de marca oculto en la barra (aparece al hacer scroll) */
+        /* Título de marca (Oculto al inicio) */
         .nav-brand-title {
-            display: none; /* Oculto por defecto */
+            display: none; 
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.4rem; /* Letra grande y elegante */
             color: var(--light-text);
-            margin-left: 20px;
-            white-space: nowrap; /* Evita que el texto se rompa en dos líneas */
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-align: center;
         }
 
-        /* Contenedor de los botones para alinearlos a la derecha al hacer scroll */
+        /* Contenedor de botones */
         .nav-buttons-wrapper {
             display: flex;
-            flex: 1;
-            justify-content: center; /* Centrados al inicio */
+            width: 100%;
+            justify-content: center;
             transition: all 0.3s ease;
         }
 
-        /* ESTILO DE BOTONES NORMAL */
+        /* Botones Normales */
         .tab-btn {
-            flex: 1; /* Ocupan espacio igual al inicio */
-            max-width: 200px; /* Limite de ancho para que no se vean gigantes */
+            flex: 1; 
+            max-width: 50%; /* Ocupan mitad y mitad */
             padding: 15px; border: none; background: none;
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
             font-size: 0.75rem; color: #999; cursor: pointer; transition: 0.3s;
@@ -104,44 +106,40 @@
 
 
         /* =========================================
-           👇 ESTILOS CUANDO SE HACE SCROLL (MODO AZUL) 👇
+           👇 MODO SCROLL (FONDO AZUL + NOTCH) 👇
            ========================================= */
         
-        /* 1. Cambia el fondo de la barra a AZUL y ajusta el padding */
         .nav-tabs.scrolled-mode {
             background-color: var(--blue);
-            padding-top: 0; /* Quitamos el espacio del logo porque ya no se ve */
+            /* Margen superior seguro para la cámara del móvil */
+            padding-top: 40px; 
             padding-bottom: 0;
-            box-shadow: 0 4px 15px rgba(19, 92, 150, 0.4); /* Sombra más intensa */
-            justify-content: space-between; /* Separa el título de los botones */
+            box-shadow: 0 4px 20px rgba(19, 92, 150, 0.5);
         }
 
-        /* 2. Muestra el Título de la Marca */
+        /* Mostrar título */
         .nav-tabs.scrolled-mode .nav-brand-title {
-            display: block; /* Aparece el texto */
+            display: block; 
+            animation: fadeInText 0.5s ease;
         }
 
-        /* 3. Ajusta el contenedor de botones a la derecha */
-        .nav-tabs.scrolled-mode .nav-buttons-wrapper {
-            justify-content: flex-end; /* Botones a la derecha */
-            flex: auto; /* Ya no ocupan todo el ancho */
-        }
-
-        /* 4. Cambia el color de los botones para que se vean sobre azul */
+        /* Botones en modo azul */
         .nav-tabs.scrolled-mode .tab-btn {
-            color: rgba(242, 242, 242, 0.6); /* Texto claro semitransparente */
-            flex: initial; /* Ancho automático según el texto */
-            padding: 20px 15px; /* Un poco más de altura para elegancia */
+            color: rgba(242, 242, 242, 0.6); /* Blanco transparente */
+            padding: 12px; /* Un poco más compactos */
         }
         
-        /* 5. Estilo del botón ACTIVO sobre fondo azul */
         .nav-tabs.scrolled-mode .tab-btn.active {
-            color: var(--light-text); /* Blanco puro (#f2f2f2) */
-            border-bottom: 3px solid var(--green); /* La línea verde se mantiene */
+            color: var(--white); 
+            border-bottom: 3px solid var(--green);
+            background: rgba(255,255,255,0.05); /* Sutil brillo en el activo */
         }
-         /* =========================================
-            👆 FIN ESTILOS MODO SCROLL 👆
-            ========================================= */
+
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+         /* ========================================= */
 
 
         .container { max-width: 700px; margin: 0 auto; padding: 30px 20px 10px 20px; }
@@ -151,7 +149,7 @@
         .view-section.active { display: block; animation: fadeUp 0.6s ease-out; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- TARJETAS (Noticias, Info) --- */
+        /* Tarjetas */
         .info-card {
             background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px;
             box-shadow: var(--shadow); border-top: 4px solid var(--green);
@@ -163,7 +161,7 @@
             display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; 
         }
 
-        /* --- TESTIMONIOS (Carrusel) --- */
+        /* Testimonios */
         .reviews-wrapper { margin-bottom: 25px; }
         .reviews-scroll {
             display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; 
@@ -182,7 +180,7 @@
         .review-stars { color: var(--green); font-size: 0.9rem; letter-spacing: 1px; }
         .review-text { font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5; }
         
-        /* --- TARJETAS DEL MENÚ --- */
+        /* Menú */
         .category-title {
             color: var(--blue); border-bottom: 1px solid #ddd; padding-bottom: 10px;
             margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; text-align: center;
@@ -192,7 +190,6 @@
             box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center;
             transition: all 0.3s ease; border: 1px solid transparent;
         }
-        /* Platos Destacados */
         .card.destacado {
             border: 1px solid var(--green); background: linear-gradient(to right, #ffffff, #fcfdf6); position: relative; 
         }
@@ -203,19 +200,16 @@
         }
         .dish-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
         
-        /* Texto Justificado en descripciones */
+        /* TEXTO JUSTIFICADO */
         .dish-desc { 
-            font-size: 0.85rem; 
-            color: #666; 
-            line-height: 1.5; 
-            padding-right: 10px;
+            font-size: 0.85rem; color: #666; line-height: 1.5; padding-right: 10px;
             text-align: justify;
         }
 
         .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
 
-        /* --- FOOTER / REDES SOCIALES --- */
+        /* Footer */
         .zone-contact {
             text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px;
         }
@@ -233,7 +227,7 @@
             background: var(--green); color: var(--white); border-color: var(--green); transform: translateY(-5px); 
         }
 
-        /* --- BOTÓN WHATSAPP FLOTANTE --- */
+        /* FAB */
         .fab {
             position: fixed; bottom: 25px; right: 20px; background-color: var(--green); color: white;
             padding: 14px 28px; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; 
@@ -269,7 +263,7 @@
     <div class="container">
         <div id="inicio" class="view-section active">
             <div style="text-align: center; margin-bottom: 40px; margin-top: 10px;">
-                <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Bandejita de Lata</h1>
+                <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Bandejita De Lata</h1>
                 <p style="font-size: 1rem; color: var(--blue); letter-spacing: 1px;">COCINA DE AUTOR</p>
                 <div style="width: 50px; height: 2px; background: var(--green); margin: 20px auto;"></div>
             </div>
@@ -322,54 +316,38 @@
     </a>
 
     <script>
-        // CONFIGURACIÓN
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
-        // === NUEVO SCRIPT PARA LA BARRA DE NAVEGACIÓN DINÁMICA ===
-        // Este pequeño código vigila el scroll y cambia el color de la barra
         document.addEventListener("DOMContentLoaded", () => {
             const headerEl = document.getElementById('main-header');
             const navEl = document.getElementById('sticky-nav');
 
             function checkScroll() {
-                // Calcula el punto exacto donde termina el encabezado
-                // Restamos un pequeño margen (20px) para que la transición sea antes de chocar
-                const triggerPoint = headerEl.offsetHeight - 20;
-
+                const triggerPoint = headerEl.offsetHeight - 50; 
                 if (window.scrollY > triggerPoint) {
-                    // Si pasamos ese punto, activamos el "modo scroll" (Azul)
                     navEl.classList.add('scrolled-mode');
                 } else {
-                    // Si volvemos arriba, desactivamos el modo (Vuelve a blanco)
                     navEl.classList.remove('scrolled-mode');
                 }
             }
-
-            // Escuchar el evento de scroll y también si se redimensiona la pantalla
             window.addEventListener('scroll', checkScroll);
             window.addEventListener('resize', checkScroll);
         });
-        // ==========================================================
 
-
-        // Función para cambiar Pestañas
         function switchTab(tabName) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             const btnIndex = tabName === 'inicio' ? 0 : 1;
             document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
-            // Al cambiar de pestaña, volvemos arriba suavemente
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Rastreo de Origen (Instagram, TikTok, etc.)
         const params = new URLSearchParams(window.location.search);
         let origen = params.get('origen') || 'web';
         document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola Ángel, vengo de " + origen + " y quisiera hacer un pedido.")}`;
 
-        // Lector de CSV
         function parseCSV(text) {
             let filas = []; let filaActual = []; let celda = ""; let enComillas = false;
             for (let i = 0; i < text.length; i++) {
@@ -384,7 +362,6 @@
             return filas;
         }
 
-        // CARGA DE DATOS (Cerebro del sistema)
         async function cargarTodo() {
             try {
                 const [sheetResponse, dolarResponse] = await Promise.all([
@@ -398,7 +375,6 @@
 
                 const filas = parseCSV(csvData);
                 
-                // DETECCIÓN DE MONEDA (Celda G2 del Excel)
                 let modoMoneda = 'bs'; 
                 if (filas.length > 1 && filas[1].length > 6) {
                     const celdaG2 = filas[1][6];
@@ -423,7 +399,6 @@
                 const menuPorCategoria = {}; const ordenCategorias = []; 
                 let hayNoticias = false; let hayReviews = false;
 
-                // Procesar cada plato
                 filas.forEach((fila, index) => {
                     if (index === 0) return; 
                     
@@ -457,7 +432,6 @@
                             return;
                         }
 
-                        // Cálculo de Precio
                         let precioFinal = "0.00";
                         let simbolo = "";
                         let limpio = precioRaw.replace('$', '').replace(',', '.');
