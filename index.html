@@ -39,14 +39,14 @@
         header {
             height: 35vh;
             min-height: 250px;
-            /* 👇 PORTADA ACTUALIZADA 👇 */
+            /* PORTADA */
             background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/2c9e405ea2773f4f431c75880bb058fdbb1eb9ed/Encabezado%20bandejita.jpg'); 
             background-size: cover; 
             background-position: center; 
             position: relative;
         }
 
-        /* LOGO ESTILOS */
+        /* LOGO */
         .header-logo-container {
             position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); z-index: 60;
             background: var(--white); padding: 5px; border-radius: 50%;
@@ -88,7 +88,7 @@
             display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; 
         }
 
-        /* CARRUSEL DE TESTIMONIOS */
+        /* CARRUSEL TESTIMONIOS */
         .reviews-wrapper { margin-bottom: 25px; }
         .reviews-scroll {
             display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; 
@@ -127,8 +127,8 @@
         }
         .dish-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
         .dish-desc { font-size: 0.85rem; color: #666; line-height: 1.5; padding-right: 10px;}
-        .price-tag { text-align: right; min-width: 70px; }
-        .usd { color: var(--blue); font-weight: 700; font-size: 1.2rem; }
+        .price-tag { text-align: right; min-width: 90px; } /* Ajustado para Bs */
+        .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
 
         /* FOOTER */
         .zone-contact {
@@ -197,8 +197,7 @@
 
             <div id="reviews-box" class="reviews-wrapper" style="display:none;">
                 <h3 style="font-size:1.1rem; margin-bottom:15px; margin-left:5px;"><i class="fa-solid fa-star" style="color:var(--green); margin-right:8px;"></i> Clientes Felices</h3>
-                <div id="reviews-container" class="reviews-scroll">
-                    </div>
+                <div id="reviews-container" class="reviews-scroll"></div>
             </div>
 
             <div class="info-card">
@@ -211,7 +210,7 @@
             <div id="menu-content">
                 <div style="text-align:center; padding:80px 20px;">
                     <i class="fa-solid fa-circle-notch fa-spin" style="font-size:2rem; color:var(--soft-green); margin-bottom: 20px;"></i>
-                    <p style="color:#999;">Preparando los fogones...</p>
+                    <p style="color:#999;">Calculando tasa del día...</p>
                 </div>
             </div>
         </div>
@@ -266,9 +265,20 @@
 
         async function cargarTodo() {
             try {
-                const response = await fetch(SHEET_CSV_URL);
-                const data = await response.text();
-                const filas = parseCSV(data);
+                // 1. CARGA PARALELA: CSV DE GOOGLE + TASA BCV
+                const [sheetResponse, dolarResponse] = await Promise.all([
+                    fetch(SHEET_CSV_URL),
+                    fetch('https://ve.dolarapi.com/v1/dolares/oficial')
+                ]);
+
+                const csvData = await sheetResponse.text();
+                const dolarData = await dolarResponse.json();
+
+                // TASA BCV
+                const tasaBCV = dolarData.promedio; 
+                console.log("Tasa BCV cargada:", tasaBCV);
+
+                const filas = parseCSV(csvData);
                 
                 const menuContainer = document.getElementById('menu-content');
                 const newsContainer = document.getElementById('news-content');
@@ -286,7 +296,7 @@
                     
                     const nombre = fila[0] ? fila[0].trim() : '';
                     const desc = fila[1] ? fila[1].trim() : '';
-                    const precio = fila[2] ? fila[2].replace('$', '').trim() : '';
+                    const precioRaw = fila[2] ? fila[2].replace('$', '').trim() : '0'; // Precio en USD del Excel
                     const categoria = fila[3] ? fila[3].trim() : 'Otros';
                     const disponible = fila[4] ? fila[4].toLowerCase().trim() : '';
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
@@ -310,16 +320,29 @@
                                 <div class="review-card">
                                     <div class="review-header">
                                         <div class="review-author">${nombre}</div>
-                                        <div class="review-stars">${precio}</div>
-                                    </div>
+                                        <div class="review-stars">${fila[2]}</div> </div>
                                     <p class="review-text">"${desc}"</p>
                                 </div>`;
                             return;
                         }
 
-                        // MENÚ NORMAL
+                        // CÁLCULO DE PRECIO AUTOMÁTICO (USD -> BS + 16%)
+                        let precioFinal = "0.00";
+                        if(precioRaw) {
+                            const precioUSD = parseFloat(precioRaw);
+                            if(!isNaN(precioUSD)) {
+                                // FÓRMULA: (Precio USD * Tasa BCV) * 1.16
+                                const precioCalculado = (precioUSD * tasaBCV) * 1.16;
+                                // Formatear a 2 decimales
+                                precioFinal = precioCalculado.toFixed(2);
+                            }
+                        }
+
+                        // MENÚ
                         if (!menuPorCategoria[categoria]) { menuPorCategoria[categoria] = []; ordenCategorias.push(categoria); }
-                        menuPorCategoria[categoria].push({ nombre, desc, precio, destacado: destacado === 'si' });
+                        
+                        // Guardamos precioFinal (Bs) en lugar del raw
+                        menuPorCategoria[categoria].push({ nombre, desc, precio: precioFinal, destacado: destacado === 'si' });
                     }
                 });
 
@@ -347,14 +370,14 @@
                                         <div class="dish-name">${plato.nombre}</div>
                                         <p class="dish-desc">${plato.desc}</p>
                                     </div>
-                                    <div class="price-tag"><span class="usd">$${plato.precio}</span></div>
+                                    <div class="price-tag"><span class="usd">Bs ${plato.precio}</span></div>
                                 </div>`;
                         });
                     });
                 }
             } catch (error) { 
                 console.error(error); 
-                document.getElementById('menu-content').innerHTML = '<p style="text-align:center;">Error cargando el menú.</p>';
+                document.getElementById('menu-content').innerHTML = '<p style="text-align:center;">Error conectando con BCV o Menú.</p>';
             }
         }
         cargarTodo();
