@@ -39,14 +39,14 @@
         header {
             height: 35vh;
             min-height: 250px;
-            /* 👇 TU URL RAW DE GITHUB AQUÍ 👇 */
+            /* 👇 PORTADA ACTUALIZADA 👇 */
             background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/2c9e405ea2773f4f431c75880bb058fdbb1eb9ed/Encabezado%20bandejita.jpg'); 
             background-size: cover; 
             background-position: center; 
             position: relative;
         }
 
-        /* LOGO */
+        /* LOGO ESTILOS */
         .header-logo-container {
             position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); z-index: 60;
             background: var(--white); padding: 5px; border-radius: 50%;
@@ -88,47 +88,24 @@
             display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; 
         }
 
-        /* --- NUEVO: CARRUSEL DE TESTIMONIOS --- */
-        .reviews-wrapper {
-            margin-bottom: 25px;
-        }
+        /* CARRUSEL DE TESTIMONIOS */
+        .reviews-wrapper { margin-bottom: 25px; }
         .reviews-scroll {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 15px; /* Espacio para scrollbar si aparece */
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch; /* Suavidad en iOS/Android */
+            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; 
+            scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; 
         }
-        /* Ocultar scrollbar pero mantener funcionalidad */
         .reviews-scroll::-webkit-scrollbar { display: none; }
         .reviews-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
         .review-card {
-            min-width: 260px; /* Ancho fijo para que se vean uniformes */
-            max-width: 260px;
-            background: var(--white);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            scroll-snap-align: center; /* Se centra al soltar */
-            border-top: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            min-width: 260px; max-width: 260px; background: var(--white); border-radius: 12px; padding: 20px;
+            box-shadow: var(--shadow); scroll-snap-align: center; border-top: 1px solid #eee;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
-        .review-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
-        }
-        .review-author {
-            font-family: 'Playfair Display', serif; font-weight: 700; color: var(--blue); font-size: 1rem;
-        }
-        .review-stars {
-            color: var(--green); font-size: 0.9rem; letter-spacing: 1px;
-        }
-        .review-text {
-            font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5;
-        }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .review-author { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--blue); font-size: 1rem; }
+        .review-stars { color: var(--green); font-size: 0.9rem; letter-spacing: 1px; }
+        .review-text { font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5; }
         
         /* MENÚ */
         .category-title {
@@ -191,7 +168,7 @@
 
     <header>
         <div class="header-logo-container">
-            <img src="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
+            <img src="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png" alt="Logo Bandejita" class="header-logo" id="logo-img">
         </div>
     </header>
 
@@ -326,14 +303,15 @@
                             hoursContainer.innerHTML += `<div class="hours-item"><span style="font-weight:600; color:var(--blue);">${nombre}</span><span style="font-size:0.9rem;">${desc}</span></div>`;
                             return;
                         }
-                        // TESTIMONIOS (NUEVO)
+                        // TESTIMONIOS
                         if (categoria.toLowerCase() === 'testimonios') {
                             hayReviews = true;
                             reviewsContainer.innerHTML += `
                                 <div class="review-card">
                                     <div class="review-header">
                                         <div class="review-author">${nombre}</div>
-                                        <div class="review-stars">${precio}</div> </div>
+                                        <div class="review-stars">${precio}</div>
+                                    </div>
                                     <p class="review-text">"${desc}"</p>
                                 </div>`;
                             return;
@@ -346,7 +324,7 @@
                 });
 
                 if(hayNoticias) document.getElementById('news-box').style.display = 'block';
-                if(hayReviews) reviewsBox.style.display = 'block'; // Mostrar sección si hay reseñas
+                if(hayReviews) reviewsBox.style.display = 'block';
                 if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
 
                 if (ordenCategorias.length === 0) {
