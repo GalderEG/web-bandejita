@@ -13,14 +13,15 @@
 
     <style>
         :root {
-            /* PALETA DE COLORES */
-            --blue: #135c96;       
-            --green: #96b754;      
-            --soft-green: #d2dc84; 
-            --bg: #f9f9f9;         
+            /* === PALETA DE COLORES === */
+            /* Cambia estos códigos hexadecimales para modificar los colores de toda la web */
+            --blue: #135c96;       /* Color Principal (Títulos y Precios) */
+            --green: #96b754;      /* Color Secundario (Botones y Detalles) */
+            --soft-green: #d2dc84; /* Color Suave (Fondos destacados) */
+            --bg: #f9f9f9;         /* Color de Fondo de la página */
             --white: #ffffff;      
-            --text-grey: #444444;
-            --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); 
+            --text-grey: #444444;  /* Color del texto general */
+            --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); /* Efecto de sombra */
         }
 
         body { 
@@ -28,25 +29,26 @@
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg); 
             color: var(--text-grey); 
-            padding-bottom: 120px; 
+            padding-bottom: 120px; /* Espacio abajo para que el botón de WhatsApp no tape nada */
             -webkit-font-smoothing: antialiased;
         }
         
+        /* Estilos de Títulos */
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--blue); font-weight: 700; margin-top: 0; }
         p { font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
 
-        /* HEADER */
+        /* === HEADER (PORTADA) === */
         header {
-            height: 35vh;
+            height: 35vh; /* Altura de la portada (35% de la pantalla) */
             min-height: 250px;
-            /* PORTADA */
+            /* 👇 CAMBIAR FOTO DE PORTADA AQUÍ 👇 */
             background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/2c9e405ea2773f4f431c75880bb058fdbb1eb9ed/Encabezado%20bandejita.jpg'); 
             background-size: cover; 
             background-position: center; 
             position: relative;
         }
 
-        /* LOGO */
+        /* Contenedor del Logo Redondo */
         .header-logo-container {
             position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); z-index: 60;
             background: var(--white); padding: 5px; border-radius: 50%;
@@ -57,10 +59,10 @@
             display: block; background-color: #fff;
         }
         
-        /* NAVEGACIÓN */
+        /* === BOTONES DE NAVEGACIÓN (PESTAÑAS) === */
         .nav-tabs {
             display: flex; background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            position: sticky; top: 0; z-index: 50; padding-top: 55px; 
+            position: sticky; top: 0; z-index: 50; padding-top: 55px; /* Padding para esquivar el logo */
         }
         .tab-btn {
             flex: 1; padding: 15px; border: none; background: none;
@@ -72,11 +74,12 @@
 
         .container { max-width: 700px; margin: 0 auto; padding: 30px 20px 10px 20px; }
         
+        /* Efectos de aparición suave */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeUp 0.6s ease-out; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* TARJETAS INFO */
+        /* === TARJETAS DE INFORMACIÓN (Noticias, Horarios) === */
         .info-card {
             background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px;
             box-shadow: var(--shadow); border-top: 4px solid var(--green);
@@ -88,7 +91,7 @@
             display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; 
         }
 
-        /* CARRUSEL TESTIMONIOS */
+        /* === CARRUSEL DE TESTIMONIOS === */
         .reviews-wrapper { margin-bottom: 25px; }
         .reviews-scroll {
             display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; 
@@ -107,7 +110,7 @@
         .review-stars { color: var(--green); font-size: 0.9rem; letter-spacing: 1px; }
         .review-text { font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5; }
         
-        /* MENÚ */
+        /* === TARJETAS DEL MENÚ === */
         .category-title {
             color: var(--blue); border-bottom: 1px solid #ddd; padding-bottom: 10px;
             margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; text-align: center;
@@ -117,6 +120,7 @@
             box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center;
             transition: all 0.3s ease; border: 1px solid transparent;
         }
+        /* Estilo para platos destacados (Borde Verde y Fondo degradado) */
         .card.destacado {
             border: 1px solid var(--green); background: linear-gradient(to right, #ffffff, #fcfdf6); position: relative; 
         }
@@ -130,7 +134,7 @@
         .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
 
-        /* FOOTER */
+        /* === ZONA DE REDES SOCIALES (FOOTER) === */
         .zone-contact {
             text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px;
         }
@@ -148,7 +152,7 @@
             background: var(--green); color: var(--white); border-color: var(--green); transform: translateY(-5px); 
         }
 
-        /* FAB WHATSAPP */
+        /* === BOTÓN FLOTANTE WHATSAPP === */
         .fab {
             position: fixed; bottom: 25px; right: 20px; background-color: var(--green); color: white;
             padding: 14px 28px; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; 
@@ -225,4 +229,213 @@
             <a href="https://facebook.com/angelchaconcocinero" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="https://maps.app.goo.gl/TU_ENLACE_DE_MAPS" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
         </div>
-        <p style="font-size: 0.75rem; color:
+        <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
+    </div>
+
+    <a href="#" id="whatsapp-btn" class="fab">
+        <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i> <span>Realizar Pedido</span>
+    </a>
+
+    <script>
+        // --- CONFIGURACIÓN PRINCIPAL ---
+        const TELEFONO = "584120767007"; // Tu número de WhatsApp
+        // URL de tu Google Sheet publicado como CSV
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
+
+        // Función para cambiar entre pestañas (Inicio / Menú)
+        function switchTab(tabName) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            const btnIndex = tabName === 'inicio' ? 0 : 1;
+            document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Detecta si el usuario viene de TikTok, Instagram, etc. para el mensaje de WhatsApp
+        const params = new URLSearchParams(window.location.search);
+        let origen = params.get('origen') || 'web';
+        document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola Ángel, vengo de " + origen + " y quisiera hacer un pedido.")}`;
+
+        // Función auxiliar para leer el CSV correctamente (respetando comillas)
+        function parseCSV(text) {
+            let filas = []; let filaActual = []; let celda = ""; let enComillas = false;
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i]; let nextChar = text[i+1];
+                if (char === '"') { 
+                    if (enComillas && nextChar === '"') { celda += '"'; i++; } else { enComillas = !enComillas; } 
+                } else if (char === ',' && !enComillas) { filaActual.push(celda); celda = ""; } 
+                else if (char === '\n' && !enComillas) { filaActual.push(celda); filas.push(filaActual); filaActual = []; celda = ""; } 
+                else if (char !== '\r') { celda += char; }
+            }
+            if (celda || filaActual.length > 0) { filaActual.push(celda); filas.push(filaActual); }
+            return filas;
+        }
+
+        // --- FUNCIÓN PRINCIPAL DE CARGA ---
+        async function cargarTodo() {
+            try {
+                // 1. Descargamos datos del Sheet y del Banco Central (BCV) al mismo tiempo
+                const [sheetResponse, dolarResponse] = await Promise.all([
+                    fetch(SHEET_CSV_URL),
+                    fetch('https://ve.dolarapi.com/v1/dolares/oficial')
+                ]);
+
+                const csvData = await sheetResponse.text();
+                const dolarData = await dolarResponse.json();
+                const tasaBCV = dolarData.promedio; 
+
+                const filas = parseCSV(csvData);
+                
+                // --- DETECCIÓN DE MODO DE MONEDA (Segura) ---
+                // Lee la celda G2 para saber si mostramos 'usd' o 'bs'
+                let modoMoneda = 'bs'; // Valor por defecto si falla la lectura
+                
+                // Verificamos si existe la fila 2 y la columna G antes de leer
+                if (filas.length > 1 && filas[1].length > 6) {
+                    const celdaG2 = filas[1][6];
+                    if (celdaG2) {
+                        const configSheet = celdaG2.trim().toLowerCase();
+                        if (configSheet === 'usd') modoMoneda = 'usd';
+                        if (configSheet === 'bs') modoMoneda = 'bs';
+                    }
+                }
+                
+                // Actualizamos mensaje de carga
+                const statusMsg = document.getElementById('status-msg');
+                if (statusMsg) statusMsg.textContent = "Preparando los fogones...";
+
+                // Referencias a los contenedores HTML
+                const menuContainer = document.getElementById('menu-content');
+                const newsContainer = document.getElementById('news-content');
+                const hoursContainer = document.getElementById('hours-content');
+                const reviewsContainer = document.getElementById('reviews-container');
+                const reviewsBox = document.getElementById('reviews-box');
+                
+                // Limpiamos todo antes de pintar
+                menuContainer.innerHTML = ''; newsContainer.innerHTML = ''; hoursContainer.innerHTML = ''; reviewsContainer.innerHTML = '';
+
+                const menuPorCategoria = {}; const ordenCategorias = []; 
+                let hayNoticias = false; let hayReviews = false;
+
+                // --- PROCESAMIENTO DE CADA FILA DEL EXCEL ---
+                filas.forEach((fila, index) => {
+                    if (index === 0) return; // Saltamos la cabecera (Fila 1)
+                    
+                    // Asignación de columnas: A=0, B=1, C=2...
+                    const nombre = fila[0] ? fila[0].trim() : '';
+                    const desc = fila[1] ? fila[1].trim() : '';
+                    const precioRaw = fila[2] ? fila[2].trim() : '0'; 
+                    const categoria = fila[3] ? fila[3].trim() : 'Otros';
+                    const disponible = fila[4] ? fila[4].toLowerCase().trim() : '';
+                    const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
+
+                    // Solo mostramos si tiene Nombre y Disponible = 'si'
+                    if (nombre && disponible === 'si') {
+                        
+                        // CASO: ES UNA NOTICIA
+                        if (categoria.toLowerCase() === 'noticias') {
+                            hayNoticias = true;
+                            newsContainer.innerHTML += `<div class="news-item"><h4 style="margin:0 0 5px 0; color:var(--blue);">${nombre}</h4><p style="margin:0; font-size:0.9rem;">${desc}</p></div>`;
+                            return;
+                        }
+                        // CASO: SON HORARIOS
+                        if (categoria.toLowerCase() === 'horarios') {
+                            hoursContainer.innerHTML += `<div class="hours-item"><span style="font-weight:600; color:var(--blue);">${nombre}</span><span style="font-size:0.9rem;">${desc}</span></div>`;
+                            return;
+                        }
+                        // CASO: SON TESTIMONIOS/RESEÑAS
+                        if (categoria.toLowerCase() === 'testimonios') {
+                            hayReviews = true;
+                            reviewsContainer.innerHTML += `
+                                <div class="review-card">
+                                    <div class="review-header">
+                                        <div class="review-author">${nombre}</div>
+                                        <div class="review-stars">${fila[2]}</div>
+                                    </div>
+                                    <p class="review-text">"${desc}"</p>
+                                </div>`;
+                            return;
+                        }
+
+                        // --- CÁLCULO DE PRECIO PARA EL MENÚ ---
+                        let precioFinal = "0.00";
+                        let simbolo = "";
+
+                        // 1. Limpiamos el precio (quitamos $ y cambiamos comas por puntos)
+                        let limpio = precioRaw.replace('$', '').replace(',', '.');
+                        const precioUSD = parseFloat(limpio);
+
+                        if(!isNaN(precioUSD)) {
+                            if (modoMoneda === 'usd') {
+                                // MODO USD: Mostramos el precio tal cual viene del Excel
+                                precioFinal = precioUSD.toFixed(2);
+                                if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3); // Quitar .00 estético
+                                simbolo = "$";
+                            } else {
+                                // MODO BS: Multiplicamos por Tasa BCV y sumamos 16%
+                                const precioCalculado = (precioUSD * tasaBCV) * 1.16;
+                                precioFinal = precioCalculado.toFixed(2);
+                                simbolo = "Bs ";
+                            }
+                        }
+
+                        // Agrupar platos por categoría
+                        if (!menuPorCategoria[categoria]) { menuPorCategoria[categoria] = []; ordenCategorias.push(categoria); }
+                        
+                        menuPorCategoria[categoria].push({ nombre, desc, precio: precioFinal, simbolo: simbolo, destacado: destacado === 'si' });
+                    }
+                });
+
+                // Mostrar secciones si tienen contenido
+                if(hayNoticias) document.getElementById('news-box').style.display = 'block';
+                if(hayReviews) reviewsBox.style.display = 'block';
+                if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
+
+                // Renderizar el Menú Final
+                if (ordenCategorias.length === 0) {
+                     menuContainer.innerHTML = '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
+                } else {
+                    ordenCategorias.forEach(cat => {
+                        const platos = menuPorCategoria[cat];
+                        // Ordenar: Destacados primero, luego alfabético
+                        platos.sort((a, b) => {
+                            if (a.destacado && !b.destacado) return -1;
+                            if (!a.destacado && b.destacado) return 1;
+                            return a.nombre.localeCompare(b.nombre);
+                        });
+                        
+                        // Título de Categoría
+                        menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
+                        
+                        // Tarjetas de Platos
+                        platos.forEach((plato, i) => {
+                            const delay = Math.min(i * 0.05, 0.5); // Animación escalonada
+                            menuContainer.innerHTML += `
+                                <div class="card ${plato.destacado ? 'destacado' : ''}" style="animation: fadeUp 0.5s ease-out forwards; animation-delay: ${delay}s; opacity:0;">
+                                    ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
+                                    <div class="info">
+                                        <div class="dish-name">${plato.nombre}</div>
+                                        <p class="dish-desc">${plato.desc}</p>
+                                    </div>
+                                    <div class="price-tag"><span class="usd">${plato.simbolo}${plato.precio}</span></div>
+                                </div>`;
+                        });
+                    });
+                }
+            } catch (error) { 
+                console.error(error); 
+                // Mensaje de error amigable si falla internet o el Sheet
+                document.getElementById('menu-content').innerHTML = `
+                    <div style="text-align:center; padding:40px;">
+                        <p>Ups, hubo un problema cargando el menú.</p>
+                        <button onclick="location.reload()" style="padding:10px 20px; background:var(--blue); color:white; border:none; border-radius:5px;">Reintentar</button>
+                    </div>`;
+            }
+        }
+        
+        // Iniciar la aplicación
+        cargarTodo();
+    </script>
+</body>
+</html>
