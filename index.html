@@ -20,6 +20,7 @@
             --bg: #f9f9f9;         /* Fondo General */
             --white: #ffffff;      
             --text-grey: #444444;
+            --light-text: #f2f2f2; /* Color claro para texto sobre fondo azul */
             --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); 
         }
 
@@ -57,18 +58,91 @@
             display: block; background-color: #fff;
         }
         
-        /* --- BOTONES DE NAVEGACIÓN --- */
+        /* --- BARRA DE NAVEGACIÓN DINÁMICA --- */
         .nav-tabs {
-            display: flex; background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            position: sticky; top: 0; z-index: 50; padding-top: 55px; 
+            display: flex; 
+            justify-content: center; /* Centrado por defecto */
+            align-items: center;
+            background: var(--white); 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            position: sticky; 
+            top: 0; 
+            z-index: 50; 
+            padding-top: 55px; /* Espacio inicial para el logo flotante */
+            transition: all 0.3s ease-in-out; /* Transición suave para el cambio de color */
         }
+
+        /* Título de marca oculto en la barra (aparece al hacer scroll) */
+        .nav-brand-title {
+            display: none; /* Oculto por defecto */
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--light-text);
+            margin-left: 20px;
+            white-space: nowrap; /* Evita que el texto se rompa en dos líneas */
+        }
+
+        /* Contenedor de los botones para alinearlos a la derecha al hacer scroll */
+        .nav-buttons-wrapper {
+            display: flex;
+            flex: 1;
+            justify-content: center; /* Centrados al inicio */
+            transition: all 0.3s ease;
+        }
+
+        /* ESTILO DE BOTONES NORMAL */
         .tab-btn {
-            flex: 1; padding: 15px; border: none; background: none;
+            flex: 1; /* Ocupan espacio igual al inicio */
+            max-width: 200px; /* Limite de ancho para que no se vean gigantes */
+            padding: 15px; border: none; background: none;
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
             font-size: 0.75rem; color: #999; cursor: pointer; transition: 0.3s;
             border-bottom: 3px solid transparent; letter-spacing: 1px;
         }
         .tab-btn.active { color: var(--blue); border-bottom: 3px solid var(--green); }
+
+
+        /* =========================================
+           👇 ESTILOS CUANDO SE HACE SCROLL (MODO AZUL) 👇
+           ========================================= */
+        
+        /* 1. Cambia el fondo de la barra a AZUL y ajusta el padding */
+        .nav-tabs.scrolled-mode {
+            background-color: var(--blue);
+            padding-top: 0; /* Quitamos el espacio del logo porque ya no se ve */
+            padding-bottom: 0;
+            box-shadow: 0 4px 15px rgba(19, 92, 150, 0.4); /* Sombra más intensa */
+            justify-content: space-between; /* Separa el título de los botones */
+        }
+
+        /* 2. Muestra el Título de la Marca */
+        .nav-tabs.scrolled-mode .nav-brand-title {
+            display: block; /* Aparece el texto */
+        }
+
+        /* 3. Ajusta el contenedor de botones a la derecha */
+        .nav-tabs.scrolled-mode .nav-buttons-wrapper {
+            justify-content: flex-end; /* Botones a la derecha */
+            flex: auto; /* Ya no ocupan todo el ancho */
+        }
+
+        /* 4. Cambia el color de los botones para que se vean sobre azul */
+        .nav-tabs.scrolled-mode .tab-btn {
+            color: rgba(242, 242, 242, 0.6); /* Texto claro semitransparente */
+            flex: initial; /* Ancho automático según el texto */
+            padding: 20px 15px; /* Un poco más de altura para elegancia */
+        }
+        
+        /* 5. Estilo del botón ACTIVO sobre fondo azul */
+        .nav-tabs.scrolled-mode .tab-btn.active {
+            color: var(--light-text); /* Blanco puro (#f2f2f2) */
+            border-bottom: 3px solid var(--green); /* La línea verde se mantiene */
+        }
+         /* =========================================
+            👆 FIN ESTILOS MODO SCROLL 👆
+            ========================================= */
+
 
         .container { max-width: 700px; margin: 0 auto; padding: 30px 20px 10px 20px; }
         
@@ -129,15 +203,14 @@
         }
         .dish-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
         
-        /* 👇👇👇 AQUÍ ESTÁ EL CAMBIO PARA JUSTIFICAR TEXTO 👇👇👇 */
+        /* Texto Justificado en descripciones */
         .dish-desc { 
             font-size: 0.85rem; 
             color: #666; 
             line-height: 1.5; 
             padding-right: 10px;
-            text-align: justify; /* Justifica el texto */
+            text-align: justify;
         }
-        /* 👆👆👆 ------------------------------------------ 👆👆👆 */
 
         .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
@@ -178,15 +251,19 @@
 </head>
 <body>
 
-    <header>
+    <header id="main-header">
         <div class="header-logo-container">
             <img src="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png" alt="Logo Bandejita" class="header-logo" id="logo-img">
         </div>
     </header>
 
-    <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('inicio')">Principal</button>
-        <button class="tab-btn" onclick="switchTab('menu')">Nuestro Menú</button>
+    <nav class="nav-tabs" id="sticky-nav">
+        <div class="nav-brand-title">Bandejita De Lata</div>
+        
+        <div class="nav-buttons-wrapper">
+            <button class="tab-btn active" onclick="switchTab('inicio')">Principal</button>
+            <button class="tab-btn" onclick="switchTab('menu')">Nuestro Menú</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -249,6 +326,33 @@
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
+        // === NUEVO SCRIPT PARA LA BARRA DE NAVEGACIÓN DINÁMICA ===
+        // Este pequeño código vigila el scroll y cambia el color de la barra
+        document.addEventListener("DOMContentLoaded", () => {
+            const headerEl = document.getElementById('main-header');
+            const navEl = document.getElementById('sticky-nav');
+
+            function checkScroll() {
+                // Calcula el punto exacto donde termina el encabezado
+                // Restamos un pequeño margen (20px) para que la transición sea antes de chocar
+                const triggerPoint = headerEl.offsetHeight - 20;
+
+                if (window.scrollY > triggerPoint) {
+                    // Si pasamos ese punto, activamos el "modo scroll" (Azul)
+                    navEl.classList.add('scrolled-mode');
+                } else {
+                    // Si volvemos arriba, desactivamos el modo (Vuelve a blanco)
+                    navEl.classList.remove('scrolled-mode');
+                }
+            }
+
+            // Escuchar el evento de scroll y también si se redimensiona la pantalla
+            window.addEventListener('scroll', checkScroll);
+            window.addEventListener('resize', checkScroll);
+        });
+        // ==========================================================
+
+
         // Función para cambiar Pestañas
         function switchTab(tabName) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
@@ -256,6 +360,7 @@
             document.getElementById(tabName).classList.add('active');
             const btnIndex = tabName === 'inicio' ? 0 : 1;
             document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+            // Al cambiar de pestaña, volvemos arriba suavemente
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -282,7 +387,6 @@
         // CARGA DE DATOS (Cerebro del sistema)
         async function cargarTodo() {
             try {
-                // Descarga datos del Excel y del Banco Central a la vez
                 const [sheetResponse, dolarResponse] = await Promise.all([
                     fetch(SHEET_CSV_URL),
                     fetch('https://ve.dolarapi.com/v1/dolares/oficial')
@@ -314,7 +418,6 @@
                 const reviewsContainer = document.getElementById('reviews-container');
                 const reviewsBox = document.getElementById('reviews-box');
                 
-                // Limpiar
                 menuContainer.innerHTML = ''; newsContainer.innerHTML = ''; hoursContainer.innerHTML = ''; reviewsContainer.innerHTML = '';
 
                 const menuPorCategoria = {}; const ordenCategorias = []; 
@@ -322,7 +425,7 @@
 
                 // Procesar cada plato
                 filas.forEach((fila, index) => {
-                    if (index === 0) return; // Saltar título
+                    if (index === 0) return; 
                     
                     const nombre = fila[0] ? fila[0].trim() : '';
                     const desc = fila[1] ? fila[1].trim() : '';
@@ -332,18 +435,15 @@
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
 
                     if (nombre && disponible === 'si') {
-                        // Noticias
                         if (categoria.toLowerCase() === 'noticias') {
                             hayNoticias = true;
                             newsContainer.innerHTML += `<div class="news-item"><h4 style="margin:0 0 5px 0; color:var(--blue);">${nombre}</h4><p style="margin:0; font-size:0.9rem;">${desc}</p></div>`;
                             return;
                         }
-                        // Horarios
                         if (categoria.toLowerCase() === 'horarios') {
                             hoursContainer.innerHTML += `<div class="hours-item"><span style="font-weight:600; color:var(--blue);">${nombre}</span><span style="font-size:0.9rem;">${desc}</span></div>`;
                             return;
                         }
-                        // Testimonios
                         if (categoria.toLowerCase() === 'testimonios') {
                             hayReviews = true;
                             reviewsContainer.innerHTML += `
@@ -369,7 +469,7 @@
                                 if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
                                 simbolo = "$";
                             } else {
-                                const precioCalculado = (precioUSD * tasaBCV) * 1.16; // Tasa + 16%
+                                const precioCalculado = (precioUSD * tasaBCV) * 1.16; 
                                 precioFinal = precioCalculado.toFixed(2);
                                 simbolo = "Bs ";
                             }
