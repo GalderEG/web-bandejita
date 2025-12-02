@@ -127,7 +127,7 @@
         }
         .dish-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
         .dish-desc { font-size: 0.85rem; color: #666; line-height: 1.5; padding-right: 10px;}
-        .price-tag { text-align: right; min-width: 90px; } /* Ajustado para Bs */
+        .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
 
         /* FOOTER */
@@ -265,7 +265,7 @@
 
         async function cargarTodo() {
             try {
-                // 1. CARGA PARALELA: CSV DE GOOGLE + TASA BCV
+                // CARGAR DATOS
                 const [sheetResponse, dolarResponse] = await Promise.all([
                     fetch(SHEET_CSV_URL),
                     fetch('https://ve.dolarapi.com/v1/dolares/oficial')
@@ -273,10 +273,7 @@
 
                 const csvData = await sheetResponse.text();
                 const dolarData = await dolarResponse.json();
-
-                // TASA BCV
                 const tasaBCV = dolarData.promedio; 
-                console.log("Tasa BCV cargada:", tasaBCV);
 
                 const filas = parseCSV(csvData);
                 
@@ -296,7 +293,7 @@
                     
                     const nombre = fila[0] ? fila[0].trim() : '';
                     const desc = fila[1] ? fila[1].trim() : '';
-                    const precioRaw = fila[2] ? fila[2].replace('$', '').trim() : '0'; // Precio en USD del Excel
+                    const precioRaw = fila[2] ? fila[2].trim() : '0'; // Leemos tal cual viene
                     const categoria = fila[3] ? fila[3].trim() : 'Otros';
                     const disponible = fila[4] ? fila[4].toLowerCase().trim() : '';
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
@@ -320,28 +317,30 @@
                                 <div class="review-card">
                                     <div class="review-header">
                                         <div class="review-author">${nombre}</div>
-                                        <div class="review-stars">${fila[2]}</div> </div>
+                                        <div class="review-stars">${fila[2]}</div>
+                                    </div>
                                     <p class="review-text">"${desc}"</p>
                                 </div>`;
                             return;
                         }
 
-                        // CÁLCULO DE PRECIO AUTOMÁTICO (USD -> BS + 16%)
+                        // CÁLCULO DE PRECIO AUTOMÁTICO
                         let precioFinal = "0.00";
                         if(precioRaw) {
-                            const precioUSD = parseFloat(precioRaw);
+                            // CORRECCIÓN DE COMA A PUNTO PARA QUE FUNCIONE EN VENEZUELA
+                            // Quitamos $ y cambiamos comas por puntos
+                            let limpio = precioRaw.replace('$', '').replace(',', '.');
+                            const precioUSD = parseFloat(limpio);
+                            
                             if(!isNaN(precioUSD)) {
                                 // FÓRMULA: (Precio USD * Tasa BCV) * 1.16
                                 const precioCalculado = (precioUSD * tasaBCV) * 1.16;
-                                // Formatear a 2 decimales
                                 precioFinal = precioCalculado.toFixed(2);
                             }
                         }
 
                         // MENÚ
                         if (!menuPorCategoria[categoria]) { menuPorCategoria[categoria] = []; ordenCategorias.push(categoria); }
-                        
-                        // Guardamos precioFinal (Bs) en lugar del raw
                         menuPorCategoria[categoria].push({ nombre, desc, precio: precioFinal, destacado: destacado === 'si' });
                     }
                 });
