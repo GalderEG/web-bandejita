@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandejita de Lata</title>
+    <title>Bandejita de Lata | Cocina de Autor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,13 +12,14 @@
 
     <style>
         :root {
-            /* TU PALETA DE COLORES */
-            --blue: #135c96;       /* Azul Profundo (Títulos, Precios, Texto fuerte) */
-            --green: #96b754;      /* Verde Medio (Botones, Íconos) */
-            --soft-green: #d2dc84; /* Verde Luz (Fondos destacados) */
-            --bg: #f2f2f2;         /* Gris Claro (Fondo) */
-            --white: #ffffff;      /* Blanco */
+            /* PALETA DE COLORES */
+            --blue: #135c96;       /* Azul Profundo */
+            --green: #96b754;      /* Verde Medio */
+            --soft-green: #d2dc84; /* Verde Luz */
+            --bg: #f9f9f9;         /* Gris casi blanco */
+            --white: #ffffff;      
             --text-grey: #444444;
+            --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); /* Sombra Premium */
         }
 
         body { 
@@ -26,50 +27,51 @@
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg); 
             color: var(--text-grey); 
-            padding-bottom: 100px; /* Espacio para el botón de WhatsApp */
+            padding-bottom: 120px; /* Espacio extra para que el botón flotante no tape el footer */
+            -webkit-font-smoothing: antialiased;
         }
         
-        /* TIPOGRAFÍA */
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--blue); font-weight: 700; margin-top: 0; }
-        h1 { font-style: normal; line-height: 1.2; } 
         p { font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
 
         /* HEADER */
         header {
             height: 35vh;
-            /* 👇 CAMBIA ESTO POR EL LINK DE TU FOTO DE PORTADA 👇 */
-            background-image: url('https://github.com/GalderEG/web-bandejita/blob/main/bandejita%20de%20lata-6.jpg'); 
+            min-height: 250px;
+            /* 👇 RECUERDA: Cambiar esto por tu foto real en GitHub RAW */
+            background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/main/bandejita%20de%20lata-6.jpg'); 
             background-size: cover; 
             background-position: center; 
+            background-attachment: fixed;
             position: relative;
         }
         header::after { 
             content: ''; position: absolute; top:0; left:0; right:0; bottom:0; 
-            /* Degradado azulado suave */
-            background: linear-gradient(to bottom, rgba(19, 92, 150, 0.2), rgba(19, 92, 150, 0.5));
+            background: linear-gradient(to bottom, rgba(19, 92, 150, 0.1), rgba(19, 92, 150, 0.4));
         }
 
         /* LOGO FLOTANTE */
         .header-logo-container {
             position: absolute; 
-            bottom: -50px; /* Hace que el logo sobresalga */
+            bottom: -50px; 
             left: 50%; 
             transform: translateX(-50%); 
             z-index: 60;
             background: var(--white); 
-            padding: 8px; 
+            padding: 5px; 
             border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
         .header-logo {
-            width: 110px; 
-            height: 110px; 
+            width: 100px; 
+            height: 100px; 
             object-fit: contain; 
             border-radius: 50%;
             display: block;
+            background-color: #fff;
         }
         
-        /* NAVEGACIÓN (PESTAÑAS) */
+        /* NAVEGACIÓN */
         .nav-tabs {
             display: flex; 
             background: var(--white); 
@@ -77,7 +79,7 @@
             position: sticky; 
             top: 0; 
             z-index: 50; 
-            padding-top: 55px; /* Espacio para que el logo no tape los botones */
+            padding-top: 55px; 
         }
         .tab-btn {
             flex: 1; 
@@ -87,7 +89,7 @@
             font-family: 'Montserrat', sans-serif; 
             font-weight: 600; 
             text-transform: uppercase;
-            font-size: 0.8rem; 
+            font-size: 0.75rem; 
             color: #999; 
             cursor: pointer; 
             transition: 0.3s;
@@ -99,28 +101,26 @@
             border-bottom: 3px solid var(--green); 
         }
 
-        /* CONTENEDOR PRINCIPAL */
-        .container { max-width: 700px; margin: 0 auto; padding: 30px 20px; }
+        /* CONTENEDOR */
+        .container { max-width: 700px; margin: 0 auto; padding: 30px 20px 10px 20px; }
         
-        /* ANIMACIONES DE SECCIÓN */
+        /* SECCIONES Y ANIMACIONES */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeUp 0.6s ease-out; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* TARJETAS INFORMATIVAS (Inicio) */
+        /* TARJETAS INFO */
         .info-card {
             background: var(--white); 
             border-radius: 12px; 
             padding: 25px; 
             margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(19, 92, 150, 0.05); 
+            box-shadow: var(--shadow); 
             border-top: 4px solid var(--green);
         }
-        
-        /* ESTILO NOTICIAS */
         .news-item { 
-            border-left: 4px solid var(--soft-green); 
-            background: #fbfcf8; 
+            border-left: 3px solid var(--green); 
+            background: #f4f8f0; 
             padding: 15px; 
             margin-bottom: 15px; 
             border-radius: 0 8px 8px 0;
@@ -128,11 +128,11 @@
         .hours-item { 
             display: flex; 
             justify-content: space-between; 
-            border-bottom: 1px dotted #ddd; 
-            padding: 10px 0; 
+            border-bottom: 1px dashed #ddd; 
+            padding: 12px 0; 
         }
         
-        /* ESTILO MENÚ */
+        /* ESTILOS MENÚ */
         .category-title {
             color: var(--blue); 
             border-bottom: 1px solid #ddd; 
@@ -140,56 +140,39 @@
             margin: 40px 0 20px 0; 
             text-transform: uppercase; 
             letter-spacing: 2px; 
-            font-size: 1.3rem;
+            font-size: 1.2rem;
+            text-align: center;
         }
         .card {
             background: var(--white); 
             border-radius: 12px; 
             padding: 20px; 
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02); 
+            margin-bottom: 18px;
+            box-shadow: var(--shadow); 
             display: flex; 
             justify-content: space-between; 
             align-items: center;
-            transition: transform 0.2s; 
-            border-left: 4px solid transparent;
+            transition: all 0.3s ease; 
+            border: 1px solid transparent;
         }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.06); }
-
-        /* DESTACADOS (Usando tu Verde Luz #d2dc84) */
         .card.destacado {
-            border: 1px solid var(--soft-green);
+            border: 1px solid var(--green);
             background: linear-gradient(to right, #ffffff, #fcfdf6); 
             position: relative; 
-            overflow: visible;
         }
-        /* Etiqueta de Recomendación */
         .badge-rec {
-            position: absolute; 
-            top: -12px; 
-            right: 15px;
-            background: var(--soft-green); /* Fondo verde luz */
-            color: var(--blue); /* Texto azul */
-            font-size: 0.7rem; 
-            font-weight: 700; 
-            padding: 5px 12px;
-            border-radius: 20px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex; 
-            align-items: center; 
-            gap: 5px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
+            position: absolute; top: -10px; right: 15px;
+            background: var(--green); color: var(--white); 
+            font-size: 0.65rem; font-weight: 600; padding: 4px 10px;
+            border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-
         .dish-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
-        .dish-desc { font-size: 0.85rem; color: #666; line-height: 1.5; }
-        
-        /* PRECIOS EN AZUL (Tu color más fuerte para contraste) */
-        .price-tag { text-align: right; min-width: 80px; }
-        .usd { color: var(--blue); font-weight: 700; font-size: 1.25rem; }
-        
-        /* FOOTER REDES SOCIALES */
+        .dish-desc { font-size: 0.85rem; color: #666; line-height: 1.5; padding-right: 10px;}
+        .price-tag { text-align: right; min-width: 70px; }
+        .usd { color: var(--blue); font-weight: 700; font-size: 1.2rem; }
+
+        /* --- FOOTER SOCIAL MEDIA (NUEVO DISEÑO) --- */
         .footer-social {
             text-align: center; 
             padding: 40px 20px; 
@@ -197,48 +180,75 @@
             border-top: 1px solid #eee; 
             margin-top: 40px;
         }
-        .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
-        .social-btn {
-            width: 45px; height: 45px; 
-            border-radius: 50%; 
-            background: var(--bg); 
+        
+        .footer-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
             color: var(--blue);
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 1.2rem;
-            text-decoration: none; 
-            transition: 0.3s;
+            margin-bottom: 5px;
         }
-        .social-btn:hover { background: var(--blue); color: var(--white); transform: translateY(-3px); }
 
-        /* BOTÓN FLOTANTE (Verde #96b754) */
-        .fab {
-            position: fixed; 
-            bottom: 25px; 
-            right: 20px;
-            background-color: var(--green); 
-            color: white;
-            padding: 14px 28px; 
-            border-radius: 50px;
-            font-family: 'Montserrat', sans-serif; 
-            font-weight: 600; 
-            font-size: 0.95rem;
-            text-decoration: none; 
-            box-shadow: 0 4px 15px rgba(150, 183, 84, 0.4);
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            z-index: 100;
-            transition: transform 0.2s; 
-            letter-spacing: 0.5px;
+        .footer-handle {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 25px;
+            display: block;
         }
-        .fab:hover { transform: scale(1.05); }
+
+        .social-links { 
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            flex-wrap: wrap; /* Para pantallas muy pequeñas */
+        }
+
+        .social-btn {
+            width: 50px; height: 50px; 
+            border-radius: 50%; 
+            background: #fff; 
+            border: 2px solid var(--bg); /* Borde sutil */
+            color: var(--blue); /* Color base Azul */
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 1.3rem;
+            text-decoration: none; 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Hover: Se pone Verde (Tu color de acción) y sube */
+        .social-btn:hover { 
+            background: var(--green); 
+            color: var(--white); 
+            border-color: var(--green);
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(150, 183, 84, 0.3);
+        }
+
+        /* BOTÓN FLOTANTE WHATSAPP */
+        .fab {
+            position: fixed; bottom: 25px; right: 20px;
+            background-color: var(--green); color: white;
+            padding: 14px 28px; border-radius: 50px;
+            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.95rem;
+            text-decoration: none; 
+            box-shadow: 0 4px 20px rgba(150, 183, 84, 0.4);
+            display: flex; align-items: center; gap: 10px; z-index: 100;
+            transition: transform 0.2s; letter-spacing: 0.5px;
+            animation: pulse-green 2s infinite;
+        }
+        .fab:hover { transform: scale(1.05); animation: none; }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(150, 183, 84, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(150, 183, 84, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(150, 183, 84, 0); }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="header-logo-container">
-            <img src="LINK_DE_TU_LOGO_AQUI" alt="Logo Bandejita" class="header-logo">
+            <img src="https://via.placeholder.com/150/FFFFFF/000000?text=LOGO" alt="Logo Bandejita" class="header-logo" id="logo-img">
         </div>
     </header>
 
@@ -248,74 +258,70 @@
     </nav>
 
     <div class="container">
-        
         <div id="inicio" class="view-section active">
             <div style="text-align: center; margin-bottom: 40px; margin-top: 10px;">
                 <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Bandejita de Lata</h1>
-                <p style="font-size: 1rem; color: var(--blue);">Pastas, pastichos y cocina de autor.</p>
+                <p style="font-size: 1rem; color: var(--blue); letter-spacing: 1px;">COCINA DE AUTOR</p>
+                <div style="width: 50px; height: 2px; background: var(--green); margin: 20px auto;"></div>
             </div>
 
-            <div class="info-card" id="news-box" style="display:none; border-top-color: var(--soft-green);">
-                <h3><i class="fa-solid fa-bullhorn" style="color:var(--green);"></i> Novedades</h3>
+            <div class="info-card" id="news-box" style="display:none; border-top-color: var(--blue);">
+                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-bullhorn" style="color:var(--green); margin-right:8px;"></i> Novedades</h3>
                 <div id="news-content"></div>
             </div>
 
             <div class="info-card">
-                <h3><i class="fa-regular fa-clock"></i> Horarios</h3>
+                <h3 style="font-size:1.1rem;"><i class="fa-regular fa-clock" style="margin-right:8px;"></i> Horarios</h3>
                 <div id="hours-content"><p style="text-align:center; color:#999;">Cargando horarios...</p></div>
             </div>
 
             <div class="info-card">
-                <h3><i class="fa-solid fa-heart"></i> Nuestra Cocina</h3>
-                <p>Nacimos para ofrecerte una experiencia gastronómica honesta. Cada plato es preparado al momento con ingredientes frescos y recetas propias que reconfortan el alma.</p>
-            </div>
-
-            <div class="info-card">
-                <h3><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</h3>
-                <div style="margin-bottom: 15px;">
-                    <strong style="color:var(--blue);">¿Tienen Delivery?</strong>
-                    <p style="margin-top:5px; font-size:0.9rem;">Sí, cubrimos gran parte de San Cristóbal con tarifas accesibles.</p>
-                </div>
-                <div>
-                    <strong style="color:var(--blue);">¿Métodos de Pago?</strong>
-                    <p style="margin-top:5px; font-size:0.9rem;">Bolívares, Dólares (Efectivo/Zelle) y Pesos Colombianos.</p>
-                </div>
+                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-utensils" style="margin-right:8px;"></i> Nuestra Cocina</h3>
+                <p style="font-size:0.9rem; color:#666;">Nacimos para ofrecerte una experiencia gastronómica honesta. Cada plato es preparado al momento con ingredientes frescos y recetas propias que reconfortan el alma.</p>
             </div>
         </div>
 
         <div id="menu" class="view-section">
             <div id="menu-content">
-                <div style="text-align:center; padding:60px;">
-                    <i class="fa-solid fa-utensils fa-bounce" style="font-size:2rem; color:var(--soft-green); margin-bottom: 20px;"></i>
-                    <p>Preparando la carta...</p>
+                <div style="text-align:center; padding:80px 20px;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size:2rem; color:var(--soft-green); margin-bottom: 20px;"></i>
+                    <p style="color:#999;">Preparando los fogones...</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="footer-social">
-        <h3 style="font-size:1.2rem;">Síguenos</h3>
-        <p>Conecta con nosotros</p>
+        <div class="footer-title">Síguenos</div>
+        <span class="footer-handle">@angelchaconcocinero</span>
+        
         <div class="social-links">
-            <a href="https://instagram.com/angelchaconcocinero" target="_blank" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://tiktok.com/@angelchaconcocinero" target="_blank" class="social-btn"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="https://maps.app.goo.gl/TU_ENLACE_DE_MAPS" target="_blank" class="social-btn"><i class="fa-solid fa-location-dot"></i></a>
-            <a href="#" class="social-btn" onclick="document.getElementById('whatsapp-btn').click(); return false;"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://instagram.com/angelchaconcocinero" target="_blank" class="social-btn" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://tiktok.com/@angelchaconcocinero" target="_blank" class="social-btn" title="TikTok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+            <a href="https://facebook.com/angelchaconcocinero" target="_blank" class="social-btn" title="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="https://maps.app.goo.gl/TU_ENLACE_DE_MAPS" target="_blank" class="social-btn" title="Ubicación">
+                <i class="fa-solid fa-location-dot"></i>
+            </a>
         </div>
+        <p style="font-size: 0.7rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
     </div>
 
     <a href="#" id="whatsapp-btn" class="fab">
-        <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Realizar Pedido
+        <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i> <span>Realizar Pedido</span>
     </a>
 
     <script>
-        // === CONFIGURACIÓN ===
+        // === DATOS DE TU NEGOCIO ===
         const TELEFONO = "584120767007"; 
-        
-        // 👇👇👇 PEGA TU ENLACE CSV AQUÍ 👇👇👇
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
-        // === LÓGICA DE PESTAÑAS ===
+        // === LÓGICA DE NAVEGACIÓN ===
         function switchTab(tabName) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -328,12 +334,12 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // === RASTREO WHATSAPP ===
+        // === WHATSAPP INTELIGENTE ===
         const params = new URLSearchParams(window.location.search);
         let origen = params.get('origen') || 'web';
-        document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola, vengo de " + origen + " y quisiera pedir:")}`;
+        document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola Ángel, vengo de " + origen + " y quisiera hacer un pedido.")}`;
 
-        // === LECTOR DE CSV ===
+        // === PARSEADOR CSV ===
         function parseCSV(text) {
             let filas = []; let filaActual = []; let celda = ""; let enComillas = false;
             for (let i = 0; i < text.length; i++) {
@@ -352,7 +358,7 @@
             return filas;
         }
 
-        // === CARGADOR DE DATOS ===
+        // === CARGAR DATOS ===
         async function cargarTodo() {
             try {
                 const response = await fetch(SHEET_CSV_URL);
@@ -364,7 +370,7 @@
                 const hoursContainer = document.getElementById('hours-content');
                 
                 menuContainer.innerHTML = ''; 
-                newsContainer.innerHTML = ''; 
+                newsContainer.innerHTML = '';
                 hoursContainer.innerHTML = '';
 
                 const menuPorCategoria = {}; 
@@ -372,9 +378,8 @@
                 let hayNoticias = false;
 
                 filas.forEach((fila, index) => {
-                    if (index === 0) return; 
+                    if (index === 0) return;
                     
-                    // COLUMNAS: [0]Nombre, [1]Desc, [2]Precio, [3]Categoria, [4]Disponible, [5]Destacado
                     const nombre = fila[0] ? fila[0].trim() : '';
                     const desc = fila[1] ? fila[1].trim() : '';
                     const precio = fila[2] ? fila[2].replace('$', '').trim() : '';
@@ -383,27 +388,24 @@
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
 
                     if (nombre && disponible === 'si') {
-                        // Lógica Noticias
                         if (categoria.toLowerCase() === 'noticias') {
                             hayNoticias = true;
                             newsContainer.innerHTML += `
                                 <div class="news-item">
                                     <h4 style="margin:0 0 5px 0; color:var(--blue);">${nombre}</h4>
-                                    <p style="margin:0;">${desc}</p>
+                                    <p style="margin:0; font-size:0.9rem;">${desc}</p>
                                 </div>`;
                             return;
                         }
-                        // Lógica Horarios
                         if (categoria.toLowerCase() === 'horarios') {
                             hoursContainer.innerHTML += `
                                 <div class="hours-item">
                                     <span style="font-weight:600; color:var(--blue);">${nombre}</span>
-                                    <span>${desc}</span>
+                                    <span style="font-size:0.9rem;">${desc}</span>
                                 </div>`;
                             return;
                         }
 
-                        // Lógica Menú
                         if (!menuPorCategoria[categoria]) { 
                             menuPorCategoria[categoria] = []; 
                             ordenCategorias.push(categoria); 
@@ -412,42 +414,43 @@
                     }
                 });
 
-                // Mostrar cajas si tienen contenido
                 if(hayNoticias) document.getElementById('news-box').style.display = 'block';
                 if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
 
-                // Ordenar y Renderizar
-                ordenCategorias.forEach(cat => {
-                    const platos = menuPorCategoria[cat];
-                    platos.sort((a, b) => {
-                        if (a.destacado && !b.destacado) return -1;
-                        if (!a.destacado && b.destacado) return 1;
-                        return a.nombre.localeCompare(b.nombre);
-                    });
+                if (ordenCategorias.length === 0) {
+                     menuContainer.innerHTML = '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
+                } else {
+                    ordenCategorias.forEach(cat => {
+                        const platos = menuPorCategoria[cat];
+                        platos.sort((a, b) => {
+                            if (a.destacado && !b.destacado) return -1;
+                            if (!a.destacado && b.destacado) return 1;
+                            return a.nombre.localeCompare(b.nombre);
+                        });
 
-                    menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
-                    
-                    platos.forEach((plato, i) => {
-                        menuContainer.innerHTML += `
-                            <div class="card ${plato.destacado ? 'destacado' : ''}" style="animation-delay: ${i * 0.05}s">
-                                ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendación del Chef</div>' : ''}
-                                <div class="info">
-                                    <div class="dish-name">${plato.nombre}</div>
-                                    <p class="dish-desc">${plato.desc}</p>
+                        menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
+                        
+                        platos.forEach((plato, i) => {
+                            const delay = Math.min(i * 0.05, 0.5);
+                            menuContainer.innerHTML += `
+                                <div class="card ${plato.destacado ? 'destacado' : ''}" style="animation: fadeUp 0.5s ease-out forwards; animation-delay: ${delay}s; opacity:0;">
+                                    ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
+                                    <div class="info">
+                                        <div class="dish-name">${plato.nombre}</div>
+                                        <p class="dish-desc">${plato.desc}</p>
+                                    </div>
+                                    <div class="price-tag"><span class="usd">$${plato.precio}</span></div>
                                 </div>
-                                <div class="price-tag"><span class="usd">$${plato.precio}</span></div>
-                            </div>
-                        `;
+                            `;
+                        });
                     });
-                });
-
+                }
             } catch (error) { 
                 console.error(error); 
-                document.getElementById('menu-content').innerHTML = '<p style="text-align:center;">Error cargando menú. Verifica el enlace CSV.</p>';
+                document.getElementById('menu-content').innerHTML = '<p style="text-align:center;">Error cargando el menú.</p>';
             }
         }
 
-        // Iniciar
         cargarTodo();
     </script>
 </body>
