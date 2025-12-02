@@ -3,88 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandejita de Lata - Menú</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Bandejita de Lata</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { --primary: #FF4500; --gold: #FFD700; --dark: #1a1a1a; --light: #f4f4f4; }
-        body { margin: 0; font-family: 'Roboto', sans-serif; background-color: var(--light); color: var(--dark); padding-bottom: 80px; }
+        :root {
+            /* TU PALETA DE COLORES */
+            --blue: #135c96;       /* Azul Profundo */
+            --green: #96b754;      /* Verde Natural */
+            --soft-green: #d2dc84; /* Verde Luz */
+            --bg: #f2f2f2;         /* Gris/Blanco Limpio */
+            --text: #333333;
+            --white: #ffffff;
+        }
+
+        body { 
+            margin: 0; 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            padding-bottom: 90px; /* Espacio para el botón flotante */
+        }
         
-        /* HEADER */
+        /* TIPOGRAFÍA */
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--blue); }
+        p { font-weight: 300; line-height: 1.6; }
+
+        /* HEADER (Imagen Personalizada) */
         header {
-            height: 35vh;
-            background-image: url('https://images.unsplash.com/photo-1626844131082-256783844137?q=80&w=1935&auto=format&fit=crop'); 
-            background-size: cover; background-position: center; background-attachment: fixed;
-            display: flex; align-items: center; justify-content: center; position: relative;
+            height: 30vh;
+            /* 👇 CAMBIA ESTE LINK POR TU FOTO DE PORTADA */
+            background-image: url('https://images.unsplash.com/photo-1551183053-bf91b1d81161?q=80&w=2000&auto=format&fit=crop'); 
+            background-size: cover; 
+            background-position: center; 
+            position: relative;
         }
-        header::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.6); }
-        .header-content { position: relative; z-index: 2; text-align: center; color: white; padding: 20px; }
-        h1 { font-family: 'Oswald', sans-serif; font-size: 2.5rem; margin: 0; text-transform: uppercase; }
-        .subtitle { font-size: 1rem; margin-top: 5px; opacity: 0.9; }
-
-        /* CONTENEDOR */
-        .container { max-width: 600px; margin: -40px auto 0; padding: 15px; position: relative; z-index: 3; }
+        header::after { 
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0; 
+            background: linear-gradient(to bottom, rgba(19, 92, 150, 0.3), rgba(19, 92, 150, 0.6)); /* Filtro Azulado sutil */
+        }
         
-        /* TÍTULOS DE CATEGORÍA */
-        .category-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin: 30px 0 15px 0;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #ddd;
+        /* NAVEGACIÓN (PESTAÑAS) */
+        .nav-tabs {
+            display: flex;
+            background: var(--white);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            border: none;
+            background: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
             text-transform: uppercase;
+            font-size: 0.9rem;
+            color: #aaa;
+            cursor: pointer;
+            transition: 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn.active {
+            color: var(--blue);
+            border-bottom: 3px solid var(--green);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container { max-width: 700px; margin: 0 auto; padding: 20px; }
+        
+        /* SECCIONES (OCULTAR/MOSTRAR) */
+        .view-section { display: none; animation: fadeIn 0.5s; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- ESTILOS INICIO --- */
+        .brand-intro { text-align: center; margin-bottom: 30px; }
+        .brand-intro h1 { font-size: 2.5rem; margin-bottom: 10px; font-style: italic; }
+        
+        .info-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(19, 92, 150, 0.08); /* Sombra azulada muy suave */
+            border-top: 5px solid var(--soft-green);
         }
         
-        /* TARJETAS */
-        .card {
-            background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;
-            border-left: 4px solid transparent;
+        .news-item { border-left: 3px solid var(--green); padding-left: 15px; margin-bottom: 15px; }
+        .hours-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 8px 0; }
+        
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+        .social-btn {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--blue);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
         }
-        .card.destacado { border: 2px solid var(--gold); background-color: #fffdf0; position: relative; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
-        .badge-star { position: absolute; top: -12px; right: 20px; background-color: var(--gold); color: #000; font-size: 0.7rem; font-weight: bold; padding: 4px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .social-btn:hover { background: var(--blue); color: var(--white); transform: scale(1.1); }
 
-        .info { flex: 1; padding-right: 10px; }
-        .dish-name { font-family: 'Oswald', sans-serif; font-size: 1.2rem; margin: 0 0 4px 0; color: var(--dark); }
-        .dish-desc { font-size: 0.85rem; color: #666; margin: 0; line-height: 1.4; }
-        .price-tag { text-align: right; min-width: 70px; }
-        .usd { font-size: 1.3rem; font-weight: bold; color: var(--primary); display: block; }
+        /* --- ESTILOS MENÚ --- */
+        .category-title {
+            color: var(--blue);
+            border-bottom: 2px solid var(--soft-green);
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .card.destacado {
+            border: 1px solid var(--soft-green);
+            background: linear-gradient(to right, #fff, #fcfef5);
+        }
+        
+        .dish-name { font-size: 1.1rem; font-weight: 600; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
+        .dish-desc { font-size: 0.85rem; color: #666; }
+        .usd { color: var(--green); font-weight: 700; font-size: 1.2rem; }
         
         /* BOTÓN FLOTANTE */
         .fab {
-            position: fixed; bottom: 20px; right: 20px; background-color: #25D366; color: white;
-            padding: 12px 25px; border-radius: 50px; font-weight: bold; text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 8px; z-index: 100;
+            position: fixed; bottom: 20px; right: 20px;
+            background-color: var(--green); color: white;
+            padding: 15px 30px; border-radius: 50px;
+            font-family: 'Montserrat', sans-serif; font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(150, 183, 84, 0.5);
+            display: flex; align-items: center; gap: 10px; z-index: 100;
+            transition: transform 0.2s;
         }
+        .fab:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Bandejita de Lata</h1>
-            <p class="subtitle">Menú Digital</p>
-        </div>
-    </header>
 
-    <div class="container" id="menu-container">
-        <p style="text-align: center; color: #888;">Cargando menú...</p>
+    <header></header>
+
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('inicio')">Principal</button>
+        <button class="tab-btn" onclick="switchTab('menu')">Nuestro Menú</button>
+    </nav>
+
+    <div class="container">
+        
+        <div id="inicio" class="view-section active">
+            
+            <div class="brand-intro">
+                <h1>Bandejita de Lata</h1>
+                <p>Pastas, pastichos y cocina de autor con alma en San Cristóbal.</p>
+            </div>
+
+            <div class="info-card" id="news-box" style="display:none;">
+                <h3><i class="fa-solid fa-bullhorn"></i> Novedades</h3>
+                <div id="news-content"></div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-regular fa-clock"></i> Horarios</h3>
+                <div id="hours-content">
+                    <p style="text-align:center; color:#999;">Cargando horarios...</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-heart"></i> Nuestra Cocina</h3>
+                <p>Nacimos para ofrecerte una experiencia gastronómica honesta y deliciosa. Cada plato es preparado al momento con ingredientes frescos y recetas propias.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</h3>
+                <p><strong>¿Tienen Delivery?</strong><br>Sí, cubrimos gran parte de San Cristóbal.</p>
+                <p><strong>¿Métodos de Pago?</strong><br>Aceptamos Bolívares (Pago Móvil), Dólares (Efectivo/Zelle) y Pesos.</p>
+            </div>
+
+            <div class="social-links">
+                <a href="https://instagram.com/angelchaconcocinero" target="_blank" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://tiktok.com/@angelchaconcocinero" target="_blank" class="social-btn"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://maps.app.goo.gl/TU_ENLACE_MAPS" target="_blank" class="social-btn"><i class="fa-solid fa-location-dot"></i></a>
+            </div>
+            
+            <br><br>
+        </div>
+
+        <div id="menu" class="view-section">
+            <div id="menu-content">
+                <div style="text-align:center; padding:50px;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem; color:var(--blue);"></i>
+                    <p>Preparando el menú...</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <a href="#" id="whatsapp-btn" class="fab">Hacer Pedido 💬</a>
+    <a href="#" id="whatsapp-btn" class="fab">
+        <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Realizar Pedido
+    </a>
 
     <script>
-        // ================= CONFIGURACIÓN =================
-        const TELEFONO = "584120767007"; 
-        // 👇 PEGA TU ENLACE CSV AQUÍ 
+        // CONFIGURACIÓN
+        const TELEFONO = "58424xxxxxxx"; 
+        // 👇👇👇 ¡PEGA TU ENLACE CSV AQUÍ! 👇👇👇
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
-        // =================================================
 
-        // 1. RASTREO WHATSAPP
+        // 1. SISTEMA DE PESTAÑAS
+        function switchTab(tabName) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Mostrar la elegida
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activar botón
+            const btnIndex = tabName === 'inicio' ? 0 : 1;
+            document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        // 2. LOGICA WHATSAPP (Rastreo)
         const params = new URLSearchParams(window.location.search);
         let origen = params.get('origen') || 'web';
-        document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola Angel, vengo de " + origen + " y quiero pedir:")}`;
+        document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola, vengo de " + origen + " y quisiera pedir:")}`;
 
-        // 2. PARSEADOR CSV (Mantiene las descripciones con comas a salvo)
+        // 3. PARSEADOR CSV
         function parseCSV(text) {
             let filas = [];
             let filaActual = [];
@@ -106,101 +268,102 @@
             return filas;
         }
 
-        // 3. LOGICA PRINCIPAL DE CARGA Y ORDENAMIENTO
-        async function cargarMenu() {
+        // 4. CARGAR DATOS
+        async function cargarTodo() {
             try {
-                if(SHEET_CSV_URL.includes("PEGAR_ENLACE")) {
-                    document.getElementById('menu-container').innerHTML = '<p style="text-align:center; color:red">⚠️ Falta pegar el enlace CSV en el código.</p>';
-                    return;
-                }
-
                 const response = await fetch(SHEET_CSV_URL);
-                if (!response.ok) throw new Error("Error de conexión");
                 const data = await response.text();
                 const filas = parseCSV(data);
                 
-                const contenedor = document.getElementById('menu-container');
-                contenedor.innerHTML = ''; 
+                const menuContainer = document.getElementById('menu-content');
+                const newsContainer = document.getElementById('news-content');
+                const hoursContainer = document.getElementById('hours-content');
+                
+                menuContainer.innerHTML = '';
+                newsContainer.innerHTML = '';
+                hoursContainer.innerHTML = '';
 
-                // A) AGRUPAR PLATOS POR CATEGORIA
                 const menuPorCategoria = {};
-                // Para mantener el orden en que aparecen las categorías en tu Excel (opcional, si quisieras orden fijo)
                 const ordenCategorias = []; 
+                let hayNoticias = false;
 
                 filas.forEach((fila, index) => {
-                    if (index === 0) return; // Saltar encabezado
+                    if (index === 0) return; 
 
                     // COLUMNAS: [0]Nombre, [1]Desc, [2]Precio, [3]Categoria, [4]Disponible, [5]Destacado
                     const nombre = fila[0] ? fila[0].trim() : '';
                     const desc = fila[1] ? fila[1].trim() : '';
                     const precio = fila[2] ? fila[2].replace('$', '').trim() : '';
-                    const categoria = fila[3] ? fila[3].trim() : 'Otros'; // Columna D
+                    const categoria = fila[3] ? fila[3].trim() : 'Otros';
                     const disponible = fila[4] ? fila[4].toLowerCase().trim() : '';
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
 
                     if (nombre && disponible === 'si') {
-                        // Si la categoría no existe en el objeto, la creamos
+                        
+                        // --- LÓGICA ESPECIAL PARA NOTICIAS Y HORARIOS ---
+                        if (categoria.toLowerCase() === 'noticias') {
+                            hayNoticias = true;
+                            newsContainer.innerHTML += `
+                                <div class="news-item">
+                                    <h4 style="margin:0 0 5px 0; color:var(--blue);">${nombre}</h4>
+                                    <p style="margin:0; font-size:0.9rem;">${desc}</p>
+                                </div>
+                            `;
+                            return; // No lo agregamos al menú
+                        }
+
+                        if (categoria.toLowerCase() === 'horarios') {
+                            hoursContainer.innerHTML += `
+                                <div class="hours-item">
+                                    <span style="font-weight:600;">${nombre}</span>
+                                    <span>${desc}</span>
+                                </div>
+                            `;
+                            return; // No lo agregamos al menú
+                        }
+
+                        // --- LÓGICA DEL MENÚ NORMAL ---
                         if (!menuPorCategoria[categoria]) {
                             menuPorCategoria[categoria] = [];
                             ordenCategorias.push(categoria);
                         }
-
-                        // Guardamos el plato como objeto para poder ordenarlo después
-                        menuPorCategoria[categoria].push({
-                            nombre: nombre,
-                            desc: desc,
-                            precio: precio,
-                            destacado: destacado === 'si', // true o false
-                            html: '' // Lo generamos luego
-                        });
+                        menuPorCategoria[categoria].push({ nombre, desc, precio, destacado: destacado === 'si' });
                     }
                 });
 
-                // B) ORDENAR Y RENDERIZAR
-                // Recorremos cada categoría encontrada
+                // MOSTRAR/OCULTAR CAJA DE NOTICIAS
+                if(hayNoticias) document.getElementById('news-box').style.display = 'block';
+                if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
+
+                // RENDERIZAR MENÚ
                 ordenCategorias.forEach(cat => {
                     const platos = menuPorCategoria[cat];
-
-                    // --- AQUÍ ESTÁ LA MAGIA DEL ORDEN ---
                     platos.sort((a, b) => {
-                        // 1. Si 'a' es destacado y 'b' no, 'a' va primero (-1)
                         if (a.destacado && !b.destacado) return -1;
-                        // 2. Si 'b' es destacado y 'a' no, 'b' va primero (1)
                         if (!a.destacado && b.destacado) return 1;
-                        // 3. Si son iguales (ambos destacados o ambos normales), ordenar alfabéticamente
                         return a.nombre.localeCompare(b.nombre);
                     });
 
-                    // Título de la Categoría
-                    contenedor.innerHTML += `<h2 class="category-title">${cat}</h2>`;
-
-                    // Generar HTML de los platos ya ordenados
+                    menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
                     platos.forEach(plato => {
-                        const html = `
+                        menuContainer.innerHTML += `
                             <div class="card ${plato.destacado ? 'destacado' : ''}">
-                                ${plato.destacado ? '<div class="badge-star">⭐ RECOMENDADO</div>' : ''}
                                 <div class="info">
-                                    <h3 class="dish-name">${plato.nombre}</h3>
+                                    <div class="dish-name">${plato.nombre} ${plato.destacado ? '<i class="fa-solid fa-star" style="color:var(--green); font-size:0.8rem;"></i>' : ''}</div>
                                     <p class="dish-desc">${plato.desc}</p>
                                 </div>
-                                <div class="price-tag"><span class="usd">$${plato.precio}</span></div>
+                                <div class="usd">$${plato.precio}</div>
                             </div>
                         `;
-                        contenedor.innerHTML += html;
                     });
                 });
 
-                if(ordenCategorias.length === 0) {
-                     contenedor.innerHTML = '<p style="text-align:center">No hay platos disponibles.</p>';
-                }
-
             } catch (error) {
                 console.error(error);
-                document.getElementById('menu-container').innerHTML = `<p style="text-align:center; color:red">Error: ${error.message}</p>`;
             }
         }
 
-        cargarMenu();
+        cargarTodo();
     </script>
 </body>
 </html>
