@@ -24,6 +24,17 @@
         /* CONTENEDOR */
         .container { max-width: 600px; margin: -40px auto 0; padding: 15px; position: relative; z-index: 3; }
         
+        /* TÍTULOS DE CATEGORÍA */
+        .category-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 30px 0 15px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ddd;
+            text-transform: uppercase;
+        }
+        
         /* TARJETAS */
         .card {
             background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px;
@@ -63,50 +74,25 @@
 
     <script>
         // ================= CONFIGURACIÓN =================
-        const TELEFONO = "58424xxxxxxx"; 
-        // 👇 PEGA TU ENLACE CSV AQUÍ (Asegúrate que termine en .csv)
+        const TELEFONO = "584120767007"; 
+        // 👇 PEGA TU ENLACE CSV AQUÍ 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
         // =================================================
 
-        // 1. RASTREO
+        // 1. RASTREO WHATSAPP
         const params = new URLSearchParams(window.location.search);
         let origen = params.get('origen') || 'web';
         document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola Angel, vengo de " + origen + " y quiero pedir:")}`;
 
-        // 2. PARSEADOR CSV INTELIGENTE (ESTO ES LO NUEVO)
-        function csvToArrays(strData) {
-            const arr = [];
-            let quote = false;  // 'true' significa que estamos dentro de una frase con comillas
-            let col = 0, c = 0;
-            for (; c < strData.length; c++) {
-                let cc = strData[c], nc = strData[c+1];
-                arr[col] = arr[col] || [];
-                arr[col].push(cc);
-                
-                // Si encontramos comillas, cambiamos el estado
-                if (cc == '"' && quote && nc == '"') { arr[col].pop(); arr[col].push(cc); ++c; continue; }
-                if (cc == '"') { arr[col].pop(); quote = !quote; continue; }
-                
-                // Si es coma y NO estamos en comillas, es nueva columna
-                if (cc == ',' && !quote) { arr[col].pop(); arr[++col] = []; continue; }
-                
-                // Si es salto de línea y NO estamos en comillas, es nueva fila
-                if (cc == '\r' && nc == '\n' && !quote) { arr[col].pop(); return arr; }
-                if (cc == '\n' && !quote) { arr[col].pop(); return arr; }
-            }
-            return arr;
-        }
-
+        // 2. PARSEADOR CSV (Mantiene las descripciones con comas a salvo)
         function parseCSV(text) {
             let filas = [];
             let filaActual = [];
             let celda = "";
             let enComillas = false;
-
             for (let i = 0; i < text.length; i++) {
                 let char = text[i];
                 let nextChar = text[i+1];
-
                 if (char === '"') {
                     if (enComillas && nextChar === '"') { celda += '"'; i++; } 
                     else { enComillas = !enComillas; }
@@ -114,15 +100,13 @@
                     filaActual.push(celda); celda = "";
                 } else if (char === '\n' && !enComillas) {
                     filaActual.push(celda); filas.push(filaActual); filaActual = []; celda = "";
-                } else if (char !== '\r') {
-                    celda += char;
-                }
+                } else if (char !== '\r') { celda += char; }
             }
             if (celda || filaActual.length > 0) { filaActual.push(celda); filas.push(filaActual); }
             return filas;
         }
 
-        // 3. CARGAR
+        // 3. LOGICA PRINCIPAL DE CARGA Y ORDENAMIENTO
         async function cargarMenu() {
             try {
                 if(SHEET_CSV_URL.includes("PEGAR_ENLACE")) {
@@ -133,50 +117,86 @@
                 const response = await fetch(SHEET_CSV_URL);
                 if (!response.ok) throw new Error("Error de conexión");
                 const data = await response.text();
-                
-                // USAMOS EL NUEVO PARSEADOR
                 const filas = parseCSV(data);
                 
                 const contenedor = document.getElementById('menu-container');
                 contenedor.innerHTML = ''; 
-                let destacados = [], normales = [];
+
+                // A) AGRUPAR PLATOS POR CATEGORIA
+                const menuPorCategoria = {};
+                // Para mantener el orden en que aparecen las categorías en tu Excel (opcional, si quisieras orden fijo)
+                const ordenCategorias = []; 
 
                 filas.forEach((fila, index) => {
                     if (index === 0) return; // Saltar encabezado
 
-                    // COLUMNAS SEGÚN TU HOJA: [0]=Nombre, [1]=Desc, [2]=Precio, [4]=Disp, [5]=Destacado
-                    // Limpiamos comillas extra que a veces quedan
+                    // COLUMNAS: [0]Nombre, [1]Desc, [2]Precio, [3]Categoria, [4]Disponible, [5]Destacado
                     const nombre = fila[0] ? fila[0].trim() : '';
                     const desc = fila[1] ? fila[1].trim() : '';
                     const precio = fila[2] ? fila[2].replace('$', '').trim() : '';
+                    const categoria = fila[3] ? fila[3].trim() : 'Otros'; // Columna D
                     const disponible = fila[4] ? fila[4].toLowerCase().trim() : '';
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
 
                     if (nombre && disponible === 'si') {
-                        const esDestacado = destacado === 'si';
-                        const html = `
-                            <div class="card ${esDestacado ? 'destacado' : ''}">
-                                ${esDestacado ? '<div class="badge-star">⭐ RECOMENDADO</div>' : ''}
-                                <div class="info">
-                                    <h3 class="dish-name">${nombre}</h3>
-                                    <p class="dish-desc">${desc}</p>
-                                </div>
-                                <div class="price-tag"><span class="usd">$${precio}</span></div>
-                            </div>
-                        `;
-                        esDestacado ? destacados.push(html) : normales.push(html);
+                        // Si la categoría no existe en el objeto, la creamos
+                        if (!menuPorCategoria[categoria]) {
+                            menuPorCategoria[categoria] = [];
+                            ordenCategorias.push(categoria);
+                        }
+
+                        // Guardamos el plato como objeto para poder ordenarlo después
+                        menuPorCategoria[categoria].push({
+                            nombre: nombre,
+                            desc: desc,
+                            precio: precio,
+                            destacado: destacado === 'si', // true o false
+                            html: '' // Lo generamos luego
+                        });
                     }
                 });
 
-                if(destacados.length === 0 && normales.length === 0) {
-                     contenedor.innerHTML = '<p style="text-align:center">No hay platos disponibles (Revisa la columna "Disponible" en tu hoja).</p>';
-                } else {
-                    contenedor.innerHTML = destacados.join('') + normales.join('');
+                // B) ORDENAR Y RENDERIZAR
+                // Recorremos cada categoría encontrada
+                ordenCategorias.forEach(cat => {
+                    const platos = menuPorCategoria[cat];
+
+                    // --- AQUÍ ESTÁ LA MAGIA DEL ORDEN ---
+                    platos.sort((a, b) => {
+                        // 1. Si 'a' es destacado y 'b' no, 'a' va primero (-1)
+                        if (a.destacado && !b.destacado) return -1;
+                        // 2. Si 'b' es destacado y 'a' no, 'b' va primero (1)
+                        if (!a.destacado && b.destacado) return 1;
+                        // 3. Si son iguales (ambos destacados o ambos normales), ordenar alfabéticamente
+                        return a.nombre.localeCompare(b.nombre);
+                    });
+
+                    // Título de la Categoría
+                    contenedor.innerHTML += `<h2 class="category-title">${cat}</h2>`;
+
+                    // Generar HTML de los platos ya ordenados
+                    platos.forEach(plato => {
+                        const html = `
+                            <div class="card ${plato.destacado ? 'destacado' : ''}">
+                                ${plato.destacado ? '<div class="badge-star">⭐ RECOMENDADO</div>' : ''}
+                                <div class="info">
+                                    <h3 class="dish-name">${plato.nombre}</h3>
+                                    <p class="dish-desc">${plato.desc}</p>
+                                </div>
+                                <div class="price-tag"><span class="usd">$${plato.precio}</span></div>
+                            </div>
+                        `;
+                        contenedor.innerHTML += html;
+                    });
+                });
+
+                if(ordenCategorias.length === 0) {
+                     contenedor.innerHTML = '<p style="text-align:center">No hay platos disponibles.</p>';
                 }
 
             } catch (error) {
                 console.error(error);
-                document.getElementById('menu-container').innerHTML = `<p style="text-align:center; color:red">Error cargando menú: ${error.message}</p>`;
+                document.getElementById('menu-container').innerHTML = `<p style="text-align:center; color:red">Error: ${error.message}</p>`;
             }
         }
 
