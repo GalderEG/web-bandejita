@@ -19,7 +19,7 @@
             --bg: #f9f9f9;         /* Gris casi blanco */
             --white: #ffffff;      
             --text-grey: #444444;
-            --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); /* Sombra Premium */
+            --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); 
         }
 
         body { 
@@ -27,7 +27,7 @@
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg); 
             color: var(--text-grey); 
-            padding-bottom: 120px; /* Espacio extra para que el botón flotante no tape el footer */
+            padding-bottom: 120px; 
             -webkit-font-smoothing: antialiased;
         }
         
@@ -38,11 +38,11 @@
         header {
             height: 35vh;
             min-height: 250px;
-            /* 👇 RECUERDA: Cambiar esto por tu foto real en GitHub RAW */
+            /* 👇 FOTO: Asegúrate de que la URL termine en .jpg o .png */
             background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/main/bandejita%20de%20lata-6.jpg'); 
             background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed;
+            background-position: center; /* Centra la imagen siempre */
+            background-attachment: scroll; /* Scroll normal para mejor compatibilidad móvil */
             position: relative;
         }
         header::after { 
@@ -172,56 +172,58 @@
         .price-tag { text-align: right; min-width: 70px; }
         .usd { color: var(--blue); font-weight: 700; font-size: 1.2rem; }
 
-        /* --- FOOTER SOCIAL MEDIA (NUEVO DISEÑO) --- */
+        /* --- FOOTER REDES SOCIALES (REDDISEÑADO) --- */
         .footer-social {
             text-align: center; 
-            padding: 40px 20px; 
+            padding: 50px 20px; 
             background: var(--white);
-            border-top: 1px solid #eee; 
-            margin-top: 40px;
+            border-top: 1px solid #e0e0e0; 
+            margin-top: 50px;
+            position: relative;
+            z-index: 10;
         }
         
         .footer-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: var(--blue);
             margin-bottom: 5px;
         }
 
         .footer-handle {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #888;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             display: block;
         }
 
         .social-links { 
             display: flex; 
             justify-content: center; 
-            gap: 20px; 
-            flex-wrap: wrap; /* Para pantallas muy pequeñas */
+            gap: 25px; 
+            flex-wrap: wrap; 
         }
 
         .social-btn {
-            width: 50px; height: 50px; 
+            width: 55px; height: 55px; 
             border-radius: 50%; 
-            background: #fff; 
-            border: 2px solid var(--bg); /* Borde sutil */
-            color: var(--blue); /* Color base Azul */
+            background: var(--white); 
+            border: 2px solid var(--blue); /* BORDE VISIBLE AZUL */
+            color: var(--blue); /* ICONO AZUL */
             display: flex; align-items: center; justify-content: center; 
-            font-size: 1.3rem;
+            font-size: 1.5rem; /* Icono más grande */
             text-decoration: none; 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* Hover: Se pone Verde (Tu color de acción) y sube */
+        /* Hover: Se llena de verde */
         .social-btn:hover { 
             background: var(--green); 
             color: var(--white); 
             border-color: var(--green);
             transform: translateY(-5px); 
-            box-shadow: 0 10px 20px rgba(150, 183, 84, 0.3);
+            box-shadow: 0 8px 20px rgba(150, 183, 84, 0.4);
         }
 
         /* BOTÓN FLOTANTE WHATSAPP */
@@ -309,7 +311,7 @@
                 <i class="fa-solid fa-location-dot"></i>
             </a>
         </div>
-        <p style="font-size: 0.7rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
+        <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
     </div>
 
     <a href="#" id="whatsapp-btn" class="fab">
@@ -321,7 +323,7 @@
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
-        // === LÓGICA DE NAVEGACIÓN ===
+        // === NAVEGACIÓN ===
         function switchTab(tabName) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
