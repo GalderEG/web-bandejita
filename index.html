@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandejita de Lata - Menú Digital</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #FF4500; /* Naranja rojizo tipo salsa boloñesa */
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+        }
+        body { margin: 0; font-family: 'Roboto', sans-serif; background-color: var(--light); color: var(--dark); }
+        
+        /* HEADER CON PARALLAX (Tu foto de fondo) */
+        header {
+            height: 40vh;
+            background-image: url('https://images.unsplash.com/photo-1626844131082-256783844137?q=80&w=1935&auto=format&fit=crop'); /* FOTO TEMPORAL */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efecto Parallax */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        header::after {
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+            background: rgba(0,0,0,0.5); /* Oscurece la foto para leer el texto */
+        }
+        .header-content { position: relative; z-index: 2; text-align: center; color: white; }
+        h1 { font-family: 'Oswald', sans-serif; font-size: 3rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .subtitle { font-size: 1.2rem; margin-top: 10px; font-weight: 300; }
+
+        /* CONTENEDOR DEL MENÚ */
+        .container { max-width: 800px; margin: -50px auto 0; padding: 20px; position: relative; z-index: 3; }
+        
+        /* TARJETA DE PLATO */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-3px); }
+        .info { flex: 1; padding-right: 15px; }
+        .dish-name { font-family: 'Oswald', sans-serif; font-size: 1.3rem; color: var(--dark); margin: 0 0 5px 0; }
+        .dish-desc { font-size: 0.9rem; color: #666; margin: 0; }
+        .price-tag {
+            text-align: right;
+            min-width: 80px;
+        }
+        .usd { font-size: 1.4rem; font-weight: bold; color: var(--primary); display: block; }
+        .bs { font-size: 0.8rem; color: #888; display: block; }
+
+        /* BOTÓN FLOTANTE DE WHATSAPP */
+        .fab {
+            position: fixed; bottom: 20px; right: 20px;
+            background-color: #25D366; color: white;
+            padding: 15px 25px; border-radius: 50px;
+            font-weight: bold; text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex; align-items: center; gap: 10px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Bandejita de Lata</h1>
+            <p class="subtitle">La auténtica pasta en San Cristóbal</p>
+        </div>
+    </header>
+
+    <div class="container" id="menu-container">
+        <div style="text-align: center; padding: 40px;">
+            <p>Cargando menú delicioso... 🍝</p>
+        </div>
+    </div>
+
+    <a href="#" id="whatsapp-btn" class="fab">
+        Hacer Pedido 💬
+    </a>
+
+    <script>
+        // --- CONFIGURACIÓN ---
+        const TELEFONO = "584241234567"; // TU NÚMERO
+        // PEGA AQUÍ TU ENLACE CSV DE GOOGLE SHEETS ENTRE LAS COMILLAS:
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/TU_ENLACE_AQUI/pub?output=csv"; 
+
+        // 1. DETECTAR EL ORIGEN (TikTok, Instagram, etc.)
+        const params = new URLSearchParams(window.location.search);
+        let origen = params.get('origen');
+        
+        if (!origen) {
+            const ref = document.referrer.toLowerCase();
+            if (ref.includes("instagram")) origen = "instagram_bio";
+            else if (ref.includes("tiktok")) origen = "tiktok_bio";
+            else if (ref.includes("google")) origen = "google_maps";
+            else origen = "web_directa";
+        }
+
+        // 2. CONFIGURAR BOTÓN WHATSAPP
+        const btn = document.getElementById('whatsapp-btn');
+        const mensaje = `Hola Angel, vengo de ${origen} y quiero ver el menú.`;
+        btn.href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent(mensaje)}`;
+
+        // 3. CARGAR EL MENÚ DESDE GOOGLE SHEETS
+        async function cargarMenu() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const data = await response.text();
+                
+                // Convertir CSV a Array
+                const filas = data.split('\n').map(row => row.split(','));
+                
+                const contenedor = document.getElementById('menu-container');
+                contenedor.innerHTML = ''; // Limpiar cargando
+
+                // Recorremos las filas (Saltamos la 0 si es encabezado)
+                filas.forEach((fila, index) => {
+                    if (index === 0) return; // Ignorar encabezados
+                    
+                    // --- AJUSTA ESTOS ÍNDICES SEGÚN TUS COLUMNAS ---
+                    // [0] es Columna A, [1] es Columna B, etc.
+                    const nombre = fila[0]; 
+                    const precio = fila[1]; 
+                    const desc = fila[2];
+                    
+                    if (nombre && precio) {
+                        const html = `
+                            <div class="card">
+                                <div class="info">
+                                    <h3 class="dish-name">${nombre}</h3>
+                                    <p class="dish-desc">${desc || 'Delicioso plato de la casa'}</p>
+                                </div>
+                                <div class="price-tag">
+                                    <span class="usd">$${precio}</span>
+                                    </div>
+                            </div>
+                        `;
+                        contenedor.innerHTML += html;
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error cargando menú", error);
+            }
+        }
+
+        // Si tienes el link CSV puesto, quita las barras // de la siguiente línea:
+        // cargarMenu();
+    </script>
+</body>
+</html>
