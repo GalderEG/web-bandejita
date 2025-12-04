@@ -98,66 +98,39 @@
         .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
 
-        /* === ESTILOS MEJORADOS PARA EL BLOG === */
+        /* BLOG */
         .blog-card {
             background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px;
             box-shadow: var(--shadow); border-left: 5px solid var(--blue);
-            cursor: pointer; /* Indica que es clicable */
-            transition: transform 0.1s ease, box-shadow 0.2s ease; /* Animación de toque */
-            touch-action: manipulation; /* Evita delay en móviles */
+            cursor: pointer; transition: transform 0.1s ease, box-shadow 0.2s ease; touch-action: manipulation; 
         }
-        
-        /* Micro-animación al pulsar */
-        .blog-card:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
+        .blog-card:active { transform: scale(0.98); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .blog-date { font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block;}
-        .blog-title { 
-            font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blue); margin-bottom: 15px; line-height: 1.2;
-        }
-        
-        .blog-text-wrapper {
-            max-height: 100px; /* Altura inicial cerrada */
-            overflow: hidden; 
-            position: relative;
-            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Animación suave */
-        }
-        
-        .blog-text-wrapper.collapsed::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 40px; background: linear-gradient(transparent, #fff);
-        }
-
-        .blog-text-wrapper.expanded {
-            max-height: 5000px; /* Altura suficiente para texto largo */
-        }
-        
+        .blog-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blue); margin-bottom: 15px; line-height: 1.2; }
+        .blog-text-wrapper { max-height: 100px; overflow: hidden; position: relative; transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .blog-text-wrapper.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(transparent, #fff); }
+        .blog-text-wrapper.expanded { max-height: 5000px; }
         .blog-content { font-size: 0.95rem; color: #555; line-height: 1.8; text-align: justify; white-space: pre-wrap; }
-
         .read-more-btn {
-            background: none; border: none; color: var(--green);
-            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem;
-            cursor: pointer; margin-top: 10px; padding: 0; display: flex; align-items: center; gap: 5px;
-            pointer-events: none; /* El clic lo maneja la tarjeta padre */
+            background: none; border: none; color: var(--green); font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; margin-top: 10px; padding: 0; display: flex; align-items: center; gap: 5px; pointer-events: none; 
         }
 
-        /* Footer y Botones Sociales Hermosos */
+        /* FOOTER Y BOTONES HERMOSOS */
         .zone-contact { text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px; }
         .zone-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 5px; }
         .zone-handle { font-size: 1rem; color: #888; margin-bottom: 30px; display: block; }
         .contact-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
         
-        /* Estilos de tus botones originales */
+        /* ESTILO UNIFICADO PARA ENLACES Y BOTONES */
         .icon-btn {
             width: 55px; height: 55px; border-radius: 50%; background: var(--white); border: 2px solid var(--blue);
             color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
             text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            cursor: pointer; /* Para el botón de compartir */
+            cursor: pointer; padding: 0; /* Reset para button */
         }
         .icon-btn:hover { background: var(--green); color: var(--white); border-color: var(--green); transform: translateY(-5px); }
-        button.icon-btn { outline: none; } /* Quitar borde al hacer clic en el botón de compartir */
+        button.icon-btn { outline: none; } /* Quitar borde defecto */
 
         /* FAB */
         .fab {
@@ -246,7 +219,12 @@
         <div class="zone-title">Síguenos</div>
         <span class="zone-handle" id="social-handle">@bandejitadelata</span>
         
-        <div class="contact-grid" id="social-links-container"></div>
+        <div class="contact-grid" id="social-links-container">
+            <a href="https://www.instagram.com/bandejitadelata/" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@bandejita.de.lata" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://maps.app.goo.gl/uZUB528AqGXkZXmk9" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
         
         <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
     </div>
@@ -256,7 +234,7 @@
     </a>
 
     <script>
-        // === 1. CONFIGURACIÓN GENERAL ===
+        // === CONFIGURACIÓN GENERAL ===
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
@@ -272,43 +250,37 @@
 
         // === AQUÍ VAN TUS ENLACES PERSONALES (ÁNGEL) ===
         const SOCIAL_ANGEL = {
-            handle: "@angelchaconcocinero", // Pon aquí tu usuario real
-            instagram: "https://instagram.com/", // Pon tu link completo
-            tiktok: "https://tiktok.com/", // Pon tu link completo
-            email: "mailto:tucorreo@gmail.com" // Pon tu correo real después de mailto:
+            handle: "@angelchaconcocinero", 
+            instagram: "https://instagram.com/angelchaconcocinero", 
+            tiktok: "https://tiktok.com/@angelchaconcocinero", 
+            email: "mailto:angelchaconcocinero@gmail.com" // Asegúrate de poner tu correo real aquí
         };
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
-        // === 3. FUNCIONES DE LÓGICA ===
-
         document.addEventListener("DOMContentLoaded", () => {
-            // Renderizar redes iniciales (Bandejita)
-            updateSocials('bandejita');
-            
-            // Scroll Dinámico
             const headerEl = document.getElementById('main-header');
             const navEl = document.getElementById('sticky-nav');
-            window.addEventListener('scroll', () => {
+
+            function checkScroll() {
                 const triggerPoint = headerEl.offsetHeight - 50; 
                 if (window.scrollY > triggerPoint) navEl.classList.add('scrolled-mode');
                 else navEl.classList.remove('scrolled-mode');
-            });
+            }
+            window.addEventListener('scroll', checkScroll);
+            window.addEventListener('resize', checkScroll);
         });
 
         // Cambiar Pestañas y Footer
         function switchTab(tabName) {
-            // Activar sección
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             
-            // Activar botón
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             let btnIndex = 0;
             if(tabName === 'menu') btnIndex = 1;
             if(tabName === 'blog') btnIndex = 2;
             document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
             
-            // Scroll arriba
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             // CAMBIAR FOOTER SEGÚN PESTAÑA
@@ -319,39 +291,33 @@
             }
         }
 
-        // Renderizador de Iconos Sociales Hermosos
+        // Renderizador de Iconos Sociales
         function updateSocials(mode) {
             const container = document.getElementById('social-links-container');
             const handleText = document.getElementById('social-handle');
             const data = mode === 'angel' ? SOCIAL_ANGEL : SOCIAL_BANDEJITA;
             
-            // Animación de salida rápida
-            container.style.opacity = 0;
+            handleText.innerText = data.handle;
             
-            setTimeout(() => {
-                handleText.innerText = data.handle;
-                let html = `
-                    <a href="${data.instagram}" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="${data.tiktok}" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            let html = `
+                <a href="${data.instagram}" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="${data.tiktok}" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            `;
+            
+            if (mode === 'bandejita') {
+                // Modo Empresa
+                html += `
+                    <a href="${data.facebook}" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="${data.maps}" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
                 `;
-                
-                if (mode === 'bandejita') {
-                    html += `
-                        <a href="${data.facebook}" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="${data.maps}" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
-                    `;
-                } else {
-                    // En modo Ángel: Email y Compartir (Botones nuevos)
-                    html += `
-                        <a href="${data.email}" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                        <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
-                    `;
-                }
-                container.innerHTML = html;
-                // Animación de entrada
-                container.style.opacity = 1;
-                container.style.transition = "opacity 0.3s ease";
-            }, 200);
+            } else {
+                // Modo Ángel (Email y Compartir)
+                html += `
+                    <a href="${data.email}" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                    <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
+                `;
+            }
+            container.innerHTML = html;
         }
 
         // Función Compartir Nativo
@@ -359,7 +325,7 @@
             if (navigator.share) {
                 navigator.share({
                     title: 'Aguamiel Con Leche',
-                    text: 'Lee las reflexiones de Ángel Chacón en su cuaderno de cocina.',
+                    text: 'Reflexiones de un cocinero | Bandejita de Lata',
                     url: 'https://bandejitadelata.com'
                 }).catch(console.error);
             } else {
@@ -368,7 +334,7 @@
             }
         }
 
-        // Nueva función: Abrir/Cerrar Blog al tocar la tarjeta entera con scroll suave
+        // Función Scroll Suave al Título
         function toggleBlogCard(card) {
             const wrapper = card.querySelector('.blog-text-wrapper');
             const btn = card.querySelector('.read-more-btn');
@@ -384,16 +350,11 @@
                 wrapper.classList.add('collapsed');
                 btn.innerHTML = 'Leer historia completa <i class="fa-solid fa-chevron-down"></i>';
                 
-                // === MAGIA DE UX: SCROLL SUAVE AL TÍTULO ===
                 setTimeout(() => {
                     const navHeight = document.getElementById('sticky-nav').offsetHeight;
                     const cardPosition = card.getBoundingClientRect().top + window.scrollY;
-                    const offset = cardPosition - navHeight - 20; // 20px de aire
-                    
-                    window.scrollTo({
-                        top: offset,
-                        behavior: 'smooth'
-                    });
+                    const offset = cardPosition - navHeight - 20; 
+                    window.scrollTo({ top: offset, behavior: 'smooth' });
                 }, 100);
             }
         }
@@ -487,10 +448,9 @@
                             return;
                         }
                         
-                        // LÓGICA DEL BLOG (INTERACTIVO)
+                        // LÓGICA DEL BLOG
                         if (categoria.toLowerCase() === 'blog') {
                             if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; }
-                            // Añadimos onclick="toggleBlogCard(this)" al contenedor principal
                             blogContainer.innerHTML += `
                                 <div class="blog-card" onclick="toggleBlogCard(this)">
                                     <span class="blog-date">${fila[2]}</span>
