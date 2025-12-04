@@ -104,8 +104,7 @@
             box-shadow: var(--shadow); border-left: 5px solid var(--blue);
             cursor: pointer; /* Indica que es clicable */
             transition: transform 0.1s ease, box-shadow 0.2s ease; /* Animación de toque */
-            /* Evita que el toque se sienta lento en móviles */
-            touch-action: manipulation; 
+            touch-action: manipulation; /* Evita delay en móviles */
         }
         
         /* Micro-animación al pulsar */
@@ -120,10 +119,10 @@
         }
         
         .blog-text-wrapper {
-            max-height: 100px; 
+            max-height: 100px; /* Altura inicial cerrada */
             overflow: hidden; 
             position: relative;
-            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Animación más suave */
+            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Animación suave */
         }
         
         .blog-text-wrapper.collapsed::after {
@@ -132,7 +131,7 @@
         }
 
         .blog-text-wrapper.expanded {
-            max-height: 5000px; 
+            max-height: 5000px; /* Altura suficiente para texto largo */
         }
         
         .blog-content { font-size: 0.95rem; color: #555; line-height: 1.8; text-align: justify; white-space: pre-wrap; }
@@ -144,17 +143,21 @@
             pointer-events: none; /* El clic lo maneja la tarjeta padre */
         }
 
-        /* Footer */
+        /* Footer y Botones Sociales Hermosos */
         .zone-contact { text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px; }
         .zone-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 5px; }
         .zone-handle { font-size: 1rem; color: #888; margin-bottom: 30px; display: block; }
         .contact-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        
+        /* Estilos de tus botones originales */
         .icon-btn {
             width: 55px; height: 55px; border-radius: 50%; background: var(--white); border: 2px solid var(--blue);
             color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
             text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            cursor: pointer; /* Para el botón de compartir */
         }
         .icon-btn:hover { background: var(--green); color: var(--white); border-color: var(--green); transform: translateY(-5px); }
+        button.icon-btn { outline: none; } /* Quitar borde al hacer clic en el botón de compartir */
 
         /* FAB */
         .fab {
@@ -243,8 +246,8 @@
         <div class="zone-title">Síguenos</div>
         <span class="zone-handle" id="social-handle">@bandejitadelata</span>
         
-        <div class="contact-grid" id="social-links-container">
-            </div>
+        <div class="contact-grid" id="social-links-container"></div>
+        
         <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
     </div>
 
@@ -257,7 +260,8 @@
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
-        // === 2. CONSTANTES DE REDES SOCIALES (¡EDITA AQUÍ TUS ENLACES!) ===
+        // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        // === AQUÍ VAN LOS ENLACES DE LA EMPRESA (BANDEJITA) ===
         const SOCIAL_BANDEJITA = {
             handle: "@bandejitadelata",
             instagram: "https://www.instagram.com/bandejitadelata/",
@@ -266,14 +270,14 @@
             maps: "https://maps.app.goo.gl/uZUB528AqGXkZXmk9"
         };
 
+        // === AQUÍ VAN TUS ENLACES PERSONALES (ÁNGEL) ===
         const SOCIAL_ANGEL = {
-            handle: "@angelchaconcocinero", // Tu usuario personal
-            // 👇 PEGA AQUÍ TUS ENLACES PERSONALES 👇
-            instagram: "https://instagram.com/angelchaconcocinero", 
-            tiktok: "https://tiktok.com/@angelchaconcocinero",
-            facebook: "https://facebook.com/angelchaconcocinero",
-            email: "mailto:tucorreo@gmail.com" // Tu correo para contacto serio
+            handle: "@angelchaconcocinero", // Pon aquí tu usuario real
+            instagram: "https://instagram.com/", // Pon tu link completo
+            tiktok: "https://tiktok.com/", // Pon tu link completo
+            email: "mailto:tucorreo@gmail.com" // Pon tu correo real después de mailto:
         };
+        // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
         // === 3. FUNCIONES DE LÓGICA ===
 
@@ -315,35 +319,39 @@
             }
         }
 
-        // Renderizador de Iconos Sociales
+        // Renderizador de Iconos Sociales Hermosos
         function updateSocials(mode) {
             const container = document.getElementById('social-links-container');
             const handleText = document.getElementById('social-handle');
             const data = mode === 'angel' ? SOCIAL_ANGEL : SOCIAL_BANDEJITA;
             
-            handleText.innerText = data.handle;
+            // Animación de salida rápida
+            container.style.opacity = 0;
             
-            // Construir HTML de botones
-            let html = `
-                <a href="${data.instagram}" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="${data.tiktok}" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            `;
-            
-            if (mode === 'bandejita') {
-                // En modo Empresa: Facebook y Maps
-                html += `
-                    <a href="${data.facebook}" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="${data.maps}" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
+            setTimeout(() => {
+                handleText.innerText = data.handle;
+                let html = `
+                    <a href="${data.instagram}" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="${data.tiktok}" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
                 `;
-            } else {
-                // En modo Ángel: Email y Compartir
-                html += `
-                    <a href="${data.email}" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                    <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
-                `;
-            }
-            
-            container.innerHTML = html;
+                
+                if (mode === 'bandejita') {
+                    html += `
+                        <a href="${data.facebook}" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="${data.maps}" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
+                    `;
+                } else {
+                    // En modo Ángel: Email y Compartir (Botones nuevos)
+                    html += `
+                        <a href="${data.email}" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
+                    `;
+                }
+                container.innerHTML = html;
+                // Animación de entrada
+                container.style.opacity = 1;
+                container.style.transition = "opacity 0.3s ease";
+            }, 200);
         }
 
         // Función Compartir Nativo
@@ -355,13 +363,12 @@
                     url: 'https://bandejitadelata.com'
                 }).catch(console.error);
             } else {
-                // Fallback: Copiar al portapapeles
                 navigator.clipboard.writeText('https://bandejitadelata.com');
-                alert('Enlace copiado al portapapeles');
+                alert('¡Enlace copiado al portapapeles!');
             }
         }
 
-        // Nueva función: Abrir/Cerrar Blog al tocar la tarjeta entera
+        // Nueva función: Abrir/Cerrar Blog al tocar la tarjeta entera con scroll suave
         function toggleBlogCard(card) {
             const wrapper = card.querySelector('.blog-text-wrapper');
             const btn = card.querySelector('.read-more-btn');
@@ -378,7 +385,6 @@
                 btn.innerHTML = 'Leer historia completa <i class="fa-solid fa-chevron-down"></i>';
                 
                 // === MAGIA DE UX: SCROLL SUAVE AL TÍTULO ===
-                // Esperamos un poquito (300ms) para que empiece a cerrarse y luego ajustamos la vista
                 setTimeout(() => {
                     const navHeight = document.getElementById('sticky-nav').offsetHeight;
                     const cardPosition = card.getBoundingClientRect().top + window.scrollY;
