@@ -212,27 +212,24 @@
             font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blue); margin-bottom: 15px; line-height: 1.2;
         }
         
-        /* Contenedor del texto que se expande */
         .blog-text-wrapper {
-            max-height: 100px; /* Altura inicial (corto) */
-            overflow: hidden; /* Esconde lo que sobra */
+            max-height: 100px; /* Altura inicial */
+            overflow: hidden; 
             position: relative;
             transition: max-height 0.5s ease-in-out;
         }
         
-        /* Degradado blanco para que parezca que el texto se desvanece */
         .blog-text-wrapper.collapsed::after {
             content: ''; position: absolute; bottom: 0; left: 0; right: 0;
             height: 40px; background: linear-gradient(transparent, #fff);
         }
 
         .blog-text-wrapper.expanded {
-            max-height: 2000px; /* Altura suficiente para mostrar todo */
+            max-height: 2000px; 
         }
         
         .blog-content { font-size: 0.95rem; color: #555; line-height: 1.8; text-align: justify; white-space: pre-wrap; }
 
-        /* Botón de Leer Más */
         .read-more-btn {
             background: none; border: none; color: var(--green);
             font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem;
@@ -333,8 +330,10 @@
 
         <div id="blog" class="view-section">
             <div style="text-align:center; margin-bottom:30px;">
-                <h2 style="font-size:2rem;">Bitácora del Chef</h2>
-                <div style="width: 40px; height: 3px; background: var(--blue); margin: 10px auto;"></div>
+                <h2 style="font-size:2rem; margin-bottom: 5px;">Aguamiel Con Leche</h2>
+                <p style="font-size:0.9rem; color:#888; font-style: italic; margin-top: 0;">Reflexiones de un cocinero</p>
+                
+                <div style="width: 40px; height: 3px; background: var(--blue); margin: 15px auto;"></div>
             </div>
             <div id="blog-content">
                 <p style="text-align:center; color:#999; margin-top:50px;">Pronto publicaremos nuestras historias...</p>
@@ -391,22 +390,17 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // FUNCIONALIDAD PARA ABRIR/CERRAR BLOG
         function toggleBlog(btn) {
-            const wrapper = btn.previousElementSibling; // El div con el texto
+            const wrapper = btn.previousElementSibling; 
             
             if (wrapper.classList.contains('collapsed')) {
-                // ABRIR
                 wrapper.classList.remove('collapsed');
                 wrapper.classList.add('expanded');
                 btn.innerHTML = 'Leer menos <i class="fa-solid fa-chevron-up"></i>';
             } else {
-                // CERRAR
                 wrapper.classList.remove('expanded');
                 wrapper.classList.add('collapsed');
                 btn.innerHTML = 'Leer historia completa <i class="fa-solid fa-chevron-down"></i>';
-                // Opcional: Hacer scroll ligero hacia arriba para no perderse
-                // btn.parentElement.scrollIntoView({behavior: "smooth", block: "start"});
             }
         }
 
@@ -499,7 +493,7 @@
                             return;
                         }
                         
-                        // === LÓGICA DEL BLOG (DESPLEGABLE) ===
+                        // LÓGICA DEL BLOG
                         if (categoria.toLowerCase() === 'blog') {
                             if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; } 
                             blogContainer.innerHTML += `
