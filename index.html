@@ -6,9 +6,9 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-8R15RG0VZJ');
     </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Bandejita De Lata | Cocina de Autor</title>
@@ -16,207 +16,114 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* 🎨 PALETA DE COLORES */
-            --blue: #135c96;        
-            --green: #96b754;       
-            --soft-green: #d2dc84; 
-            --bg: #f9f9f9;          
-            --white: #ffffff;       
-            --text-grey: #444444;
-            --light-text: #f2f2f2; 
-            --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); 
+            --blue: #135c96; --green: #96b754; --soft-green: #d2dc84; 
+            --bg: #f9f9f9; --white: #ffffff; --text-grey: #444444;
+            --light-text: #f2f2f2; --shadow: 0 10px 30px -10px rgba(19, 92, 150, 0.15); 
         }
 
-        body { 
-            margin: 0; 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text-grey); 
-            padding-bottom: 120px; 
-            -webkit-font-smoothing: antialiased;
-        }
-        
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--bg); color: var(--text-grey); padding-bottom: 120px; -webkit-font-smoothing: antialiased; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--blue); font-weight: 700; margin-top: 0; }
         p { font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
 
-        /* --- ENCABEZADO --- */
         header {
-            height: 35vh;
-            min-height: 250px;
+            height: 35vh; min-height: 250px; position: relative;
             background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/2c9e405ea2773f4f431c75880bb058fdbb1eb9ed/Encabezado%20bandejita.jpg'); 
-            background-size: cover; 
-            background-position: center; 
-            position: relative;
+            background-size: cover; background-position: center; 
         }
 
-        /* --- LOGO FLOTANTE --- */
         .header-logo-container {
             position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); z-index: 60;
-            background: var(--white); padding: 5px; border-radius: 50%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            background: var(--white); padding: 5px; border-radius: 50%; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
-        .header-logo {
-            width: 100px; height: 100px; object-fit: contain; border-radius: 50%;
-            display: block; background-color: #fff;
-        }
+        .header-logo { width: 100px; height: 100px; object-fit: contain; border-radius: 50%; display: block; background-color: #fff; }
         
-        /* --- BARRA DE NAVEGACIÓN --- */
+        /* NAV */
         .nav-tabs {
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center;
-            background: var(--white); 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            position: sticky; 
-            top: 0; 
-            z-index: 50; 
-            padding-top: 55px; 
-            padding-bottom: 0;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            position: sticky; top: 0; z-index: 50; padding-top: 55px; padding-bottom: 0;
             transition: all 0.4s ease-in-out; 
         }
-
         .nav-brand-title {
-            display: none; 
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 2.0rem; 
-            color: var(--light-text);
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-            text-align: center;
+            display: none; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2.0rem; 
+            color: var(--light-text); margin-bottom: 5px; letter-spacing: 1px; text-align: center;
         }
-
-        .nav-buttons-wrapper {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
+        .nav-buttons-wrapper { display: flex; width: 100%; justify-content: center; transition: all 0.3s ease; }
         .tab-btn {
-            flex: 1; 
-            max-width: 33%; 
-            padding: 15px; border: none; background: none;
+            flex: 1; max-width: 33%; padding: 15px; border: none; background: none;
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
             font-size: 0.75rem; color: #999; cursor: pointer; transition: 0.3s;
             border-bottom: 3px solid transparent; letter-spacing: 1px;
         }
         .tab-btn.active { color: var(--blue); border-bottom: 3px solid var(--green); }
 
-
-        /* === MODO SCROLL === */
-        .nav-tabs.scrolled-mode {
-            background-color: var(--blue);
-            padding-top: 40px; 
-            padding-bottom: 0;
-            box-shadow: 0 4px 20px rgba(19, 92, 150, 0.5);
-        }
-
-        .nav-tabs.scrolled-mode .nav-brand-title {
-            display: block; 
-            animation: fadeInText 0.5s ease;
-        }
-
-        .nav-tabs.scrolled-mode .tab-btn {
-            color: rgba(242, 242, 242, 0.6); 
-            padding: 12px; 
-        }
-        
-        .nav-tabs.scrolled-mode .tab-btn.active {
-            color: var(--white); 
-            border-bottom: 3px solid var(--green);
-            background: rgba(255,255,255,0.05); 
-        }
-
-        @keyframes fadeInText {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* SCROLL MODE */
+        .nav-tabs.scrolled-mode { background-color: var(--blue); padding-top: 40px; padding-bottom: 0; box-shadow: 0 4px 20px rgba(19, 92, 150, 0.5); }
+        .nav-tabs.scrolled-mode .nav-brand-title { display: block; animation: fadeInText 0.5s ease; }
+        .nav-tabs.scrolled-mode .tab-btn { color: rgba(242, 242, 242, 0.6); padding: 12px; }
+        .nav-tabs.scrolled-mode .tab-btn.active { color: var(--white); border-bottom: 3px solid var(--green); background: rgba(255,255,255,0.05); }
+        @keyframes fadeInText { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .container { max-width: 700px; margin: 0 auto; padding: 30px 20px 10px 20px; }
-        
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeUp 0.6s ease-out; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Tarjetas */
-        .info-card {
-            background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px;
-            box-shadow: var(--shadow); border-top: 4px solid var(--green);
-        }
-        .news-item { 
-            border-left: 3px solid var(--green); background: #f4f8f0; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0;
-        }
-        .hours-item { 
-            display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; 
-        }
+        /* CARDS */
+        .info-card { background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: var(--shadow); border-top: 4px solid var(--green); }
+        .news-item { border-left: 3px solid var(--green); background: #f4f8f0; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+        .hours-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; }
 
-        /* Testimonios */
+        /* REVIEWS */
         .reviews-wrapper { margin-bottom: 25px; }
-        .reviews-scroll {
-            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; 
-            scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; 
-        }
+        .reviews-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
         .reviews-scroll::-webkit-scrollbar { display: none; }
-        .reviews-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .review-card {
-            min-width: 260px; max-width: 260px; background: var(--white); border-radius: 12px; padding: 20px;
-            box-shadow: var(--shadow); scroll-snap-align: center; border-top: 1px solid #eee;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
+        .review-card { min-width: 260px; max-width: 260px; background: var(--white); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); scroll-snap-align: center; border-top: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
         .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .review-author { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--blue); font-size: 1rem; }
         .review-stars { color: var(--green); font-size: 0.9rem; letter-spacing: 1px; }
         .review-text { font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5; }
         
-        /* Menú y Blog */
-        .category-title {
-            color: var(--blue); border-bottom: 1px solid #ddd; padding-bottom: 10px;
-            margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; text-align: center;
-        }
-        .card {
-            background: var(--white); border-radius: 12px; padding: 20px; margin-bottom: 18px;
-            box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.3s ease; border: 1px solid transparent;
-        }
-        .card.destacado {
-            border: 1px solid var(--green); background: linear-gradient(to right, #ffffff, #fcfdf6); position: relative; 
-        }
-        .badge-rec {
-            position: absolute; top: -10px; right: 15px;
-            background: var(--green); color: var(--white); font-size: 0.65rem; font-weight: 600; padding: 4px 10px;
-            border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); text-transform: uppercase; letter-spacing: 0.5px;
-        }
+        /* MENU */
+        .category-title { color: var(--blue); border-bottom: 1px solid #ddd; padding-bottom: 10px; margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; text-align: center; }
+        .card { background: var(--white); border-radius: 12px; padding: 20px; margin-bottom: 18px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; border: 1px solid transparent; }
+        .card.destacado { border: 1px solid var(--green); background: linear-gradient(to right, #ffffff, #fcfdf6); position: relative; }
+        .badge-rec { position: absolute; top: -10px; right: 15px; background: var(--green); color: var(--white); font-size: 0.65rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); text-transform: uppercase; letter-spacing: 0.5px; }
         .dish-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
-        .dish-desc { 
-            font-size: 0.85rem; color: #666; line-height: 1.5; padding-right: 10px;
-            text-align: justify;
-        }
+        .dish-desc { font-size: 0.85rem; color: #666; line-height: 1.5; padding-right: 10px; text-align: justify; }
         .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
 
-        /* ESTILOS ESPECÍFICOS DEL BLOG (DESPLEGABLE) */
+        /* === ESTILOS MEJORADOS PARA EL BLOG === */
         .blog-card {
             background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px;
             box-shadow: var(--shadow); border-left: 5px solid var(--blue);
+            cursor: pointer; /* Indica que es clicable */
+            transition: transform 0.1s ease, box-shadow 0.2s ease; /* Animación de toque */
+            /* Evita que el toque se sienta lento en móviles */
+            touch-action: manipulation; 
         }
+        
+        /* Micro-animación al pulsar */
+        .blog-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
         .blog-date { font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block;}
         .blog-title { 
             font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blue); margin-bottom: 15px; line-height: 1.2;
         }
         
         .blog-text-wrapper {
-            max-height: 100px; /* Altura inicial */
+            max-height: 100px; 
             overflow: hidden; 
             position: relative;
-            transition: max-height 0.5s ease-in-out;
+            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Animación más suave */
         }
         
         .blog-text-wrapper.collapsed::after {
@@ -225,7 +132,7 @@
         }
 
         .blog-text-wrapper.expanded {
-            max-height: 2000px; 
+            max-height: 5000px; 
         }
         
         .blog-content { font-size: 0.95rem; color: #555; line-height: 1.8; text-align: justify; white-space: pre-wrap; }
@@ -234,17 +141,12 @@
             background: none; border: none; color: var(--green);
             font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem;
             cursor: pointer; margin-top: 10px; padding: 0; display: flex; align-items: center; gap: 5px;
+            pointer-events: none; /* El clic lo maneja la tarjeta padre */
         }
-        .read-more-btn:hover { text-decoration: underline; }
-
 
         /* Footer */
-        .zone-contact {
-            text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px;
-        }
-        .zone-title {
-            font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 5px;
-        }
+        .zone-contact { text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px; }
+        .zone-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 5px; }
         .zone-handle { font-size: 1rem; color: #888; margin-bottom: 30px; display: block; }
         .contact-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
         .icon-btn {
@@ -252,9 +154,7 @@
             color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
             text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .icon-btn:hover { 
-            background: var(--green); color: var(--white); border-color: var(--green); transform: translateY(-5px); 
-        }
+        .icon-btn:hover { background: var(--green); color: var(--white); border-color: var(--green); transform: translateY(-5px); }
 
         /* FAB */
         .fab {
@@ -282,7 +182,6 @@
 
     <nav class="nav-tabs" id="sticky-nav">
         <div class="nav-brand-title">Bandejita De Lata</div>
-        
         <div class="nav-buttons-wrapper">
             <button class="tab-btn active" onclick="switchTab('inicio')">Principal</button>
             <button class="tab-btn" onclick="switchTab('menu')">Menú</button>
@@ -332,7 +231,6 @@
             <div style="text-align:center; margin-bottom:30px;">
                 <h2 style="font-size:2rem; margin-bottom: 5px;">Aguamiel Con Leche</h2>
                 <p style="font-size:0.9rem; color:#888; font-style: italic; margin-top: 0;">Reflexiones de un cocinero</p>
-                
                 <div style="width: 40px; height: 3px; background: var(--blue); margin: 15px auto;"></div>
             </div>
             <div id="blog-content">
@@ -343,13 +241,10 @@
 
     <div class="zone-contact">
         <div class="zone-title">Síguenos</div>
-        <span class="zone-handle">@bandejitadelata</span>
-        <div class="contact-grid">
-            <a href="https://www.instagram.com/bandejitadelata/" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@bandejita.de.lata" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://maps.app.goo.gl/uZUB528AqGXkZXmk9" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
-        </div>
+        <span class="zone-handle" id="social-handle">@bandejitadelata</span>
+        
+        <div class="contact-grid" id="social-links-container">
+            </div>
         <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
     </div>
 
@@ -358,49 +253,142 @@
     </a>
 
     <script>
+        // === 1. CONFIGURACIÓN GENERAL ===
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
+        // === 2. CONSTANTES DE REDES SOCIALES (¡EDITA AQUÍ TUS ENLACES!) ===
+        const SOCIAL_BANDEJITA = {
+            handle: "@bandejitadelata",
+            instagram: "https://www.instagram.com/bandejitadelata/",
+            tiktok: "https://www.tiktok.com/@bandejita.de.lata",
+            facebook: "https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA",
+            maps: "https://maps.app.goo.gl/uZUB528AqGXkZXmk9"
+        };
+
+        const SOCIAL_ANGEL = {
+            handle: "@angelchaconcocinero", // Tu usuario personal
+            // 👇 PEGA AQUÍ TUS ENLACES PERSONALES 👇
+            instagram: "https://instagram.com/angelchaconcocinero", 
+            tiktok: "https://tiktok.com/@angelchaconcocinero",
+            facebook: "https://facebook.com/angelchaconcocinero",
+            email: "mailto:tucorreo@gmail.com" // Tu correo para contacto serio
+        };
+
+        // === 3. FUNCIONES DE LÓGICA ===
+
         document.addEventListener("DOMContentLoaded", () => {
+            // Renderizar redes iniciales (Bandejita)
+            updateSocials('bandejita');
+            
+            // Scroll Dinámico
             const headerEl = document.getElementById('main-header');
             const navEl = document.getElementById('sticky-nav');
-
-            function checkScroll() {
+            window.addEventListener('scroll', () => {
                 const triggerPoint = headerEl.offsetHeight - 50; 
-                if (window.scrollY > triggerPoint) {
-                    navEl.classList.add('scrolled-mode');
-                } else {
-                    navEl.classList.remove('scrolled-mode');
-                }
-            }
-            window.addEventListener('scroll', checkScroll);
-            window.addEventListener('resize', checkScroll);
+                if (window.scrollY > triggerPoint) navEl.classList.add('scrolled-mode');
+                else navEl.classList.remove('scrolled-mode');
+            });
         });
 
+        // Cambiar Pestañas y Footer
         function switchTab(tabName) {
+            // Activar sección
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             
+            // Activar botón
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             let btnIndex = 0;
             if(tabName === 'menu') btnIndex = 1;
             if(tabName === 'blog') btnIndex = 2;
-            
             document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+            
+            // Scroll arriba
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // CAMBIAR FOOTER SEGÚN PESTAÑA
+            if (tabName === 'blog') {
+                updateSocials('angel');
+            } else {
+                updateSocials('bandejita');
+            }
         }
 
-        function toggleBlog(btn) {
-            const wrapper = btn.previousElementSibling; 
+        // Renderizador de Iconos Sociales
+        function updateSocials(mode) {
+            const container = document.getElementById('social-links-container');
+            const handleText = document.getElementById('social-handle');
+            const data = mode === 'angel' ? SOCIAL_ANGEL : SOCIAL_BANDEJITA;
+            
+            handleText.innerText = data.handle;
+            
+            // Construir HTML de botones
+            let html = `
+                <a href="${data.instagram}" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="${data.tiktok}" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            `;
+            
+            if (mode === 'bandejita') {
+                // En modo Empresa: Facebook y Maps
+                html += `
+                    <a href="${data.facebook}" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="${data.maps}" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
+                `;
+            } else {
+                // En modo Ángel: Email y Compartir
+                html += `
+                    <a href="${data.email}" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                    <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Función Compartir Nativo
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Aguamiel Con Leche',
+                    text: 'Lee las reflexiones de Ángel Chacón en su cuaderno de cocina.',
+                    url: 'https://bandejitadelata.com'
+                }).catch(console.error);
+            } else {
+                // Fallback: Copiar al portapapeles
+                navigator.clipboard.writeText('https://bandejitadelata.com');
+                alert('Enlace copiado al portapapeles');
+            }
+        }
+
+        // Nueva función: Abrir/Cerrar Blog al tocar la tarjeta entera
+        function toggleBlogCard(card) {
+            const wrapper = card.querySelector('.blog-text-wrapper');
+            const btn = card.querySelector('.read-more-btn');
             
             if (wrapper.classList.contains('collapsed')) {
+                // ABRIR
                 wrapper.classList.remove('collapsed');
                 wrapper.classList.add('expanded');
                 btn.innerHTML = 'Leer menos <i class="fa-solid fa-chevron-up"></i>';
             } else {
+                // CERRAR
                 wrapper.classList.remove('expanded');
                 wrapper.classList.add('collapsed');
                 btn.innerHTML = 'Leer historia completa <i class="fa-solid fa-chevron-down"></i>';
+                
+                // === MAGIA DE UX: SCROLL SUAVE AL TÍTULO ===
+                // Esperamos un poquito (300ms) para que empiece a cerrarse y luego ajustamos la vista
+                setTimeout(() => {
+                    const navHeight = document.getElementById('sticky-nav').offsetHeight;
+                    const cardPosition = card.getBoundingClientRect().top + window.scrollY;
+                    const offset = cardPosition - navHeight - 20; // 20px de aire
+                    
+                    window.scrollTo({
+                        top: offset,
+                        behavior: 'smooth'
+                    });
+                }, 100);
             }
         }
 
@@ -493,17 +481,18 @@
                             return;
                         }
                         
-                        // LÓGICA DEL BLOG
+                        // LÓGICA DEL BLOG (INTERACTIVO)
                         if (categoria.toLowerCase() === 'blog') {
-                            if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; } 
+                            if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; }
+                            // Añadimos onclick="toggleBlogCard(this)" al contenedor principal
                             blogContainer.innerHTML += `
-                                <div class="blog-card">
+                                <div class="blog-card" onclick="toggleBlogCard(this)">
                                     <span class="blog-date">${fila[2]}</span>
                                     <h3 class="blog-title">${nombre}</h3>
                                     <div class="blog-text-wrapper collapsed">
                                         <div class="blog-content">${desc}</div>
                                     </div>
-                                    <button class="read-more-btn" onclick="toggleBlog(this)">
+                                    <button class="read-more-btn">
                                         Leer historia completa <i class="fa-solid fa-chevron-down"></i>
                                     </button>
                                 </div>`;
