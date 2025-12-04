@@ -101,7 +101,7 @@
 
         .tab-btn {
             flex: 1; 
-            max-width: 33%; /* Ajustado para 3 botones */
+            max-width: 33%; 
             padding: 15px; border: none; background: none;
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
             font-size: 0.75rem; color: #999; cursor: pointer; transition: 0.3s;
@@ -202,7 +202,7 @@
         .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
 
-        /* ESTILOS ESPECÍFICOS DEL BLOG */
+        /* ESTILOS ESPECÍFICOS DEL BLOG (DESPLEGABLE) */
         .blog-card {
             background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px;
             box-shadow: var(--shadow); border-left: 5px solid var(--blue);
@@ -211,7 +211,35 @@
         .blog-title { 
             font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blue); margin-bottom: 15px; line-height: 1.2;
         }
+        
+        /* Contenedor del texto que se expande */
+        .blog-text-wrapper {
+            max-height: 100px; /* Altura inicial (corto) */
+            overflow: hidden; /* Esconde lo que sobra */
+            position: relative;
+            transition: max-height 0.5s ease-in-out;
+        }
+        
+        /* Degradado blanco para que parezca que el texto se desvanece */
+        .blog-text-wrapper.collapsed::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+            height: 40px; background: linear-gradient(transparent, #fff);
+        }
+
+        .blog-text-wrapper.expanded {
+            max-height: 2000px; /* Altura suficiente para mostrar todo */
+        }
+        
         .blog-content { font-size: 0.95rem; color: #555; line-height: 1.8; text-align: justify; white-space: pre-wrap; }
+
+        /* Botón de Leer Más */
+        .read-more-btn {
+            background: none; border: none; color: var(--green);
+            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; margin-top: 10px; padding: 0; display: flex; align-items: center; gap: 5px;
+        }
+        .read-more-btn:hover { text-decoration: underline; }
+
 
         /* Footer */
         .zone-contact {
@@ -261,7 +289,8 @@
         <div class="nav-buttons-wrapper">
             <button class="tab-btn active" onclick="switchTab('inicio')">Principal</button>
             <button class="tab-btn" onclick="switchTab('menu')">Menú</button>
-            <button class="tab-btn" onclick="switchTab('blog')">Blog</button> </div>
+            <button class="tab-btn" onclick="switchTab('blog')">Blog</button>
+        </div>
     </nav>
 
     <div class="container">
@@ -354,13 +383,31 @@
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             
-            // Lógica para resaltar el botón correcto (0=Inicio, 1=Menú, 2=Blog)
             let btnIndex = 0;
             if(tabName === 'menu') btnIndex = 1;
             if(tabName === 'blog') btnIndex = 2;
             
             document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // FUNCIONALIDAD PARA ABRIR/CERRAR BLOG
+        function toggleBlog(btn) {
+            const wrapper = btn.previousElementSibling; // El div con el texto
+            
+            if (wrapper.classList.contains('collapsed')) {
+                // ABRIR
+                wrapper.classList.remove('collapsed');
+                wrapper.classList.add('expanded');
+                btn.innerHTML = 'Leer menos <i class="fa-solid fa-chevron-up"></i>';
+            } else {
+                // CERRAR
+                wrapper.classList.remove('expanded');
+                wrapper.classList.add('collapsed');
+                btn.innerHTML = 'Leer historia completa <i class="fa-solid fa-chevron-down"></i>';
+                // Opcional: Hacer scroll ligero hacia arriba para no perderse
+                // btn.parentElement.scrollIntoView({behavior: "smooth", block: "start"});
+            }
         }
 
         const params = new URLSearchParams(window.location.search);
@@ -412,10 +459,9 @@
                 const hoursContainer = document.getElementById('hours-content');
                 const reviewsContainer = document.getElementById('reviews-container');
                 const reviewsBox = document.getElementById('reviews-box');
-                const blogContainer = document.getElementById('blog-content'); // Contenedor del Blog
+                const blogContainer = document.getElementById('blog-content'); 
                 
                 menuContainer.innerHTML = ''; newsContainer.innerHTML = ''; hoursContainer.innerHTML = ''; reviewsContainer.innerHTML = ''; 
-                // No limpiamos blogContainer inmediatamente para dejar el mensaje de carga si está vacío
 
                 const menuPorCategoria = {}; const ordenCategorias = []; 
                 let hayNoticias = false; let hayReviews = false; let hayBlog = false;
@@ -453,13 +499,19 @@
                             return;
                         }
                         
-                        // LÓGICA DEL BLOG
+                        // === LÓGICA DEL BLOG (DESPLEGABLE) ===
                         if (categoria.toLowerCase() === 'blog') {
-                            if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; } // Limpiar mensaje de carga solo si hay posts
+                            if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; } 
                             blogContainer.innerHTML += `
                                 <div class="blog-card">
-                                    <span class="blog-date">${fila[2]}</span> <h3 class="blog-title">${nombre}</h3>
-                                    <div class="blog-content">${desc}</div>
+                                    <span class="blog-date">${fila[2]}</span>
+                                    <h3 class="blog-title">${nombre}</h3>
+                                    <div class="blog-text-wrapper collapsed">
+                                        <div class="blog-content">${desc}</div>
+                                    </div>
+                                    <button class="read-more-btn" onclick="toggleBlog(this)">
+                                        Leer historia completa <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
                                 </div>`;
                             return;
                         }
