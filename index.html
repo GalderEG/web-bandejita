@@ -65,10 +65,10 @@
             display: block; background-color: #fff;
         }
         
-        /* --- BARRA DE NAVEGACIÓN DINÁMICA (DISEÑO VERTICAL) --- */
+        /* --- BARRA DE NAVEGACIÓN --- */
         .nav-tabs {
             display: flex; 
-            flex-direction: column; /* Apilar elementos verticalmente */
+            flex-direction: column; 
             justify-content: center;
             align-items: center;
             background: var(--white); 
@@ -76,24 +76,22 @@
             position: sticky; 
             top: 0; 
             z-index: 50; 
-            padding-top: 55px; /* Espacio inicial para el logo */
+            padding-top: 55px; 
             padding-bottom: 0;
             transition: all 0.4s ease-in-out; 
         }
 
-        /* Título de marca (Oculto al inicio) */
         .nav-brand-title {
             display: none; 
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 2.0rem; /* Letra grande y elegante */
+            font-size: 2.0rem; 
             color: var(--light-text);
             margin-bottom: 5px;
             letter-spacing: 1px;
             text-align: center;
         }
 
-        /* Contenedor de botones */
         .nav-buttons-wrapper {
             display: flex;
             width: 100%;
@@ -101,10 +99,9 @@
             transition: all 0.3s ease;
         }
 
-        /* Botones Normales */
         .tab-btn {
             flex: 1; 
-            max-width: 50%; /* Ocupan mitad y mitad */
+            max-width: 33%; /* Ajustado para 3 botones */
             padding: 15px; border: none; background: none;
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
             font-size: 0.75rem; color: #999; cursor: pointer; transition: 0.3s;
@@ -113,46 +110,37 @@
         .tab-btn.active { color: var(--blue); border-bottom: 3px solid var(--green); }
 
 
-        /* =========================================
-           👇 MODO SCROLL (FONDO AZUL + NOTCH) 👇
-           ========================================= */
-        
+        /* === MODO SCROLL === */
         .nav-tabs.scrolled-mode {
             background-color: var(--blue);
-            /* Margen superior seguro para la cámara del móvil */
             padding-top: 40px; 
             padding-bottom: 0;
             box-shadow: 0 4px 20px rgba(19, 92, 150, 0.5);
         }
 
-        /* Mostrar título */
         .nav-tabs.scrolled-mode .nav-brand-title {
             display: block; 
             animation: fadeInText 0.5s ease;
         }
 
-        /* Botones en modo azul */
         .nav-tabs.scrolled-mode .tab-btn {
-            color: rgba(242, 242, 242, 0.6); /* Blanco transparente */
-            padding: 12px; /* Un poco más compactos */
+            color: rgba(242, 242, 242, 0.6); 
+            padding: 12px; 
         }
         
         .nav-tabs.scrolled-mode .tab-btn.active {
             color: var(--white); 
             border-bottom: 3px solid var(--green);
-            background: rgba(255,255,255,0.05); /* Sutil brillo en el activo */
+            background: rgba(255,255,255,0.05); 
         }
 
         @keyframes fadeInText {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-         /* ========================================= */
-
 
         .container { max-width: 700px; margin: 0 auto; padding: 30px 20px 10px 20px; }
         
-        /* Animaciones */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeUp 0.6s ease-out; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -188,7 +176,7 @@
         .review-stars { color: var(--green); font-size: 0.9rem; letter-spacing: 1px; }
         .review-text { font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5; }
         
-        /* Menú */
+        /* Menú y Blog */
         .category-title {
             color: var(--blue); border-bottom: 1px solid #ddd; padding-bottom: 10px;
             margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; text-align: center;
@@ -207,15 +195,23 @@
             border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); text-transform: uppercase; letter-spacing: 0.5px;
         }
         .dish-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin: 0 0 5px 0; font-family: 'Playfair Display', serif; }
-        
-        /* TEXTO JUSTIFICADO */
         .dish-desc { 
             font-size: 0.85rem; color: #666; line-height: 1.5; padding-right: 10px;
             text-align: justify;
         }
-
         .price-tag { text-align: right; min-width: 90px; } 
         .usd { color: var(--blue); font-weight: 700; font-size: 1.1rem; }
+
+        /* ESTILOS ESPECÍFICOS DEL BLOG */
+        .blog-card {
+            background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px;
+            box-shadow: var(--shadow); border-left: 5px solid var(--blue);
+        }
+        .blog-date { font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block;}
+        .blog-title { 
+            font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blue); margin-bottom: 15px; line-height: 1.2;
+        }
+        .blog-content { font-size: 0.95rem; color: #555; line-height: 1.8; text-align: justify; white-space: pre-wrap; }
 
         /* Footer */
         .zone-contact {
@@ -264,8 +260,8 @@
         
         <div class="nav-buttons-wrapper">
             <button class="tab-btn active" onclick="switchTab('inicio')">Principal</button>
-            <button class="tab-btn" onclick="switchTab('menu')">Nuestro Menú</button>
-        </div>
+            <button class="tab-btn" onclick="switchTab('menu')">Menú</button>
+            <button class="tab-btn" onclick="switchTab('blog')">Blog</button> </div>
     </nav>
 
     <div class="container">
@@ -303,6 +299,16 @@
                     <i class="fa-solid fa-circle-notch fa-spin" style="font-size:2rem; color:var(--soft-green); margin-bottom: 20px;"></i>
                     <p style="color:#999;" id="status-msg">Cargando menú...</p>
                 </div>
+            </div>
+        </div>
+
+        <div id="blog" class="view-section">
+            <div style="text-align:center; margin-bottom:30px;">
+                <h2 style="font-size:2rem;">Bitácora del Chef</h2>
+                <div style="width: 40px; height: 3px; background: var(--blue); margin: 10px auto;"></div>
+            </div>
+            <div id="blog-content">
+                <p style="text-align:center; color:#999; margin-top:50px;">Pronto publicaremos nuestras historias...</p>
             </div>
         </div>
     </div>
@@ -347,7 +353,12 @@
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
-            const btnIndex = tabName === 'inicio' ? 0 : 1;
+            
+            // Lógica para resaltar el botón correcto (0=Inicio, 1=Menú, 2=Blog)
+            let btnIndex = 0;
+            if(tabName === 'menu') btnIndex = 1;
+            if(tabName === 'blog') btnIndex = 2;
+            
             document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -401,11 +412,13 @@
                 const hoursContainer = document.getElementById('hours-content');
                 const reviewsContainer = document.getElementById('reviews-container');
                 const reviewsBox = document.getElementById('reviews-box');
+                const blogContainer = document.getElementById('blog-content'); // Contenedor del Blog
                 
-                menuContainer.innerHTML = ''; newsContainer.innerHTML = ''; hoursContainer.innerHTML = ''; reviewsContainer.innerHTML = '';
+                menuContainer.innerHTML = ''; newsContainer.innerHTML = ''; hoursContainer.innerHTML = ''; reviewsContainer.innerHTML = ''; 
+                // No limpiamos blogContainer inmediatamente para dejar el mensaje de carga si está vacío
 
                 const menuPorCategoria = {}; const ordenCategorias = []; 
-                let hayNoticias = false; let hayReviews = false;
+                let hayNoticias = false; let hayReviews = false; let hayBlog = false;
 
                 filas.forEach((fila, index) => {
                     if (index === 0) return; 
@@ -436,6 +449,17 @@
                                         <div class="review-stars">${fila[2]}</div>
                                     </div>
                                     <p class="review-text">"${desc}"</p>
+                                </div>`;
+                            return;
+                        }
+                        
+                        // LÓGICA DEL BLOG
+                        if (categoria.toLowerCase() === 'blog') {
+                            if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; } // Limpiar mensaje de carga solo si hay posts
+                            blogContainer.innerHTML += `
+                                <div class="blog-card">
+                                    <span class="blog-date">${fila[2]}</span> <h3 class="blog-title">${nombre}</h3>
+                                    <div class="blog-content">${desc}</div>
                                 </div>`;
                             return;
                         }
