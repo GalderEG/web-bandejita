@@ -464,3 +464,65 @@
                         let simbolo = "";
                         let limpio = precioRaw.replace('$', '').replace(',', '.');
                         const precioUSD = parseFloat(limpio);
+
+                        if(!isNaN(precioUSD)) {
+                            if (modoMoneda === 'usd') {
+                                precioFinal = precioUSD.toFixed(2);
+                                if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
+                                simbolo = "$";
+                            } else {
+                                const precioCalculado = (precioUSD * tasaBCV) * 1.16; 
+                                precioFinal = precioCalculado.toFixed(2);
+                                simbolo = "Bs ";
+                            }
+                        }
+
+                        if (!menuPorCategoria[categoria]) { menuPorCategoria[categoria] = []; ordenCategorias.push(categoria); }
+                        
+                        menuPorCategoria[categoria].push({ nombre, desc, precio: precioFinal, simbolo: simbolo, destacado: destacado === 'si' });
+                    }
+                });
+
+                if(hayNoticias) document.getElementById('news-box').style.display = 'block';
+                if(hayReviews) reviewsBox.style.display = 'block';
+                if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
+
+                if (ordenCategorias.length === 0) {
+                     menuContainer.innerHTML = '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
+                } else {
+                    ordenCategorias.forEach(cat => {
+                        const platos = menuPorCategoria[cat];
+                        platos.sort((a, b) => {
+                            if (a.destacado && !b.destacado) return -1;
+                            if (!a.destacado && b.destacado) return 1;
+                            return a.nombre.localeCompare(b.nombre);
+                        });
+                        menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
+                        platos.forEach((plato, i) => {
+                            const delay = Math.min(i * 0.05, 0.5);
+                            menuContainer.innerHTML += `
+                                <div class="card ${plato.destacado ? 'destacado' : ''}" style="animation: fadeUp 0.5s ease-out forwards; animation-delay: ${delay}s; opacity:0;">
+                                    ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
+                                    <div class="info">
+                                        <div class="dish-name">${plato.nombre}</div>
+                                        <p class="dish-desc">${plato.desc}</p>
+                                    </div>
+                                    <div class="price-tag"><span class="usd">${plato.simbolo}${plato.precio}</span></div>
+                                </div>`;
+                        });
+                    });
+                }
+            } catch (error) { 
+                console.error(error); 
+                document.getElementById('menu-content').innerHTML = `
+                    <div style="text-align:center; padding:40px;">
+                        <p>Ups, hubo un problema cargando el menú.</p>
+                        <button onclick="location.reload()" style="padding:10px 20px; background:var(--blue); color:white; border:none; border-radius:5px;">Reintentar</button>
+                    </div>`;
+            }
+        }
+        
+        cargarTodo();
+    </script>
+</body>
+</html>
