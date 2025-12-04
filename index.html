@@ -117,12 +117,15 @@
             cursor: pointer; margin-top: 10px; padding: 0; display: flex; align-items: center; gap: 5px; pointer-events: none; 
         }
 
-        /* Footer y Botones */
+        /* FOOTER DINÁMICO */
         .zone-contact { text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px; }
         .zone-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 5px; }
         .zone-handle { font-size: 1rem; color: #888; margin-bottom: 30px; display: block; }
-        .contact-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
         
+        /* Clase para ocultar/mostrar grupos de iconos */
+        .social-group { display: none; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        .social-group.active { display: flex; } /* Solo el activo se muestra */
+
         .icon-btn {
             width: 55px; height: 55px; border-radius: 50%; background: var(--white); border: 2px solid var(--blue);
             color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
@@ -219,11 +222,18 @@
         <div class="zone-title">Síguenos</div>
         <span class="zone-handle" id="social-handle">@bandejitadelata</span>
         
-        <div class="contact-grid" id="social-links-container">
+        <div id="social-bandejita" class="social-group active">
             <a href="https://www.instagram.com/bandejitadelata/" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.tiktok.com/@bandejita.de.lata" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
             <a href="https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="https://maps.app.goo.gl/uZUB528AqGXkZXmk9" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+
+        <div id="social-angel" class="social-group">
+            <a href="https://instagram.com/angelchaconcocinero" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com/@angelchaconcocinero" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="mailto:angelchaconcocinero@gmail.com" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
         </div>
         
         <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
@@ -234,29 +244,8 @@
     </a>
 
     <script>
-        // === 1. CONFIGURACIÓN GENERAL ===
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
-
-        // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-        // === AQUÍ VAN LOS ENLACES DE LA EMPRESA (BANDEJITA) ===
-        const SOCIAL_BANDEJITA = {
-            handle: "@bandejitadelata",
-            instagram: "https://www.instagram.com/bandejitadelata/",
-            tiktok: "https://www.tiktok.com/@bandejita.de.lata",
-            facebook: "https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA",
-            maps: "https://maps.app.goo.gl/uZUB528AqGXkZXmk9"
-        };
-
-        // === AQUÍ VAN TUS ENLACES PERSONALES (ÁNGEL) ===
-        const SOCIAL_ANGEL = {
-            handle: "@angelchaconcocinero", 
-            instagram: "https://instagram.com/angelchaconcocinero", 
-            tiktok: "https://tiktok.com/@angelchaconcocinero", 
-            facebook: "https://facebook.com/angelchaconcocinero", // Agregado si tienes FB personal
-            email: "mailto:angelchaconcocinero@gmail.com"
-        };
-        // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
         document.addEventListener("DOMContentLoaded", () => {
             // Scroll Dinámico
@@ -269,62 +258,46 @@
             });
         });
 
-        // Cambiar Pestañas y Footer
+        // Función Maestra de Pestañas
         function switchTab(tabName) {
+            // 1. Mostrar Sección Contenido
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             
+            // 2. Activar Botón Navegación
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             let btnIndex = 0;
             if(tabName === 'menu') btnIndex = 1;
             if(tabName === 'blog') btnIndex = 2;
             document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
             
+            // 3. Scroll arriba
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // CAMBIAR FOOTER SEGÚN PESTAÑA
-            if (tabName === 'blog') {
-                updateSocials('angel');
-            } else {
-                updateSocials('bandejita');
-            }
-        }
-
-        // Renderizador de Iconos Sociales (Simple y Seguro)
-        function updateSocials(mode) {
-            const container = document.getElementById('social-links-container');
+            // 4. Lógica de Cambio de Footer (Simple: Show/Hide CSS)
             const handleText = document.getElementById('social-handle');
-            const data = mode === 'angel' ? SOCIAL_ANGEL : SOCIAL_BANDEJITA;
-            
-            handleText.innerText = data.handle;
-            
-            let html = `
-                <a href="${data.instagram}" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="${data.tiktok}" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            `;
-            
-            if (mode === 'bandejita') {
-                // Modo Empresa
-                html += `
-                    <a href="${data.facebook}" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="${data.maps}" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
-                `;
+            const groupBandejita = document.getElementById('social-bandejita');
+            const groupAngel = document.getElementById('social-angel');
+
+            if (tabName === 'blog') {
+                // Modo Ángel
+                handleText.innerText = "@angelchaconcocinero";
+                groupBandejita.classList.remove('active');
+                groupAngel.classList.add('active');
             } else {
-                // Modo Ángel (Email y Compartir)
-                html += `
-                    <a href="${data.email}" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                    <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
-                `;
+                // Modo Empresa (Default)
+                handleText.innerText = "@bandejitadelata";
+                groupAngel.classList.remove('active');
+                groupBandejita.classList.add('active');
             }
-            container.innerHTML = html;
         }
 
-        // Función Compartir Nativo
+        // Función Compartir
         function sharePage() {
             if (navigator.share) {
                 navigator.share({
                     title: 'Aguamiel Con Leche',
-                    text: 'Lee las reflexiones de Ángel Chacón en su cuaderno de cocina.',
+                    text: 'Reflexiones de un cocinero | Bandejita de Lata',
                     url: 'https://bandejitadelata.com'
                 }).catch(console.error);
             } else {
@@ -333,6 +306,7 @@
             }
         }
 
+        // Función Blog Card Toggle
         function toggleBlogCard(card) {
             const wrapper = card.querySelector('.blog-text-wrapper');
             const btn = card.querySelector('.read-more-btn');
