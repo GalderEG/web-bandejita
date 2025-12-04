@@ -16,7 +16,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
@@ -116,21 +117,20 @@
             cursor: pointer; margin-top: 10px; padding: 0; display: flex; align-items: center; gap: 5px; pointer-events: none; 
         }
 
-        /* FOOTER Y BOTONES HERMOSOS */
+        /* Footer y Botones */
         .zone-contact { text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px; }
         .zone-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 5px; }
         .zone-handle { font-size: 1rem; color: #888; margin-bottom: 30px; display: block; }
         .contact-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
         
-        /* ESTILO UNIFICADO PARA ENLACES Y BOTONES */
         .icon-btn {
             width: 55px; height: 55px; border-radius: 50%; background: var(--white); border: 2px solid var(--blue);
             color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
             text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            cursor: pointer; padding: 0; /* Reset para button */
+            cursor: pointer; padding: 0;
         }
         .icon-btn:hover { background: var(--green); color: var(--white); border-color: var(--green); transform: translateY(-5px); }
-        button.icon-btn { outline: none; } /* Quitar borde defecto */
+        button.icon-btn { outline: none; } 
 
         /* FAB */
         .fab {
@@ -234,7 +234,7 @@
     </a>
 
     <script>
-        // === CONFIGURACIÓN GENERAL ===
+        // === 1. CONFIGURACIÓN GENERAL ===
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
 
@@ -253,21 +253,20 @@
             handle: "@angelchaconcocinero", 
             instagram: "https://instagram.com/angelchaconcocinero", 
             tiktok: "https://tiktok.com/@angelchaconcocinero", 
-            email: "mailto:angelchaconcocinero@gmail.com" // Asegúrate de poner tu correo real aquí
+            facebook: "https://facebook.com/angelchaconcocinero", // Agregado si tienes FB personal
+            email: "mailto:angelchaconcocinero@gmail.com"
         };
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
         document.addEventListener("DOMContentLoaded", () => {
+            // Scroll Dinámico
             const headerEl = document.getElementById('main-header');
             const navEl = document.getElementById('sticky-nav');
-
-            function checkScroll() {
+            window.addEventListener('scroll', () => {
                 const triggerPoint = headerEl.offsetHeight - 50; 
                 if (window.scrollY > triggerPoint) navEl.classList.add('scrolled-mode');
                 else navEl.classList.remove('scrolled-mode');
-            }
-            window.addEventListener('scroll', checkScroll);
-            window.addEventListener('resize', checkScroll);
+            });
         });
 
         // Cambiar Pestañas y Footer
@@ -291,7 +290,7 @@
             }
         }
 
-        // Renderizador de Iconos Sociales
+        // Renderizador de Iconos Sociales (Simple y Seguro)
         function updateSocials(mode) {
             const container = document.getElementById('social-links-container');
             const handleText = document.getElementById('social-handle');
@@ -325,7 +324,7 @@
             if (navigator.share) {
                 navigator.share({
                     title: 'Aguamiel Con Leche',
-                    text: 'Reflexiones de un cocinero | Bandejita de Lata',
+                    text: 'Lee las reflexiones de Ángel Chacón en su cuaderno de cocina.',
                     url: 'https://bandejitadelata.com'
                 }).catch(console.error);
             } else {
@@ -334,18 +333,15 @@
             }
         }
 
-        // Función Scroll Suave al Título
         function toggleBlogCard(card) {
             const wrapper = card.querySelector('.blog-text-wrapper');
             const btn = card.querySelector('.read-more-btn');
             
             if (wrapper.classList.contains('collapsed')) {
-                // ABRIR
                 wrapper.classList.remove('collapsed');
                 wrapper.classList.add('expanded');
                 btn.innerHTML = 'Leer menos <i class="fa-solid fa-chevron-up"></i>';
             } else {
-                // CERRAR
                 wrapper.classList.remove('expanded');
                 wrapper.classList.add('collapsed');
                 btn.innerHTML = 'Leer historia completa <i class="fa-solid fa-chevron-down"></i>';
@@ -448,7 +444,6 @@
                             return;
                         }
                         
-                        // LÓGICA DEL BLOG
                         if (categoria.toLowerCase() === 'blog') {
                             if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; }
                             blogContainer.innerHTML += `
@@ -469,65 +464,3 @@
                         let simbolo = "";
                         let limpio = precioRaw.replace('$', '').replace(',', '.');
                         const precioUSD = parseFloat(limpio);
-
-                        if(!isNaN(precioUSD)) {
-                            if (modoMoneda === 'usd') {
-                                precioFinal = precioUSD.toFixed(2);
-                                if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
-                                simbolo = "$";
-                            } else {
-                                const precioCalculado = (precioUSD * tasaBCV) * 1.16; 
-                                precioFinal = precioCalculado.toFixed(2);
-                                simbolo = "Bs ";
-                            }
-                        }
-
-                        if (!menuPorCategoria[categoria]) { menuPorCategoria[categoria] = []; ordenCategorias.push(categoria); }
-                        
-                        menuPorCategoria[categoria].push({ nombre, desc, precio: precioFinal, simbolo: simbolo, destacado: destacado === 'si' });
-                    }
-                });
-
-                if(hayNoticias) document.getElementById('news-box').style.display = 'block';
-                if(hayReviews) reviewsBox.style.display = 'block';
-                if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
-
-                if (ordenCategorias.length === 0) {
-                     menuContainer.innerHTML = '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
-                } else {
-                    ordenCategorias.forEach(cat => {
-                        const platos = menuPorCategoria[cat];
-                        platos.sort((a, b) => {
-                            if (a.destacado && !b.destacado) return -1;
-                            if (!a.destacado && b.destacado) return 1;
-                            return a.nombre.localeCompare(b.nombre);
-                        });
-                        menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
-                        platos.forEach((plato, i) => {
-                            const delay = Math.min(i * 0.05, 0.5);
-                            menuContainer.innerHTML += `
-                                <div class="card ${plato.destacado ? 'destacado' : ''}" style="animation: fadeUp 0.5s ease-out forwards; animation-delay: ${delay}s; opacity:0;">
-                                    ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
-                                    <div class="info">
-                                        <div class="dish-name">${plato.nombre}</div>
-                                        <p class="dish-desc">${plato.desc}</p>
-                                    </div>
-                                    <div class="price-tag"><span class="usd">${plato.simbolo}${plato.precio}</span></div>
-                                </div>`;
-                        });
-                    });
-                }
-            } catch (error) { 
-                console.error(error); 
-                document.getElementById('menu-content').innerHTML = `
-                    <div style="text-align:center; padding:40px;">
-                        <p>Ups, hubo un problema cargando el menú.</p>
-                        <button onclick="location.reload()" style="padding:10px 20px; background:var(--blue); color:white; border:none; border-radius:5px;">Reintentar</button>
-                    </div>`;
-            }
-        }
-        
-        cargarTodo();
-    </script>
-</body>
-</html>
