@@ -96,7 +96,7 @@
         .review-stars { color: var(--green); font-size: 0.9rem; letter-spacing: 1px; }
         .review-text { font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5; }
         
-        /* MENU - ESTILO BOUTIQUE SIN FOTOS */
+        /* MENU - ESTILO BOUTIQUE */
         .category-title { color: var(--blue); border-bottom: 1px solid #ddd; padding-bottom: 10px; margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; text-align: center; }
         
         .card { 
@@ -117,10 +117,8 @@
         .dish-name { font-size: 1.15rem; font-weight: 700; color: var(--blue); margin: 0 0 6px 0; font-family: 'Playfair Display', serif; }
         .dish-desc { font-size: 0.85rem; color: #666; line-height: 1.5; text-align: justify; margin: 0; }
         
-        /* CONTENEDOR DE PRECIO Y STOCK */
+        /* PRECIO Y STOCK */
         .price-container { display: flex; flex-direction: column; align-items: flex-end; min-width: 95px; }
-        
-        /* Nuevo Estilo Botón/Píldora para el precio */
         .price-pill { 
             background-color: var(--light-green-bg); color: var(--blue); 
             padding: 6px 14px; border-radius: 30px; 
@@ -129,11 +127,18 @@
             white-space: nowrap;
         }
         
-        /* STOCK / CANTIDAD */
         .stock-label { font-size: 0.7rem; margin-top: 8px; font-weight: 600; letter-spacing: 0.5px; text-align: right; }
         .stock-normal { color: #888; }
         .stock-alert { color: var(--alert); font-weight: 700; animation: pulse-text 2s infinite; }
         @keyframes pulse-text { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        /* ESTADO CERRADO */
+        .closed-state { text-align: center; padding: 60px 20px; animation: fadeUp 0.8s ease-out; }
+        .closed-icon { font-size: 3rem; color: #ddd; margin-bottom: 20px; }
+        .closed-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 10px; }
+        .closed-text { color: #777; font-size: 0.95rem; max-width: 300px; margin: 0 auto 25px auto; line-height: 1.6; }
+        .closed-btn { background: none; border: 1px solid var(--blue); color: var(--blue); padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 600; transition: 0.3s; }
+        .closed-btn:hover { background: var(--blue); color: white; }
 
         /* BLOG */
         .blog-card {
@@ -306,7 +311,6 @@
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Lógica Footer
             const handleText = document.getElementById('social-handle');
             const groupBandejita = document.getElementById('social-bandejita');
             const groupAngel = document.getElementById('social-angel');
@@ -375,6 +379,87 @@
             return filas;
         }
 
+        /* LOGICA DE PARSEO DE HORARIOS */
+        function checkTiendaAbierta(filasHorario) {
+            const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+            const hoy = new Date();
+            const diaHoyIndex = hoy.getDay(); 
+            const diaHoyNombre = diasSemana[diaHoyIndex];
+            
+            let estaAbierto = false;
+
+            for (let i = 0; i < filasHorario.length; i++) {
+                const fila = filasHorario[i];
+                const rangoDias = fila[0].trim(); // Nombre (Ej: Miercoles a Domingo)
+                const rangoHoras = fila[1].trim(); // Descripcion (Ej: 12:00 PM - 3:30 PM)
+
+                // 1. CHEQUEO DE SEGURIDAD (Override)
+                if (rangoHoras.toUpperCase().includes('CERRADO') || rangoHoras.toUpperCase().includes('DESCANSO')) {
+                    continue; // Esta fila indica cierre, pasamos.
+                }
+
+                // 2. ¿HOY ES EL DÍA?
+                let esDiaCorrecto = false;
+                
+                // Caso A: Rango con "a" o "-" (Ej: Miercoles a Domingo)
+                if (rangoDias.toLowerCase().includes(' a ') || rangoDias.includes('-')) {
+                    const partes = rangoDias.split(/-| a /).map(d => d.trim());
+                    if(partes.length === 2) {
+                        const inicioIdx = diasSemana.findIndex(d => d.toLowerCase().startsWith(partes[0].toLowerCase().slice(0,3)));
+                        const finIdx = diasSemana.findIndex(d => d.toLowerCase().startsWith(partes[1].toLowerCase().slice(0,3)));
+                        
+                        if (inicioIdx !== -1 && finIdx !== -1) {
+                            if (inicioIdx <= finIdx) {
+                                if (diaHoyIndex >= inicioIdx && diaHoyIndex <= finIdx) esDiaCorrecto = true;
+                            } else { // Rango cruzado (Ej: Viernes a Lunes)
+                                if (diaHoyIndex >= inicioIdx || diaHoyIndex <= finIdx) esDiaCorrecto = true;
+                            }
+                        }
+                    }
+                } 
+                // Caso B: Lista con comas (Ej: Viernes, Sabado)
+                else if (rangoDias.includes(',')) {
+                    const lista = rangoDias.split(',').map(d => d.trim().toLowerCase());
+                    if (lista.some(d => diaHoyNombre.toLowerCase().startsWith(d.slice(0,3)))) esDiaCorrecto = true;
+                }
+                // Caso C: Día único (Ej: Lunes)
+                else {
+                    if (rangoDias.toLowerCase().startsWith(diaHoyNombre.toLowerCase().slice(0,3))) esDiaCorrecto = true;
+                }
+
+                if (!esDiaCorrecto) continue;
+
+                // 3. ¿ES LA HORA? (Parsing de hora de cierre)
+                // Buscamos la hora final. Asumimos formato "12:00 PM - 3:30 PM"
+                // Tomamos la segunda parte.
+                const partesHora = rangoHoras.split('-');
+                if (partesHora.length > 1) {
+                    const horaCierreRaw = partesHora[partesHora.length - 1].trim(); // "3:30 PM"
+                    
+                    // Regex para sacar hora, min, am/pm
+                    const match = horaCierreRaw.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/i);
+                    if (match) {
+                        let h = parseInt(match[1]);
+                        const m = parseInt(match[2]);
+                        const ampm = match[3].toUpperCase();
+
+                        if (ampm === 'PM' && h < 12) h += 12;
+                        if (ampm === 'AM' && h === 12) h = 0;
+
+                        const fechaCierre = new Date();
+                        fechaCierre.setHours(h, m, 0);
+
+                        // Si la hora actual es menor a la de cierre, estamos abiertos
+                        if (hoy < fechaCierre) {
+                            estaAbierto = true;
+                            break; // Encontramos un horario válido y abierto, salimos.
+                        }
+                    }
+                }
+            }
+            return estaAbierto;
+        }
+
         async function cargarTodo() {
             try {
                 const [sheetResponse, dolarResponse] = await Promise.all([
@@ -389,7 +474,6 @@
                 const filas = parseCSV(csvData);
                 
                 let modoMoneda = 'bs'; 
-                // Lee la configuración global desde la fila 1 (la segunda fila), columna G (índice 6)
                 if (filas.length > 1 && filas[1].length > 6) {
                     const celdaG2 = filas[1][6];
                     if (celdaG2) {
@@ -401,8 +485,7 @@
                 
                 const statusMsg = document.getElementById('status-msg');
                 const mensajesCarga = ["Afilando cuchillos...", "Probando la salsa...", "Horneando ideas...", "Sirviendo la mesa..."];
-                const mensajeRandom = mensajesCarga[Math.floor(Math.random() * mensajesCarga.length)];
-                if (statusMsg) statusMsg.textContent = mensajeRandom;
+                statusMsg.textContent = mensajesCarga[Math.floor(Math.random() * mensajesCarga.length)];
 
                 const menuContainer = document.getElementById('menu-content');
                 const newsContainer = document.getElementById('news-content');
@@ -415,6 +498,7 @@
 
                 const menuPorCategoria = {}; const ordenCategorias = []; 
                 let hayNoticias = false; let hayReviews = false; let hayBlog = false;
+                let filasHorarios = [];
 
                 filas.forEach((fila, index) => {
                     if (index === 0) return; 
@@ -425,119 +509,112 @@
                     const categoria = fila[3] ? fila[3].trim() : 'Otros';
                     const disponible = fila[4] ? fila[4].toLowerCase().trim() : '';
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
-                    
-                    // Lógica de STOCK: Lee columna 7 (Letra H en Excel)
-                    const cantidadRaw = fila[7] ? fila[7].trim() : '';
+                    const cantidadRaw = fila[7] ? fila[7].trim() : ''; // Columna H
                     const cantidad = parseInt(cantidadRaw);
 
-                    if (nombre && disponible === 'si') {
-                        if (categoria.toLowerCase() === 'noticias') {
+                    if (nombre) {
+                        if (categoria.toLowerCase() === 'noticias' && disponible === 'si') {
                             hayNoticias = true;
                             newsContainer.innerHTML += `<div class="news-item"><h4 style="margin:0 0 5px 0; color:var(--blue);">${nombre}</h4><p style="margin:0; font-size:0.9rem;">${desc}</p></div>`;
                             return;
                         }
-                        if (categoria.toLowerCase() === 'horarios') {
+                        if (categoria.toLowerCase() === 'horarios' && disponible === 'si') {
                             hoursContainer.innerHTML += `<div class="hours-item"><span style="font-weight:600; color:var(--blue);">${nombre}</span><span style="font-size:0.9rem;">${desc}</span></div>`;
+                            filasHorarios.push([nombre, desc]); // Guardamos para la lógica smart
                             return;
                         }
-                        if (categoria.toLowerCase() === 'testimonios') {
+                        if (categoria.toLowerCase() === 'testimonios' && disponible === 'si') {
                             hayReviews = true;
-                            reviewsContainer.innerHTML += `
-                                <div class="review-card">
-                                    <div class="review-header">
-                                        <div class="review-author">${nombre}</div>
-                                        <div class="review-stars">${fila[2]}</div>
-                                    </div>
-                                    <p class="review-text">"${desc}"</p>
-                                </div>`;
+                            reviewsContainer.innerHTML += `<div class="review-card"><div class="review-header"><div class="review-author">${nombre}</div><div class="review-stars">${fila[2]}</div></div><p class="review-text">"${desc}"</p></div>`;
                             return;
                         }
-                        
-                        if (categoria.toLowerCase() === 'blog') {
+                        if (categoria.toLowerCase() === 'blog' && disponible === 'si') {
                             if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; }
-                            blogContainer.innerHTML += `
-                                <div class="blog-card" onclick="toggleBlogCard(this)">
-                                    <span class="blog-date">${fila[2]}</span>
-                                    <h3 class="blog-title">${nombre}</h3>
-                                    <div class="blog-text-wrapper collapsed">
-                                        <div class="blog-content">${desc}</div>
-                                    </div>
-                                    <button class="read-more-btn">
-                                        Leer historia completa <i class="fa-solid fa-chevron-down"></i>
-                                    </button>
-                                </div>`;
+                            blogContainer.innerHTML += `<div class="blog-card" onclick="toggleBlogCard(this)"><span class="blog-date">${fila[2]}</span><h3 class="blog-title">${nombre}</h3><div class="blog-text-wrapper collapsed"><div class="blog-content">${desc}</div></div><button class="read-more-btn">Leer historia completa <i class="fa-solid fa-chevron-down"></i></button></div>`;
                             return;
                         }
 
-                        let precioFinal = "0.00";
-                        let simbolo = "";
-                        let limpio = precioRaw.replace('$', '').replace(',', '.');
-                        const precioUSD = parseFloat(limpio);
+                        // MENU ITEMS
+                        if (disponible === 'si') {
+                            let precioFinal = "0.00"; let simbolo = "";
+                            let limpio = precioRaw.replace('$', '').replace(',', '.');
+                            const precioUSD = parseFloat(limpio);
 
-                        if(!isNaN(precioUSD)) {
-                            if (modoMoneda === 'usd') {
-                                precioFinal = precioUSD.toFixed(2);
-                                if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
-                                simbolo = "$";
-                            } else {
-                                const precioCalculado = (precioUSD * tasaBCV) * 1.16; 
-                                precioFinal = precioCalculado.toFixed(2);
-                                simbolo = "Bs ";
+                            if(!isNaN(precioUSD)) {
+                                if (modoMoneda === 'usd') {
+                                    precioFinal = precioUSD.toFixed(2);
+                                    if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
+                                    simbolo = "$";
+                                } else {
+                                    const precioCalculado = (precioUSD * tasaBCV) * 1.16; 
+                                    precioFinal = precioCalculado.toFixed(2);
+                                    simbolo = "Bs ";
+                                }
                             }
-                        }
 
-                        // Construcción del HTML del Stock
-                        let stockHTML = '';
-                        if (!isNaN(cantidad) && cantidad > 0) {
-                            const isLowStock = cantidad <= 5;
-                            const stockClass = isLowStock ? 'stock-alert' : 'stock-normal';
-                            const text = isLowStock ? `¡Solo quedan ${cantidad}!` : `Disponibles: ${cantidad}`;
-                            stockHTML = `<div class="stock-label ${stockClass}">${text}</div>`;
-                        }
+                            // HTML Stock
+                            let stockHTML = '';
+                            if (!isNaN(cantidad) && cantidad > 0) {
+                                const isLowStock = cantidad <= 5;
+                                const stockClass = isLowStock ? 'stock-alert' : 'stock-normal';
+                                const text = isLowStock ? `¡Solo quedan ${cantidad}!` : `Disponibles: ${cantidad}`;
+                                stockHTML = `<div class="stock-label ${stockClass}">${text}</div>`;
+                            }
 
-                        if (!menuPorCategoria[categoria]) { menuPorCategoria[categoria] = []; ordenCategorias.push(categoria); }
-                        
-                        menuPorCategoria[categoria].push({ 
-                            nombre, desc, 
-                            precio: precioFinal, simbolo: simbolo, 
-                            destacado: destacado === 'si',
-                            stockHTML: stockHTML
-                        });
+                            if (!menuPorCategoria[categoria]) { menuPorCategoria[categoria] = []; ordenCategorias.push(categoria); }
+                            menuPorCategoria[categoria].push({ nombre, desc, precio: precioFinal, simbolo: simbolo, destacado: destacado === 'si', stockHTML });
+                        }
                     }
                 });
+
+                // VERIFICAR ESTADO DE LA TIENDA (ABIERTO/CERRADO)
+                const tiendaAbierta = checkTiendaAbierta(filasHorarios);
+
+                if (!tiendaAbierta) {
+                    menuContainer.innerHTML = `
+                        <div class="closed-state">
+                            <i class="fa-solid fa-moon closed-icon"></i>
+                            <h2 class="closed-title">Fogones Apagados por Hoy</h2>
+                            <p class="closed-text">Nuestro servicio ha finalizado. Estamos preparando los ingredientes más frescos para mañana. ¡Te esperamos!</p>
+                            <button onclick="switchTab('inicio')" class="closed-btn">Ver Horarios</button>
+                        </div>
+                    `;
+                } else {
+                    // RENDERIZADO NORMAL DEL MENÚ
+                    if (ordenCategorias.length === 0) {
+                        menuContainer.innerHTML = '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
+                    } else {
+                        ordenCategorias.forEach(cat => {
+                            const platos = menuPorCategoria[cat];
+                            platos.sort((a, b) => {
+                                if (a.destacado && !b.destacado) return -1;
+                                if (!a.destacado && b.destacado) return 1;
+                                return a.nombre.localeCompare(b.nombre);
+                            });
+                            menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
+                            platos.forEach((plato, i) => {
+                                const delay = Math.min(i * 0.05, 0.5);
+                                menuContainer.innerHTML += `
+                                    <div class="card ${plato.destacado ? 'destacado' : ''}" style="animation: fadeUp 0.5s ease-out forwards; animation-delay: ${delay}s; opacity:0;">
+                                        ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
+                                        <div class="info">
+                                            <div class="dish-name">${plato.nombre}</div>
+                                            <p class="dish-desc">${plato.desc}</p>
+                                        </div>
+                                        <div class="price-container">
+                                            <div class="price-pill">${plato.simbolo}${plato.precio}</div>
+                                            ${plato.stockHTML}
+                                        </div>
+                                    </div>`;
+                            });
+                        });
+                    }
+                }
 
                 if(hayNoticias) document.getElementById('news-box').style.display = 'block';
                 if(hayReviews) reviewsBox.style.display = 'block';
                 if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
 
-                if (ordenCategorias.length === 0) {
-                     menuContainer.innerHTML = '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
-                } else {
-                    ordenCategorias.forEach(cat => {
-                        const platos = menuPorCategoria[cat];
-                        platos.sort((a, b) => {
-                            if (a.destacado && !b.destacado) return -1;
-                            if (!a.destacado && b.destacado) return 1;
-                            return a.nombre.localeCompare(b.nombre);
-                        });
-                        menuContainer.innerHTML += `<h2 class="category-title">${cat}</h2>`;
-                        platos.forEach((plato, i) => {
-                            const delay = Math.min(i * 0.05, 0.5);
-                            menuContainer.innerHTML += `
-                                <div class="card ${plato.destacado ? 'destacado' : ''}" style="animation: fadeUp 0.5s ease-out forwards; animation-delay: ${delay}s; opacity:0;">
-                                    ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
-                                    <div class="info">
-                                        <div class="dish-name">${plato.nombre}</div>
-                                        <p class="dish-desc">${plato.desc}</p>
-                                    </div>
-                                    <div class="price-container">
-                                        <div class="price-pill">${plato.simbolo}${plato.precio}</div>
-                                        ${plato.stockHTML}
-                                    </div>
-                                </div>`;
-                        });
-                    });
-                }
             } catch (error) { 
                 console.error(error); 
                 document.getElementById('menu-content').innerHTML = `
