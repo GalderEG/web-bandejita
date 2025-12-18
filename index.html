@@ -24,7 +24,7 @@
             --green: #96b754; 
             --soft-green: #d2dc84; 
             --light-green-bg: #f4f8f0;
-            --alert: #d96c4a; /* Color Terracota para urgencia */
+            --alert: #d96c4a; 
             --bg: #f9f9f9; 
             --white: #ffffff; 
             --text-grey: #444444;
@@ -117,7 +117,6 @@
         .dish-name { font-size: 1.15rem; font-weight: 700; color: var(--blue); margin: 0 0 6px 0; font-family: 'Playfair Display', serif; }
         .dish-desc { font-size: 0.85rem; color: #666; line-height: 1.5; text-align: justify; margin: 0; }
         
-        /* PRECIO Y STOCK */
         .price-container { display: flex; flex-direction: column; align-items: flex-end; min-width: 95px; }
         .price-pill { 
             background-color: var(--light-green-bg); color: var(--blue); 
@@ -132,9 +131,24 @@
         .stock-alert { color: var(--alert); font-weight: 700; animation: pulse-text 2s infinite; }
         @keyframes pulse-text { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
+        /* PRE-ORDER BANNER (NUEVO) */
+        .pre-order-banner {
+            background: linear-gradient(135deg, var(--blue), #1a6cb0);
+            color: white; padding: 20px; border-radius: 12px;
+            margin-bottom: 30px; text-align: center;
+            box-shadow: 0 5px 15px rgba(19, 92, 150, 0.2);
+            border-bottom: 4px solid var(--soft-green);
+        }
+        .countdown-timer {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            display: block; margin: 10px 0; letter-spacing: 2px;
+        }
+        .pre-order-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+        .pre-order-msg { font-size: 0.85rem; opacity: 0.85; margin: 0; font-style: italic;}
+
         /* ESTADO CERRADO */
         .closed-state { text-align: center; padding: 60px 20px; animation: fadeUp 0.8s ease-out; }
-        .closed-icon { font-size: 3rem; color: #ddd; margin-bottom: 20px; }
+        .closed-icon { font-size: 3rem; color: #ddd; margin-bottom: 20px; } /* Icono gris "apagado" */
         .closed-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 10px; }
         .closed-text { color: #777; font-size: 0.95rem; max-width: 300px; margin: 0 auto 25px auto; line-height: 1.6; }
         .closed-btn { background: none; border: 1px solid var(--blue); color: var(--blue); padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 600; transition: 0.3s; }
@@ -231,6 +245,7 @@
                 <div id="reviews-container" class="reviews-scroll"></div>
             </div>
 
+            <div id="anchor-horarios" style="position:relative; top:-100px; visibility:hidden;"></div>
             <div class="info-card">
                 <h3 style="font-size:1.1rem;"><i class="fa-regular fa-clock" style="margin-right:8px;"></i> Horarios</h3>
                 <div id="hours-content"><p style="text-align:center; color:#999;">Cargando horarios...</p></div>
@@ -288,6 +303,9 @@
     <script>
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
+        
+        // Variable global para el timer
+        let timerInterval = null;
 
         document.addEventListener("DOMContentLoaded", () => {
             const headerEl = document.getElementById('main-header');
@@ -324,6 +342,15 @@
                 groupAngel.classList.remove('active');
                 groupBandejita.classList.add('active');
             }
+        }
+        
+        // Función específica para ir a horarios (Scroll Fix)
+        function irAHorarios() {
+            switchTab('inicio');
+            setTimeout(() => {
+                const el = document.getElementById('anchor-horarios');
+                if(el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
         }
 
         function sharePage() {
@@ -379,85 +406,116 @@
             return filas;
         }
 
-        /* LOGICA DE PARSEO DE HORARIOS */
-        function checkTiendaAbierta(filasHorario) {
+        /* LÓGICA DE APERTURA, CIERRE Y PRE-ORDEN */
+        function checkEstadoTienda(filasHorario) {
             const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
             const hoy = new Date();
             const diaHoyIndex = hoy.getDay(); 
             const diaHoyNombre = diasSemana[diaHoyIndex];
             
-            let estaAbierto = false;
+            // Resultado por defecto: CERRADO
+            let estado = 'CERRADO';
+            let fechaApertura = null;
 
             for (let i = 0; i < filasHorario.length; i++) {
                 const fila = filasHorario[i];
-                const rangoDias = fila[0].trim(); // Nombre (Ej: Miercoles a Domingo)
-                const rangoHoras = fila[1].trim(); // Descripcion (Ej: 12:00 PM - 3:30 PM)
+                const rangoDias = fila[0].trim();
+                const rangoHoras = fila[1].trim();
 
-                // 1. CHEQUEO DE SEGURIDAD (Override)
-                if (rangoHoras.toUpperCase().includes('CERRADO') || rangoHoras.toUpperCase().includes('DESCANSO')) {
-                    continue; // Esta fila indica cierre, pasamos.
-                }
+                if (rangoHoras.toUpperCase().includes('CERRADO') || rangoHoras.toUpperCase().includes('DESCANSO')) continue;
 
-                // 2. ¿HOY ES EL DÍA?
+                // Chequeo de Días
                 let esDiaCorrecto = false;
-                
-                // Caso A: Rango con "a" o "-" (Ej: Miercoles a Domingo)
                 if (rangoDias.toLowerCase().includes(' a ') || rangoDias.includes('-')) {
                     const partes = rangoDias.split(/-| a /).map(d => d.trim());
                     if(partes.length === 2) {
                         const inicioIdx = diasSemana.findIndex(d => d.toLowerCase().startsWith(partes[0].toLowerCase().slice(0,3)));
                         const finIdx = diasSemana.findIndex(d => d.toLowerCase().startsWith(partes[1].toLowerCase().slice(0,3)));
-                        
                         if (inicioIdx !== -1 && finIdx !== -1) {
-                            if (inicioIdx <= finIdx) {
-                                if (diaHoyIndex >= inicioIdx && diaHoyIndex <= finIdx) esDiaCorrecto = true;
-                            } else { // Rango cruzado (Ej: Viernes a Lunes)
-                                if (diaHoyIndex >= inicioIdx || diaHoyIndex <= finIdx) esDiaCorrecto = true;
-                            }
+                            if (inicioIdx <= finIdx) { if (diaHoyIndex >= inicioIdx && diaHoyIndex <= finIdx) esDiaCorrecto = true; } 
+                            else { if (diaHoyIndex >= inicioIdx || diaHoyIndex <= finIdx) esDiaCorrecto = true; }
                         }
                     }
-                } 
-                // Caso B: Lista con comas (Ej: Viernes, Sabado)
-                else if (rangoDias.includes(',')) {
+                } else if (rangoDias.includes(',')) {
                     const lista = rangoDias.split(',').map(d => d.trim().toLowerCase());
                     if (lista.some(d => diaHoyNombre.toLowerCase().startsWith(d.slice(0,3)))) esDiaCorrecto = true;
-                }
-                // Caso C: Día único (Ej: Lunes)
-                else {
+                } else {
                     if (rangoDias.toLowerCase().startsWith(diaHoyNombre.toLowerCase().slice(0,3))) esDiaCorrecto = true;
                 }
 
                 if (!esDiaCorrecto) continue;
 
-                // 3. ¿ES LA HORA? (Parsing de hora de cierre)
-                // Buscamos la hora final. Asumimos formato "12:00 PM - 3:30 PM"
-                // Tomamos la segunda parte.
+                // Parsing de Horas (Ej: "12:00 PM - 3:30 PM")
                 const partesHora = rangoHoras.split('-');
                 if (partesHora.length > 1) {
-                    const horaCierreRaw = partesHora[partesHora.length - 1].trim(); // "3:30 PM"
+                    const horaInicioRaw = partesHora[0].trim(); // 12:00 PM
+                    const horaFinRaw = partesHora[1].trim();    // 3:30 PM
                     
-                    // Regex para sacar hora, min, am/pm
-                    const match = horaCierreRaw.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/i);
-                    if (match) {
-                        let h = parseInt(match[1]);
-                        const m = parseInt(match[2]);
-                        const ampm = match[3].toUpperCase();
+                    const parseTime = (timeStr) => {
+                        const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/i);
+                        if (!m) return null;
+                        let h = parseInt(m[1]);
+                        let min = parseInt(m[2]);
+                        let ap = m[3].toUpperCase();
+                        if (ap === 'PM' && h < 12) h += 12;
+                        if (ap === 'AM' && h === 12) h = 0;
+                        const d = new Date();
+                        d.setHours(h, min, 0);
+                        return d;
+                    };
 
-                        if (ampm === 'PM' && h < 12) h += 12;
-                        if (ampm === 'AM' && h === 12) h = 0;
+                    const inicio = parseTime(horaInicioRaw);
+                    const fin = parseTime(horaFinRaw);
 
-                        const fechaCierre = new Date();
-                        fechaCierre.setHours(h, m, 0);
+                    if (inicio && fin) {
+                        fechaApertura = inicio; // Guardamos fecha apertura para el contador
+                        
+                        // Lógica de Pre-Orden (3 horas antes)
+                        const preOrdenTime = new Date(inicio);
+                        preOrdenTime.setHours(inicio.getHours() - 3);
 
-                        // Si la hora actual es menor a la de cierre, estamos abiertos
-                        if (hoy < fechaCierre) {
-                            estaAbierto = true;
-                            break; // Encontramos un horario válido y abierto, salimos.
+                        if (hoy >= inicio && hoy < fin) {
+                            estado = 'ABIERTO';
+                            break;
+                        } else if (hoy >= preOrdenTime && hoy < inicio) {
+                            estado = 'PRE_ORDEN';
+                            break;
                         }
                     }
                 }
             }
-            return estaAbierto;
+            return { estado, fechaApertura };
+        }
+
+        // Función para actualizar el contador
+        function startCountdown(targetDate) {
+            const display = document.getElementById('countdown');
+            if(!display) return;
+
+            if(timerInterval) clearInterval(timerInterval);
+
+            const update = () => {
+                const now = new Date().getTime();
+                const distance = targetDate.getTime() - now;
+
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    location.reload(); // Recargar página cuando llegue la hora
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                display.innerHTML = 
+                    (hours < 10 ? "0" + hours : hours) + ":" + 
+                    (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                    (seconds < 10 ? "0" + seconds : seconds);
+            };
+
+            update();
+            timerInterval = setInterval(update, 1000);
         }
 
         async function cargarTodo() {
@@ -509,7 +567,7 @@
                     const categoria = fila[3] ? fila[3].trim() : 'Otros';
                     const disponible = fila[4] ? fila[4].toLowerCase().trim() : '';
                     const destacado = fila[5] ? fila[5].toLowerCase().trim() : '';
-                    const cantidadRaw = fila[7] ? fila[7].trim() : ''; // Columna H
+                    const cantidadRaw = fila[7] ? fila[7].trim() : ''; 
                     const cantidad = parseInt(cantidadRaw);
 
                     if (nombre) {
@@ -520,7 +578,7 @@
                         }
                         if (categoria.toLowerCase() === 'horarios' && disponible === 'si') {
                             hoursContainer.innerHTML += `<div class="hours-item"><span style="font-weight:600; color:var(--blue);">${nombre}</span><span style="font-size:0.9rem;">${desc}</span></div>`;
-                            filasHorarios.push([nombre, desc]); // Guardamos para la lógica smart
+                            filasHorarios.push([nombre, desc]); 
                             return;
                         }
                         if (categoria.toLowerCase() === 'testimonios' && disponible === 'si') {
@@ -534,7 +592,6 @@
                             return;
                         }
 
-                        // MENU ITEMS
                         if (disponible === 'si') {
                             let precioFinal = "0.00"; let simbolo = "";
                             let limpio = precioRaw.replace('$', '').replace(',', '.');
@@ -552,7 +609,6 @@
                                 }
                             }
 
-                            // HTML Stock
                             let stockHTML = '';
                             if (!isNaN(cantidad) && cantidad > 0) {
                                 const isLowStock = cantidad <= 5;
@@ -567,22 +623,39 @@
                     }
                 });
 
-                // VERIFICAR ESTADO DE LA TIENDA (ABIERTO/CERRADO)
-                const tiendaAbierta = checkTiendaAbierta(filasHorarios);
+                // VERIFICAR ESTADO (ABIERTO / CERRADO / PRE-ORDEN)
+                const datosTienda = checkEstadoTienda(filasHorarios);
+                const estado = datosTienda.estado; // 'ABIERTO', 'CERRADO', 'PRE_ORDEN'
 
-                if (!tiendaAbierta) {
+                if (estado === 'CERRADO') {
+                    // MODO CERRADO (Icono Cocina Apagada)
                     menuContainer.innerHTML = `
                         <div class="closed-state">
-                            <i class="fa-solid fa-moon closed-icon"></i>
+                            <i class="fa-solid fa-fire-burner closed-icon"></i>
                             <h2 class="closed-title">Fogones Apagados por Hoy</h2>
                             <p class="closed-text">Nuestro servicio ha finalizado. Estamos preparando los ingredientes más frescos para mañana. ¡Te esperamos!</p>
-                            <button onclick="switchTab('inicio')" class="closed-btn">Ver Horarios</button>
+                            <button onclick="irAHorarios()" class="closed-btn">Ver Horarios</button>
                         </div>
                     `;
                 } else {
-                    // RENDERIZADO NORMAL DEL MENÚ
+                    // SI ESTA ABIERTO O EN PRE-ORDEN, MOSTRAMOS MENU
+                    
+                    // Si es PRE-ORDEN, agregamos el banner al principio
+                    if (estado === 'PRE_ORDEN' && datosTienda.fechaApertura) {
+                        const horaStr = datosTienda.fechaApertura.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                        menuContainer.innerHTML += `
+                            <div class="pre-order-banner">
+                                <span class="pre-order-title"><i class="fa-solid fa-stopwatch" style="margin-right:5px;"></i> Calentando Fogones</span>
+                                <span class="countdown-timer" id="countdown">00:00:00</span>
+                                <p class="pre-order-msg">Puedes ir apartando tu pedido. Empezamos a cocinar a las ${horaStr}</p>
+                            </div>
+                        `;
+                        // Iniciar contador
+                        startCountdown(datosTienda.fechaApertura);
+                    }
+
                     if (ordenCategorias.length === 0) {
-                        menuContainer.innerHTML = '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
+                        menuContainer.innerHTML += '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
                     } else {
                         ordenCategorias.forEach(cat => {
                             const platos = menuPorCategoria[cat];
