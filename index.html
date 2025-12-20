@@ -344,7 +344,6 @@
             }
         }
         
-        // Función específica para ir a horarios (Scroll Fix)
         function irAHorarios() {
             switchTab('inicio');
             setTimeout(() => {
@@ -413,7 +412,6 @@
             const diaHoyIndex = hoy.getDay(); 
             const diaHoyNombre = diasSemana[diaHoyIndex];
             
-            // Resultado por defecto: CERRADO
             let estado = 'CERRADO';
             let fechaApertura = null;
 
@@ -445,11 +443,11 @@
 
                 if (!esDiaCorrecto) continue;
 
-                // Parsing de Horas (Ej: "12:00 PM - 3:30 PM")
+                // Parsing de Horas
                 const partesHora = rangoHoras.split('-');
                 if (partesHora.length > 1) {
-                    const horaInicioRaw = partesHora[0].trim(); // 12:00 PM
-                    const horaFinRaw = partesHora[1].trim();    // 3:30 PM
+                    const horaInicioRaw = partesHora[0].trim();
+                    const horaFinRaw = partesHora[1].trim();    
                     
                     const parseTime = (timeStr) => {
                         const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/i);
@@ -468,7 +466,7 @@
                     const fin = parseTime(horaFinRaw);
 
                     if (inicio && fin) {
-                        fechaApertura = inicio; // Guardamos fecha apertura para el contador
+                        fechaApertura = inicio;
                         
                         // Lógica de Pre-Orden (3 horas antes)
                         const preOrdenTime = new Date(inicio);
@@ -487,20 +485,21 @@
             return { estado, fechaApertura };
         }
 
-        // Función para actualizar el contador
+        // Función corregida: Se asegura de encontrar el elemento cada segundo
         function startCountdown(targetDate) {
-            const display = document.getElementById('countdown');
-            if(!display) return;
-
             if(timerInterval) clearInterval(timerInterval);
 
             const update = () => {
+                // Buscamos el elemento dentro de la función para asegurar que existe aunque se haya repintado el HTML
+                const display = document.getElementById('countdown');
+                if(!display) return; 
+
                 const now = new Date().getTime();
                 const distance = targetDate.getTime() - now;
 
                 if (distance < 0) {
                     clearInterval(timerInterval);
-                    location.reload(); // Recargar página cuando llegue la hora
+                    location.reload(); 
                     return;
                 }
 
@@ -623,12 +622,10 @@
                     }
                 });
 
-                // VERIFICAR ESTADO (ABIERTO / CERRADO / PRE-ORDEN)
                 const datosTienda = checkEstadoTienda(filasHorarios);
-                const estado = datosTienda.estado; // 'ABIERTO', 'CERRADO', 'PRE_ORDEN'
+                const estado = datosTienda.estado; 
 
                 if (estado === 'CERRADO') {
-                    // MODO CERRADO (Icono Cocina Apagada)
                     menuContainer.innerHTML = `
                         <div class="closed-state">
                             <i class="fa-solid fa-fire-burner closed-icon"></i>
@@ -638,21 +635,22 @@
                         </div>
                     `;
                 } else {
-                    // SI ESTA ABIERTO O EN PRE-ORDEN, MOSTRAMOS MENU
+                    // Variable para guardar el HTML del banner
+                    let bannerHTML = '';
                     
-                    // Si es PRE-ORDEN, agregamos el banner al principio
                     if (estado === 'PRE_ORDEN' && datosTienda.fechaApertura) {
                         const horaStr = datosTienda.fechaApertura.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                        menuContainer.innerHTML += `
+                        bannerHTML = `
                             <div class="pre-order-banner">
                                 <span class="pre-order-title"><i class="fa-solid fa-stopwatch" style="margin-right:5px;"></i> Calentando Fogones</span>
                                 <span class="countdown-timer" id="countdown">00:00:00</span>
                                 <p class="pre-order-msg">Puedes ir apartando tu pedido. Empezamos a cocinar a las ${horaStr}</p>
                             </div>
                         `;
-                        // Iniciar contador
-                        startCountdown(datosTienda.fechaApertura);
                     }
+
+                    // Insertar Banner PRIMERO
+                    menuContainer.innerHTML += bannerHTML;
 
                     if (ordenCategorias.length === 0) {
                         menuContainer.innerHTML += '<div style="text-align:center; padding:40px;"><p>No hay platos disponibles en este momento.</p></div>';
@@ -681,6 +679,11 @@
                                     </div>`;
                             });
                         });
+                    }
+
+                    // IMPORTANTE: Llamar al countdown AL FINAL, después de que todo el HTML se ha insertado
+                    if (estado === 'PRE_ORDEN' && datosTienda.fechaApertura) {
+                        startCountdown(datosTienda.fechaApertura);
                     }
                 }
 
