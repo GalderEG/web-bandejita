@@ -15,7 +15,7 @@
     <title>Bandejita De Lata | Cocina de Autor</title>
     
     <meta name="description" content="Bandejita de Lata: Cocina de autor en San Cristóbal. Menú de pastichos, pastas artesanales y salsas caseras. ¡Haz tu pedido online!">
-    <meta name="keywords" content="comida, brownie, torta de chocolate, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena">
+    <meta name="keywords" content="comida, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena">
     <meta name="author" content="Ángel Chacón">
 
     <meta property="og:title" content="Bandejita De Lata | Menú Digital">
@@ -96,12 +96,12 @@
         .info-card { background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: var(--shadow); border-top: 4px solid var(--green); }
         .hours-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; }
 
-        /* NOVEDADES ACORDEÓN (ESTILO NUEVO) */
+        /* NOVEDADES ACORDEÓN */
         .news-accordion { margin-bottom: 25px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(150, 183, 84, 0.3); }
         .news-header { background: var(--light-green-bg); color: var(--blue); padding: 12px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--green); transition: background 0.2s; }
         .news-header:hover { background: #eaf1e3; }
         .news-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: var(--white); }
-        .news-body.open { max-height: 500px; } /* Altura máxima segura para animación */
+        .news-body.open { max-height: 500px; } 
         .news-content { padding: 20px; font-size: 0.95rem; color: #555; line-height: 1.6; border-top: 1px solid #f0f0f0; }
 
         /* REVIEWS */
@@ -248,20 +248,25 @@
                 <div style="width: 50px; height: 2px; background: var(--green); margin: 20px auto;"></div>
             </div>
 
-            <div class="info-card">
-                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-utensils" style="margin-right:8px;"></i> Nuestra Filosofía</h3>
-                <p style="font-size:0.9rem; color:#555; margin-top: 12px; text-align: justify; line-height: 1.8;"><strong>Bandejita de Lata</strong> es cocina sincera, sin secretos ni complicaciones innecesarias. Creemos que la verdadera calidad está en el sabor real del plato, no en el adorno. ​Desde San Cristóbal, preparamos nuestras recetas con dedicación y oficio: no buscamos seguir modas, sino crear sabores que te traigan buenos recuerdos. Es una cocina hecha a mano, pensada para quienes saben que el verdadero lujo es, simplemente, disfrutar de lo bien hecho.</p>
-            </div>
-
-            <div id="reviews-box" class="reviews-wrapper" style="display:none;">
-                <h3 style="font-size:1.1rem; margin-bottom:15px; margin-left:5px;"><i class="fa-solid fa-star" style="color:var(--green); margin-right:8px;"></i> Clientes Felices</h3>
-                <div id="reviews-container" class="reviews-scroll"></div>
+            <div class="info-card" id="news-box" style="display:none; border-top-color: var(--blue);">
+                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-bullhorn" style="color:var(--green); margin-right:8px;"></i> Novedades</h3>
+                <div id="news-content"></div>
             </div>
 
             <div id="anchor-horarios" style="position:relative; top:-100px; visibility:hidden;"></div>
             <div class="info-card">
-                <h3 style="font-size:1.1rem;"><i class="fa-regular fa-clock" style="margin-right:8px;"></i> Horarios</h3>
+                <h3 style="font-size:1.1rem;"><i class="fa-regular fa-clock" style="margin-right:8px;"></i> Horarios de Atención</h3>
                 <div id="hours-content"><p style="text-align:center; color:#999;">Cargando horarios...</p></div>
+            </div>
+
+            <div id="reviews-box" class="reviews-wrapper" style="display:none;">
+                <h3 style="font-size:1.1rem; margin-bottom:15px; margin-left:5px;"><i class="fa-solid fa-star" style="color:var(--green); margin-right:8px;"></i> Lo que dicen de nosotros</h3>
+                <div id="reviews-container" class="reviews-scroll"></div>
+            </div>
+
+            <div class="info-card">
+                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-utensils" style="margin-right:8px;"></i> Nuestra Filosofía</h3>
+                <p style="font-size:0.9rem; color:#555; margin-top: 12px; text-align: justify; line-height: 1.8;"><strong>Bandejita de Lata</strong> es cocina sincera, sin secretos ni complicaciones innecesarias. Creemos que la verdadera calidad está en el sabor real del plato, no en el adorno. ​Desde San Cristóbal, preparamos nuestras recetas con dedicación y oficio: no buscamos seguir modas, sino crear sabores que te traigan buenos recuerdos. Es una cocina hecha a mano, pensada para quienes saben que el verdadero lujo es, simplemente, disfrutar de lo bien hecho.</p>
             </div>
         </div>
 
@@ -592,7 +597,7 @@
                 const menuPorCategoria = {}; const ordenCategorias = []; 
                 let hayNoticias = false; let hayReviews = false; let hayBlog = false;
                 let filasHorarios = [];
-                let htmlNoticias = ''; // Variable para guardar el HTML de las noticias
+                let htmlNoticias = ''; 
 
                 filas.forEach((fila, index) => {
                     if (index === 0) return; 
@@ -609,7 +614,7 @@
                     if (nombre) {
                         if (categoria.toLowerCase() === 'noticias' && disponible === 'si') {
                             hayNoticias = true;
-                            // Generamos el HTML de la noticia colapsable AQUÍ
+                            // Generamos el HTML de la noticia colapsable
                             htmlNoticias += `
                                 <div class="news-accordion">
                                     <div class="news-header" onclick="toggleNews(this)">
