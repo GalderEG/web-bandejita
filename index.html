@@ -14,22 +14,18 @@
     
     <title>Bandejita De Lata | Cocina de Autor</title>
     
-    <meta name="description" content="Bandejita de Lata: Cocina de autor en San Cristóbal. Disfruta de nuestros pastichos, pastas artesanales y salsas caseras. ¡Haz tu pedido online!">
-    
-    <meta name="keywords" content="comida, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena, comida para llevar">
-    
+    <meta name="description" content="Bandejita de Lata: Cocina de autor en San Cristóbal. Menú de pastichos, pastas artesanales y salsas caseras. ¡Haz tu pedido online!">
+    <meta name="keywords" content="comida, brownie, torta de chocolate, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena">
     <meta name="author" content="Ángel Chacón">
 
     <meta property="og:title" content="Bandejita De Lata | Menú Digital">
-    <meta property="og:description" content="Mira nuestro menú actualizado, precios en Bs/USD y horarios. Cocina sincera hecha en casa.">
+    <meta property="og:description" content="Mira nuestro menú actualizado, precios y horarios. Cocina sincera hecha en casa.">
     <meta property="og:image" content="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
     <meta property="og:url" content="https://bandejitadelata.com">
     <meta property="og:type" content="website">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -98,8 +94,15 @@
 
         /* CARDS */
         .info-card { background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: var(--shadow); border-top: 4px solid var(--green); }
-        .news-item { border-left: 3px solid var(--green); background: var(--light-green-bg); padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
         .hours-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; }
+
+        /* NOVEDADES ACORDEÓN (ESTILO NUEVO) */
+        .news-accordion { margin-bottom: 25px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(150, 183, 84, 0.3); }
+        .news-header { background: var(--light-green-bg); color: var(--blue); padding: 12px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--green); transition: background 0.2s; }
+        .news-header:hover { background: #eaf1e3; }
+        .news-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: var(--white); }
+        .news-body.open { max-height: 500px; } /* Altura máxima segura para animación */
+        .news-content { padding: 20px; font-size: 0.95rem; color: #555; line-height: 1.6; border-top: 1px solid #f0f0f0; }
 
         /* REVIEWS */
         .reviews-wrapper { margin-bottom: 25px; }
@@ -231,23 +234,18 @@
     <nav class="nav-tabs" id="sticky-nav">
         <div class="nav-brand-title">Bandejita De Lata</div>
         <div class="nav-buttons-wrapper">
-            <button class="tab-btn active" onclick="switchTab('inicio')">Principal</button>
-            <button class="tab-btn" onclick="switchTab('menu')">Menú</button>
+            <button class="tab-btn" onclick="switchTab('inicio')">Principal</button>
+            <button class="tab-btn active" onclick="switchTab('menu')">Menú</button>
             <button class="tab-btn" onclick="switchTab('blog')">Blog</button>
         </div>
     </nav>
 
     <div class="container">
-        <div id="inicio" class="view-section active">
+        <div id="inicio" class="view-section">
             <div style="text-align: center; margin-bottom: 40px; margin-top: 10px;">
                 <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Bandejita De Lata</h1>
                 <p style="font-size: 1rem; color: var(--blue); letter-spacing: 1px;">COCINA DE AUTOR</p>
                 <div style="width: 50px; height: 2px; background: var(--green); margin: 20px auto;"></div>
-            </div>
-
-            <div class="info-card" id="news-box" style="display:none; border-top-color: var(--blue);">
-                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-bullhorn" style="color:var(--green); margin-right:8px;"></i> Novedades</h3>
-                <div id="news-content"></div>
             </div>
 
             <div class="info-card">
@@ -267,7 +265,7 @@
             </div>
         </div>
 
-        <div id="menu" class="view-section">
+        <div id="menu" class="view-section active">
             <div id="menu-content">
                 <div style="text-align:center; padding:80px 20px;">
                     <i class="fa-solid fa-circle-notch fa-spin" style="font-size:2rem; color:var(--soft-green); margin-bottom: 20px;"></i>
@@ -400,6 +398,23 @@
                     const offset = cardPosition - navHeight - 20; 
                     window.scrollTo({ top: offset, behavior: 'smooth' });
                 }, 100);
+            }
+        }
+
+        // FUNCION PARA ABRIR/CERRAR NOVEDADES (BARRA COLAPSABLE)
+        function toggleNews(header) {
+            const wrapper = header.parentElement;
+            const body = wrapper.querySelector('.news-body');
+            const icon = header.querySelector('.arrow');
+
+            if (body.classList.contains('open')) {
+                body.classList.remove('open');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                body.classList.add('open');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
             }
         }
 
@@ -567,17 +582,17 @@
                 statusMsg.textContent = mensajesCarga[Math.floor(Math.random() * mensajesCarga.length)];
 
                 const menuContainer = document.getElementById('menu-content');
-                const newsContainer = document.getElementById('news-content');
                 const hoursContainer = document.getElementById('hours-content');
                 const reviewsContainer = document.getElementById('reviews-container');
                 const reviewsBox = document.getElementById('reviews-box');
                 const blogContainer = document.getElementById('blog-content'); 
                 
-                menuContainer.innerHTML = ''; newsContainer.innerHTML = ''; hoursContainer.innerHTML = ''; reviewsContainer.innerHTML = ''; 
+                menuContainer.innerHTML = ''; hoursContainer.innerHTML = ''; reviewsContainer.innerHTML = ''; 
 
                 const menuPorCategoria = {}; const ordenCategorias = []; 
                 let hayNoticias = false; let hayReviews = false; let hayBlog = false;
                 let filasHorarios = [];
+                let htmlNoticias = ''; // Variable para guardar el HTML de las noticias
 
                 filas.forEach((fila, index) => {
                     if (index === 0) return; 
@@ -594,7 +609,18 @@
                     if (nombre) {
                         if (categoria.toLowerCase() === 'noticias' && disponible === 'si') {
                             hayNoticias = true;
-                            newsContainer.innerHTML += `<div class="news-item"><h4 style="margin:0 0 5px 0; color:var(--blue);">${nombre}</h4><p style="margin:0; font-size:0.9rem;">${desc}</p></div>`;
+                            // Generamos el HTML de la noticia colapsable AQUÍ
+                            htmlNoticias += `
+                                <div class="news-accordion">
+                                    <div class="news-header" onclick="toggleNews(this)">
+                                        <span><i class="fa-solid fa-bullhorn" style="margin-right:8px;"></i> ${nombre}</span>
+                                        <i class="fa-solid fa-chevron-down arrow"></i>
+                                    </div>
+                                    <div class="news-body">
+                                        <div class="news-content">${desc}</div>
+                                    </div>
+                                </div>
+                            `;
                             return;
                         }
                         if (categoria.toLowerCase() === 'horarios' && disponible === 'si') {
@@ -624,7 +650,6 @@
                                     if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
                                     simbolo = "$";
                                 } else {
-                                    // CAMBIO: Calculo directo sin el +16%
                                     const precioCalculado = (precioUSD * tasaBCV); 
                                     precioFinal = precioCalculado.toFixed(2);
                                     simbolo = "Bs ";
@@ -648,7 +673,7 @@
                 const datosTienda = checkEstadoTienda(filasHorarios);
                 const estado = datosTienda.estado; 
 
-                // Lógica de Mensajes (Cerrado vs No Laborable)
+                // Lógica de Renderizado
                 if (estado === 'CERRADO' || estado === 'DIA_NO_LABORABLE') {
                     
                     let tituloCierre = "Fogones Apagados por Hoy";
@@ -659,7 +684,8 @@
                         mensajeCierre = "Hoy los fogones descansan para recargar energías y volver con más sabor. ¡Nos vemos en nuestro próximo día de servicio!";
                     }
 
-                    menuContainer.innerHTML = `
+                    // AUNQUE ESTEMOS CERRADOS, MOSTRAMOS LAS NOTICIAS ARRIBA
+                    menuContainer.innerHTML = htmlNoticias + `
                         <div class="closed-state">
                             <i class="fa-solid fa-fire-burner closed-icon"></i>
                             <h2 class="closed-title">${tituloCierre}</h2>
@@ -681,6 +707,8 @@
                         `;
                     }
 
+                    // Insertamos NOTICIAS primero, luego BANNER (si hay), luego PLATOS
+                    menuContainer.innerHTML += htmlNoticias;
                     menuContainer.innerHTML += bannerHTML;
 
                     if (ordenCategorias.length === 0) {
@@ -717,7 +745,6 @@
                     }
                 }
 
-                if(hayNoticias) document.getElementById('news-box').style.display = 'block';
                 if(hayReviews) reviewsBox.style.display = 'block';
                 if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
 
