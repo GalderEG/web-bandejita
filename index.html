@@ -11,11 +11,25 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
     <title>Bandejita De Lata | Cocina de Autor</title>
     
+    <meta name="description" content="Bandejita de Lata: Cocina de autor en San Cristóbal. Disfruta de nuestros pastichos, pastas artesanales y salsas caseras. ¡Haz tu pedido online!">
+    
+    <meta name="keywords" content="comida, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena, comida para llevar">
+    
+    <meta name="author" content="Ángel Chacón">
+
+    <meta property="og:title" content="Bandejita De Lata | Menú Digital">
+    <meta property="og:description" content="Mira nuestro menú actualizado, precios en Bs/USD y horarios. Cocina sincera hecha en casa.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
+    <meta property="og:url" content="https://bandejitadelata.com">
+    <meta property="og:type" content="website">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -36,7 +50,7 @@
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--blue); font-weight: 700; margin-top: 0; }
         p { font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
 
-        /* HEADER & NAV */
+        /* HEADER */
         header {
             height: 35vh; min-height: 250px; position: relative;
             background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/2c9e405ea2773f4f431c75880bb058fdbb1eb9ed/Encabezado%20bandejita.jpg'); 
@@ -50,6 +64,7 @@
         }
         .header-logo { width: 100px; height: 100px; object-fit: contain; border-radius: 50%; display: block; background-color: #fff; }
         
+        /* NAV TABS */
         .nav-tabs {
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.03);
@@ -81,7 +96,7 @@
         .view-section.active { display: block; animation: fadeUp 0.6s ease-out; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CARDS GENERAL */
+        /* CARDS */
         .info-card { background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: var(--shadow); border-top: 4px solid var(--green); }
         .news-item { border-left: 3px solid var(--green); background: var(--light-green-bg); padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
         .hours-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; }
@@ -96,7 +111,7 @@
         .review-stars { color: var(--green); font-size: 0.9rem; letter-spacing: 1px; }
         .review-text { font-size: 0.85rem; color: #555; font-style: italic; line-height: 1.5; }
         
-        /* MENU - ESTILO BOUTIQUE */
+        /* MENU STYLES */
         .category-title { color: var(--blue); border-bottom: 1px solid #ddd; padding-bottom: 10px; margin: 40px 0 20px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; text-align: center; }
         
         .card { 
@@ -131,7 +146,7 @@
         .stock-alert { color: var(--alert); font-weight: 700; animation: pulse-text 2s infinite; }
         @keyframes pulse-text { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
-        /* PRE-ORDER BANNER (NUEVO) */
+        /* PRE-ORDER BANNER */
         .pre-order-banner {
             background: linear-gradient(135deg, var(--blue), #1a6cb0);
             color: white; padding: 20px; border-radius: 12px;
@@ -146,9 +161,9 @@
         .pre-order-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
         .pre-order-msg { font-size: 0.85rem; opacity: 0.85; margin: 0; font-style: italic;}
 
-        /* ESTADO CERRADO Y NO LABORABLE */
+        /* ESTADO CERRADO */
         .closed-state { text-align: center; padding: 60px 20px; animation: fadeUp 0.8s ease-out; }
-        .closed-icon { font-size: 3rem; color: #ddd; margin-bottom: 20px; } /* Icono gris "apagado" */
+        .closed-icon { font-size: 3rem; color: #ddd; margin-bottom: 20px; }
         .closed-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 10px; }
         .closed-text { color: #777; font-size: 0.95rem; max-width: 300px; margin: 0 auto 25px auto; line-height: 1.6; }
         .closed-btn { background: none; border: 1px solid var(--blue); color: var(--blue); padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 600; transition: 0.3s; }
@@ -172,7 +187,7 @@
             cursor: pointer; margin-top: 10px; padding: 0; display: flex; align-items: center; gap: 5px; pointer-events: none; 
         }
 
-        /* Footer y Botones */
+        /* CONTACT ZONE */
         .zone-contact { text-align: center; padding: 50px 20px; background: var(--white); border-top: 1px solid #e0e0e0; margin-top: 50px; }
         .zone-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 5px; }
         .zone-handle { font-size: 1rem; color: #888; margin-bottom: 30px; display: block; }
@@ -301,10 +316,10 @@
     </a>
 
     <script>
+        // CONFIGURACIÓN
         const TELEFONO = "584120767007"; 
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfR6ILf3cDq51hVw-GBANJ1wpfH5NrKgBgPvaYMAUeSiWLpWUCsCPJIkA5m-Ok1E7NpPtJtLzfAURH/pub?gid=0&single=true&output=csv"; 
         
-        // Variable global para el timer
         let timerInterval = null;
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -317,6 +332,7 @@
             });
         });
 
+        // CAMBIO DE PESTAÑAS
         function switchTab(tabName) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
@@ -391,6 +407,7 @@
         let origen = params.get('origen') || 'web';
         document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola Ángel, vengo de " + origen + " y quisiera hacer un pedido.")}`;
 
+        // PARSER CSV
         function parseCSV(text) {
             let filas = []; let filaActual = []; let celda = ""; let enComillas = false;
             for (let i = 0; i < text.length; i++) {
@@ -405,7 +422,7 @@
             return filas;
         }
 
-        /* LÓGICA DE APERTURA, CIERRE Y PRE-ORDEN */
+        // LÓGICA DE APERTURA
         function checkEstadoTienda(filasHorario) {
             const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
             const hoy = new Date();
@@ -414,7 +431,7 @@
             
             let estado = 'CERRADO';
             let fechaApertura = null;
-            let esDiaLaborable = false; // Variable para saber si hoy abren en algun momento
+            let esDiaLaborable = false; 
 
             for (let i = 0; i < filasHorario.length; i++) {
                 const fila = filasHorario[i];
@@ -423,7 +440,7 @@
 
                 if (rangoHoras.toUpperCase().includes('CERRADO') || rangoHoras.toUpperCase().includes('DESCANSO')) continue;
 
-                // Chequeo de Días
+                // Chequeo Días
                 let esDiaCorrecto = false;
                 if (rangoDias.toLowerCase().includes(' a ') || rangoDias.includes('-')) {
                     const partes = rangoDias.split(/-| a /).map(d => d.trim());
@@ -443,11 +460,9 @@
                 }
 
                 if (!esDiaCorrecto) continue;
-                
-                // Si llegamos aquí, es porque HOY es un día que sale en el horario
-                esDiaLaborable = true;
+                esDiaLaborable = true; // Si trabaja hoy
 
-                // Parsing de Horas
+                // Chequeo Horas
                 const partesHora = rangoHoras.split('-');
                 if (partesHora.length > 1) {
                     const horaInicioRaw = partesHora[0].trim();
@@ -471,8 +486,6 @@
 
                     if (inicio && fin) {
                         fechaApertura = inicio;
-                        
-                        // Lógica de Pre-Orden (3 horas antes)
                         const preOrdenTime = new Date(inicio);
                         preOrdenTime.setHours(inicio.getHours() - 3);
 
@@ -487,7 +500,7 @@
                 }
             }
             
-            // Si el estado sigue siendo CERRADO y NO detectamos que hoy sea un día laborable
+            // Si está cerrado y no se encontró turno hoy
             if (estado === 'CERRADO' && !esDiaLaborable) {
                 estado = 'DIA_NO_LABORABLE';
             }
@@ -495,7 +508,6 @@
             return { estado, fechaApertura };
         }
 
-        // Función timer corregida
         function startCountdown(targetDate) {
             if(timerInterval) clearInterval(timerInterval);
 
@@ -526,6 +538,7 @@
             timerInterval = setInterval(update, 1000);
         }
 
+        // CARGA PRINCIPAL
         async function cargarTodo() {
             try {
                 const [sheetResponse, dolarResponse] = await Promise.all([
@@ -611,7 +624,7 @@
                                     if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
                                     simbolo = "$";
                                 } else {
-                                    // CAMBIO: Se eliminó el multiplicador 1.16
+                                    // CAMBIO: Calculo directo sin el +16%
                                     const precioCalculado = (precioUSD * tasaBCV); 
                                     precioFinal = precioCalculado.toFixed(2);
                                     simbolo = "Bs ";
@@ -635,7 +648,7 @@
                 const datosTienda = checkEstadoTienda(filasHorarios);
                 const estado = datosTienda.estado; 
 
-                // CAMBIO: Lógica para manejar estado CERRADO vs DIA NO LABORABLE
+                // Lógica de Mensajes (Cerrado vs No Laborable)
                 if (estado === 'CERRADO' || estado === 'DIA_NO_LABORABLE') {
                     
                     let tituloCierre = "Fogones Apagados por Hoy";
@@ -655,7 +668,6 @@
                         </div>
                     `;
                 } else {
-                    // Variable para guardar el HTML del banner
                     let bannerHTML = '';
                     
                     if (estado === 'PRE_ORDEN' && datosTienda.fechaApertura) {
@@ -669,7 +681,6 @@
                         `;
                     }
 
-                    // Insertar Banner PRIMERO
                     menuContainer.innerHTML += bannerHTML;
 
                     if (ordenCategorias.length === 0) {
@@ -701,7 +712,6 @@
                         });
                     }
 
-                    // IMPORTANTE: Llamar al countdown AL FINAL, después de que todo el HTML se ha insertado
                     if (estado === 'PRE_ORDEN' && datosTienda.fechaApertura) {
                         startCountdown(datosTienda.fechaApertura);
                     }
