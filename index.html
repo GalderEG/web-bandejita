@@ -614,7 +614,6 @@
                     if (nombre) {
                         if (categoria.toLowerCase() === 'noticias' && disponible === 'si') {
                             hayNoticias = true;
-                            // Generamos el HTML de la noticia colapsable
                             htmlNoticias += `
                                 <div class="news-accordion">
                                     <div class="news-header" onclick="toggleNews(this)">
@@ -689,8 +688,11 @@
                         mensajeCierre = "Hoy los fogones descansan para recargar energías y volver con más sabor. ¡Nos vemos en nuestro próximo día de servicio!";
                     }
 
-                    // AUNQUE ESTEMOS CERRADOS, MOSTRAMOS LAS NOTICIAS ARRIBA
-                    menuContainer.innerHTML = htmlNoticias + `
+                    // 1. Noticias (si hay)
+                    menuContainer.innerHTML = htmlNoticias;
+                    
+                    // 2. Banner de Cierre
+                    menuContainer.innerHTML += `
                         <div class="closed-state">
                             <i class="fa-solid fa-fire-burner closed-icon"></i>
                             <h2 class="closed-title">${tituloCierre}</h2>
@@ -698,6 +700,31 @@
                             <button onclick="irAHorarios()" class="closed-btn">Ver Horarios</button>
                         </div>
                     `;
+
+                    // 3. POSTRES (EXCEPCIÓN PARA VENDERLOS SIEMPRE)
+                    if (menuPorCategoria['Postres']) {
+                        menuContainer.innerHTML += `<div style="margin: 30px 0 15px 0; text-align: center; color: var(--blue);"><i class="fa-solid fa-cookie-bite"></i> Disponibles Ahora</div>`;
+                        
+                        const postres = menuPorCategoria['Postres'];
+                        menuContainer.innerHTML += `<h2 class="category-title">Postres</h2>`;
+                        
+                        postres.forEach((plato, i) => {
+                            // Sin animación de retardo para que aparezcan rápido
+                            menuContainer.innerHTML += `
+                                <div class="card ${plato.destacado ? 'destacado' : ''}" style="opacity:1;">
+                                    ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
+                                    <div class="info">
+                                        <div class="dish-name">${plato.nombre}</div>
+                                        <p class="dish-desc">${plato.desc}</p>
+                                    </div>
+                                    <div class="price-container">
+                                        <div class="price-pill">${plato.simbolo}${plato.precio}</div>
+                                        ${plato.stockHTML}
+                                    </div>
+                                </div>`;
+                        });
+                    }
+
                 } else {
                     let bannerHTML = '';
                     
