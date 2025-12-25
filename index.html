@@ -406,7 +406,6 @@
             }
         }
 
-        // FUNCION PARA ABRIR/CERRAR NOVEDADES (BARRA COLAPSABLE)
         function toggleNews(header) {
             const wrapper = header.parentElement;
             const body = wrapper.querySelector('.news-body');
@@ -427,7 +426,6 @@
         let origen = params.get('origen') || 'web';
         document.getElementById('whatsapp-btn').href = `https://wa.me/${TELEFONO}?text=${encodeURIComponent("Hola Ángel, vengo de " + origen + " y quisiera hacer un pedido.")}`;
 
-        // PARSER CSV
         function parseCSV(text) {
             let filas = []; let filaActual = []; let celda = ""; let enComillas = false;
             for (let i = 0; i < text.length; i++) {
@@ -442,7 +440,6 @@
             return filas;
         }
 
-        // LÓGICA DE APERTURA
         function checkEstadoTienda(filasHorario) {
             const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
             const hoy = new Date();
@@ -460,7 +457,6 @@
 
                 if (rangoHoras.toUpperCase().includes('CERRADO') || rangoHoras.toUpperCase().includes('DESCANSO')) continue;
 
-                // Chequeo Días
                 let esDiaCorrecto = false;
                 if (rangoDias.toLowerCase().includes(' a ') || rangoDias.includes('-')) {
                     const partes = rangoDias.split(/-| a /).map(d => d.trim());
@@ -480,9 +476,8 @@
                 }
 
                 if (!esDiaCorrecto) continue;
-                esDiaLaborable = true; // Si trabaja hoy
+                esDiaLaborable = true; 
 
-                // Chequeo Horas
                 const partesHora = rangoHoras.split('-');
                 if (partesHora.length > 1) {
                     const horaInicioRaw = partesHora[0].trim();
@@ -520,7 +515,6 @@
                 }
             }
             
-            // Si está cerrado y no se encontró turno hoy
             if (estado === 'CERRADO' && !esDiaLaborable) {
                 estado = 'DIA_NO_LABORABLE';
             }
@@ -558,7 +552,6 @@
             timerInterval = setInterval(update, 1000);
         }
 
-        // CARGA PRINCIPAL
         async function cargarTodo() {
             try {
                 const [sheetResponse, dolarResponse] = await Promise.all([
@@ -677,7 +670,6 @@
                 const datosTienda = checkEstadoTienda(filasHorarios);
                 const estado = datosTienda.estado; 
 
-                // Lógica de Renderizado
                 if (estado === 'CERRADO' || estado === 'DIA_NO_LABORABLE') {
                     
                     let tituloCierre = "Fogones Apagados por Hoy";
@@ -688,10 +680,8 @@
                         mensajeCierre = "Hoy los fogones descansan para recargar energías y volver con más sabor. ¡Nos vemos en nuestro próximo día de servicio!";
                     }
 
-                    // 1. Noticias (si hay)
                     menuContainer.innerHTML = htmlNoticias;
                     
-                    // 2. Banner de Cierre
                     menuContainer.innerHTML += `
                         <div class="closed-state">
                             <i class="fa-solid fa-fire-burner closed-icon"></i>
@@ -701,15 +691,17 @@
                         </div>
                     `;
 
-                    // 3. POSTRES (EXCEPCIÓN PARA VENDERLOS SIEMPRE)
+                    // AQUÍ ESTÁ EL CAMBIO IMPORTANTE: SEPARADOR CLARO PARA POSTRES
                     if (menuPorCategoria['Postres']) {
-                        menuContainer.innerHTML += `<div style="margin: 30px 0 15px 0; text-align: center; color: var(--blue);"><i class="fa-solid fa-cookie-bite"></i> Disponibles Ahora</div>`;
+                        menuContainer.innerHTML += `
+                            <div style="text-align:center; margin: 40px 0 20px 0;">
+                                <h3 style="color:var(--green); font-size:1.2rem; margin-bottom:5px;">✨ Disponibles para entrega inmediata ✨</h3>
+                                <p style="font-size:0.9rem; color:#666;">Aunque la cocina cerró, nuestra nevera de postres sigue activa:</p>
+                            </div>
+                        `;
                         
                         const postres = menuPorCategoria['Postres'];
-                        menuContainer.innerHTML += `<h2 class="category-title">Postres</h2>`;
-                        
                         postres.forEach((plato, i) => {
-                            // Sin animación de retardo para que aparezcan rápido
                             menuContainer.innerHTML += `
                                 <div class="card ${plato.destacado ? 'destacado' : ''}" style="opacity:1;">
                                     ${plato.destacado ? '<div class="badge-rec"><i class="fa-solid fa-star"></i> Recomendado</div>' : ''}
@@ -739,7 +731,6 @@
                         `;
                     }
 
-                    // Insertamos NOTICIAS primero, luego BANNER (si hay), luego PLATOS
                     menuContainer.innerHTML += htmlNoticias;
                     menuContainer.innerHTML += bannerHTML;
 
