@@ -146,7 +146,7 @@
         .pre-order-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
         .pre-order-msg { font-size: 0.85rem; opacity: 0.85; margin: 0; font-style: italic;}
 
-        /* ESTADO CERRADO */
+        /* ESTADO CERRADO Y NO LABORABLE */
         .closed-state { text-align: center; padding: 60px 20px; animation: fadeUp 0.8s ease-out; }
         .closed-icon { font-size: 3rem; color: #ddd; margin-bottom: 20px; } /* Icono gris "apagado" */
         .closed-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue); margin-bottom: 10px; }
@@ -414,6 +414,7 @@
             
             let estado = 'CERRADO';
             let fechaApertura = null;
+            let esDiaLaborable = false; // Variable para saber si hoy abren en algun momento
 
             for (let i = 0; i < filasHorario.length; i++) {
                 const fila = filasHorario[i];
@@ -442,6 +443,9 @@
                 }
 
                 if (!esDiaCorrecto) continue;
+                
+                // Si llegamos aquí, es porque HOY es un día que sale en el horario
+                esDiaLaborable = true;
 
                 // Parsing de Horas
                 const partesHora = rangoHoras.split('-');
@@ -482,15 +486,20 @@
                     }
                 }
             }
+            
+            // Si el estado sigue siendo CERRADO y NO detectamos que hoy sea un día laborable
+            if (estado === 'CERRADO' && !esDiaLaborable) {
+                estado = 'DIA_NO_LABORABLE';
+            }
+
             return { estado, fechaApertura };
         }
 
-        // Función corregida: Se asegura de encontrar el elemento cada segundo
+        // Función timer corregida
         function startCountdown(targetDate) {
             if(timerInterval) clearInterval(timerInterval);
 
             const update = () => {
-                // Buscamos el elemento dentro de la función para asegurar que existe aunque se haya repintado el HTML
                 const display = document.getElementById('countdown');
                 if(!display) return; 
 
@@ -602,7 +611,8 @@
                                     if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
                                     simbolo = "$";
                                 } else {
-                                    const precioCalculado = (precioUSD * tasaBCV) * 1.16; 
+                                    // CAMBIO: Se eliminó el multiplicador 1.16
+                                    const precioCalculado = (precioUSD * tasaBCV); 
                                     precioFinal = precioCalculado.toFixed(2);
                                     simbolo = "Bs ";
                                 }
@@ -625,12 +635,22 @@
                 const datosTienda = checkEstadoTienda(filasHorarios);
                 const estado = datosTienda.estado; 
 
-                if (estado === 'CERRADO') {
+                // CAMBIO: Lógica para manejar estado CERRADO vs DIA NO LABORABLE
+                if (estado === 'CERRADO' || estado === 'DIA_NO_LABORABLE') {
+                    
+                    let tituloCierre = "Fogones Apagados por Hoy";
+                    let mensajeCierre = "Nuestro servicio ha finalizado. Estamos preparando los ingredientes más frescos para mañana. ¡Te esperamos!";
+                    
+                    if (estado === 'DIA_NO_LABORABLE') {
+                        tituloCierre = "Hoy Descansamos";
+                        mensajeCierre = "Hoy los fogones descansan para recargar energías y volver con más sabor. ¡Nos vemos en nuestro próximo día de servicio!";
+                    }
+
                     menuContainer.innerHTML = `
                         <div class="closed-state">
                             <i class="fa-solid fa-fire-burner closed-icon"></i>
-                            <h2 class="closed-title">Fogones Apagados por Hoy</h2>
-                            <p class="closed-text">Nuestro servicio ha finalizado. Estamos preparando los ingredientes más frescos para mañana. ¡Te esperamos!</p>
+                            <h2 class="closed-title">${tituloCierre}</h2>
+                            <p class="closed-text">${mensajeCierre}</p>
                             <button onclick="irAHorarios()" class="closed-btn">Ver Horarios</button>
                         </div>
                     `;
