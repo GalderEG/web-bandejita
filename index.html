@@ -23,6 +23,31 @@
     <meta property="og:image" content="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
     <meta property="og:url" content="https://bandejitadelata.com">
     <meta property="og:type" content="website">
+
+    <meta name="theme-color" content="#135c96">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Bandejita De Lata",
+      "image": "https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png",
+      "description": "Propuesta gastronómica de cocina de autor. Pastas, pastichos y recetas hechas en casa.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Cristóbal",
+        "addressRegion": "Táchira",
+        "addressCountry": "VE"
+      },
+      "telephone": "+584120767007",
+      "servesCuisine": ["Cocina de Autor", "Pastas", "Venezolana"],
+      "priceRange": "$$",
+      "url": "https://bandejitadelata.com"
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -317,25 +342,25 @@
         <span class="zone-handle" id="social-handle">@bandejitadelata</span>
         
         <div id="social-bandejita" class="social-group active">
-            <a href="https://www.instagram.com/bandejitadelata/" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@bandejita.de.lata" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://maps.app.goo.gl/uZUB528AqGXkZXmk9" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
-            <a href="mailto:bandejitadelata@gmail.com" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            <a href="https://www.instagram.com/bandejitadelata/" target="_blank" class="icon-btn" aria-label="Instagram" onclick="gtag('event', 'click_social', {'network': 'Instagram', 'perfil': 'Bandejita'});"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@bandejita.de.lata" target="_blank" class="icon-btn" aria-label="TikTok" onclick="gtag('event', 'click_social', {'network': 'TikTok', 'perfil': 'Bandejita'});"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA" target="_blank" class="icon-btn" aria-label="Facebook" onclick="gtag('event', 'click_social', {'network': 'Facebook', 'perfil': 'Bandejita'});"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://maps.google.com/?q=Urb.+Mérida,+San+Cristóbal,+Táchira,+Venezuela" target="_blank" class="icon-btn" aria-label="Ubicación" onclick="gtag('event', 'click_ubicacion', {'event_category': 'contacto'});"><i class="fa-solid fa-location-dot"></i></a>
+            <a href="mailto:bandejitadelata@gmail.com" class="icon-btn" aria-label="Email" onclick="gtag('event', 'click_email', {'perfil': 'Bandejita'});"><i class="fa-solid fa-envelope"></i></a>
             <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
         </div>
 
         <div id="social-angel" class="social-group">
-            <a href="https://instagram.com/angelchaconcocinero" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://tiktok.com/@angelchaconcocinero" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="mailto:angelchacon@protonmail.com" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            <a href="https://instagram.com/angelchaconcocinero" target="_blank" class="icon-btn" aria-label="Instagram" onclick="gtag('event', 'click_social', {'network': 'Instagram', 'perfil': 'Angel'});"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com/@angelchaconcocinero" target="_blank" class="icon-btn" aria-label="TikTok" onclick="gtag('event', 'click_social', {'network': 'TikTok', 'perfil': 'Angel'});"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="mailto:angelchacon@protonmail.com" class="icon-btn" aria-label="Email" onclick="gtag('event', 'click_email', {'perfil': 'Angel'});"><i class="fa-solid fa-envelope"></i></a>
             <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
         </div>
         
         <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
     </div>
 
-    <a href="#" id="whatsapp-btn" class="fab">
+    <a href="#" id="whatsapp-btn" class="fab" onclick="gtag('event', 'iniciar_pedido', {'event_category': 'ventas', 'metodo': 'Boton WhatsApp'});">
         <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i> <span>Realizar Pedido</span>
     </a>
 
@@ -356,8 +381,10 @@
             });
         });
 
-        // CAMBIO DE PESTAÑAS
+        // CAMBIO DE PESTAÑAS Y EVENTO GTAG
         function switchTab(tabName) {
+            gtag('event', 'cambio_pestana', {'nombre_pestana': tabName}); // Evento analítico
+
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             
@@ -393,6 +420,7 @@
         }
 
         function sharePage() {
+            gtag('event', 'compartir_pagina', {'metodo': navigator.share ? 'Nativo' : 'Portapapeles'});
             if (navigator.share) {
                 navigator.share({
                     title: 'Bandejita de Lata',
@@ -408,11 +436,14 @@
         function toggleBlogCard(card) {
             const wrapper = card.querySelector('.blog-text-wrapper');
             const btn = card.querySelector('.read-more-btn');
+            const tituloBlog = card.querySelector('.blog-title').innerText;
             
             if (wrapper.classList.contains('collapsed')) {
                 wrapper.classList.remove('collapsed');
                 wrapper.classList.add('expanded');
                 btn.innerHTML = 'Leer menos <i class="fa-solid fa-chevron-up"></i>';
+                // Evento analítico al expandir la historia
+                gtag('event', 'leer_blog', {'titulo': tituloBlog});
             } else {
                 wrapper.classList.remove('expanded');
                 wrapper.classList.add('collapsed');
@@ -461,58 +492,60 @@
             return filas;
         }
 
-        // --- LÓGICA DE TIEMPO SEGURA (UTC -4 VENEZUELA) ---
         function getVenezuelaDate() {
             const d = new Date();
             const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
             return new Date(utc + (3600000 * -4));
         }
 
+        // LÓGICA DE HORARIOS CORREGIDA (Soporta turnos nocturnos)
         function checkEstadoTienda(filasHorario) {
-            const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+            const diasSemana = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
             const hoy = getVenezuelaDate();
-            
             const diaHoyIndex = hoy.getDay(); 
-            const diaHoyNombre = diasSemana[diaHoyIndex];
-            
+
             let estado = 'CERRADO';
-            let fechaApertura = null;
+            let fechaAperturaFutura = null;
             let esDiaLaborable = false; 
 
             for (let i = 0; i < filasHorario.length; i++) {
                 const fila = filasHorario[i];
-                const rangoDias = fila[0].trim();
+                const rangoDias = fila[0].trim().toLowerCase();
                 const rangoHoras = fila[1].trim();
 
                 if (rangoHoras.toUpperCase().includes('CERRADO') || rangoHoras.toUpperCase().includes('DESCANSO')) continue;
 
-                let esDiaCorrecto = false;
-                if (rangoDias.toLowerCase().includes(' a ') || rangoDias.includes('-')) {
-                    const partes = rangoDias.split(/-| a /).map(d => d.trim());
+                let diasAplica = [];
+                if (rangoDias.includes(' a ') || rangoDias.includes('-')) {
+                    const partes = rangoDias.split(/-| a /).map(d => d.trim().slice(0,3));
                     if(partes.length === 2) {
-                        const inicioIdx = diasSemana.findIndex(d => d.toLowerCase().startsWith(partes[0].toLowerCase().slice(0,3)));
-                        const finIdx = diasSemana.findIndex(d => d.toLowerCase().startsWith(partes[1].toLowerCase().slice(0,3)));
+                        const inicioIdx = diasSemana.findIndex(d => d.startsWith(partes[0]));
+                        const finIdx = diasSemana.findIndex(d => d.startsWith(partes[1]));
                         if (inicioIdx !== -1 && finIdx !== -1) {
-                            if (inicioIdx <= finIdx) { if (diaHoyIndex >= inicioIdx && diaHoyIndex <= finIdx) esDiaCorrecto = true; } 
-                            else { if (diaHoyIndex >= inicioIdx || diaHoyIndex <= finIdx) esDiaCorrecto = true; }
+                            if (inicioIdx <= finIdx) {
+                                for(let j=inicioIdx; j<=finIdx; j++) diasAplica.push(j);
+                            } else { 
+                                for(let j=inicioIdx; j<=6; j++) diasAplica.push(j);
+                                for(let j=0; j<=finIdx; j++) diasAplica.push(j);
+                            }
                         }
                     }
                 } else if (rangoDias.includes(',')) {
-                    const lista = rangoDias.split(',').map(d => d.trim().toLowerCase());
-                    if (lista.some(d => diaHoyNombre.toLowerCase().startsWith(d.slice(0,3)))) esDiaCorrecto = true;
+                    const partes = rangoDias.split(',').map(d => d.trim().slice(0,3));
+                    partes.forEach(p => {
+                        const idx = diasSemana.findIndex(d => d.startsWith(p));
+                        if (idx !== -1) diasAplica.push(idx);
+                    });
                 } else {
-                    if (rangoDias.toLowerCase().startsWith(diaHoyNombre.toLowerCase().slice(0,3))) esDiaCorrecto = true;
+                    const idx = diasSemana.findIndex(d => d.startsWith(rangoDias.slice(0,3)));
+                    if (idx !== -1) diasAplica.push(idx);
                 }
 
-                if (!esDiaCorrecto) continue;
-                esDiaLaborable = true; 
+                if (diasAplica.includes(diaHoyIndex)) esDiaLaborable = true;
 
                 const partesHora = rangoHoras.split('-');
                 if (partesHora.length > 1) {
-                    const horaInicioRaw = partesHora[0].trim();
-                    const horaFinRaw = partesHora[1].trim();     
-                    
-                    const parseTime = (timeStr) => {
+                    const parseTime = (timeStr, isYesterday = false) => {
                         const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/i);
                         if (!m) return null;
                         let h = parseInt(m[1]);
@@ -522,27 +555,40 @@
                         if (ap === 'AM' && h === 12) h = 0;
                         
                         const d = getVenezuelaDate();
+                        if (isYesterday) d.setDate(d.getDate() - 1);
                         d.setHours(h, min, 0, 0);
                         return d;
                     };
 
-                    const inicio = parseTime(horaInicioRaw);
-                    const fin = parseTime(horaFinRaw);
+                    [false, true].forEach(isYesterday => {
+                        let checkDayIndex = isYesterday ? (diaHoyIndex === 0 ? 6 : diaHoyIndex - 1) : diaHoyIndex;
+                        
+                        if (diasAplica.includes(checkDayIndex)) {
+                            const inicio = parseTime(partesHora[0], isYesterday);
+                            const fin = parseTime(partesHora[1], isYesterday);
+                            
+                            if (inicio && fin) {
+                                if (fin <= inicio) fin.setDate(fin.getDate() + 1);
 
-                    if (inicio && fin) {
-                        if (fin < inicio) { fin.setDate(fin.getDate() + 1); }
-                        fechaApertura = inicio;
-                        const preOrdenTime = new Date(inicio);
-                        preOrdenTime.setHours(inicio.getHours() - 3);
+                                const preOrdenTime = new Date(inicio);
+                                preOrdenTime.setHours(inicio.getHours() - 3);
 
-                        if (hoy >= inicio && hoy < fin) { estado = 'ABIERTO'; break; } 
-                        else if (hoy >= preOrdenTime && hoy < inicio) { estado = 'PRE_ORDEN'; break; }
-                    }
+                                if (hoy >= inicio && hoy < fin) {
+                                    estado = 'ABIERTO';
+                                } else if (hoy >= preOrdenTime && hoy < inicio && estado !== 'ABIERTO') {
+                                    estado = 'PRE_ORDEN';
+                                    if (!fechaAperturaFutura || inicio < fechaAperturaFutura) {
+                                        fechaAperturaFutura = inicio;
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             }
             
             if (estado === 'CERRADO' && !esDiaLaborable) { estado = 'DIA_NO_LABORABLE'; }
-            return { estado, fechaApertura };
+            return { estado, fechaApertura: fechaAperturaFutura };
         }
 
         function startCountdown(targetDate) {
@@ -564,14 +610,12 @@
 
         async function cargarTodo() {
             try {
-                // Cache Buster optimizado: Refresca el caché cada 5 minutos en lugar de cada milisegundo
                 const cacheBuster = Math.floor(Date.now() / 300000);
                 const sheetResponse = await fetch(SHEET_CSV_URL + '&t=' + cacheBuster);
                 const csvData = await sheetResponse.text();
                 
                 const filas = parseCSV(csvData);
                 
-                // --- LÓGICA DE TASA MANUAL I2 ---
                 let tasaBCV = 0;
                 try {
                     if (filas.length > 1) {
@@ -609,7 +653,6 @@
                 const reviewsBox = document.getElementById('reviews-box');
                 const blogContainer = document.getElementById('blog-content'); 
                 
-                // Variables acumuladoras para evitar repintado excesivo del DOM en el forEach
                 let htmlAcumuladoMenu = ''; 
                 let htmlHorarios = '';
                 let htmlReviews = '';
@@ -685,7 +728,6 @@
                     }
                 });
 
-                // Inyecciones masivas al DOM optimizadas fuera del bucle forEach
                 if (htmlHorarios !== '') hoursContainer.innerHTML = htmlHorarios;
                 if (hayReviews) {
                     reviewsContainer.innerHTML = htmlReviews;
@@ -696,7 +738,6 @@
                 const datosTienda = checkEstadoTienda(filasHorarios);
                 const estado = datosTienda.estado; 
 
-                // LIMPIAMOS MENU
                 menuContainer.innerHTML = '';
 
                 if (estado === 'CERRADO' || estado === 'DIA_NO_LABORABLE') {
@@ -752,6 +793,17 @@
             }
         }
         cargarTodo();
+
+        // REGISTRO DEL SERVICE WORKER (Para la PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('ServiceWorker registrado con éxito.');
+                }).catch(error => {
+                    console.log('Fallo al registrar el ServiceWorker: ', error);
+                });
+            });
+        }
     </script>
 </body>
 </html>
