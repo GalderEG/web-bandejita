@@ -92,6 +92,21 @@
         .view-section.active { display: block; animation: fadeUp 0.6s ease-out; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* CLASES DE UTILIDAD PARA OPTIMIZAR HTML */
+        .section-header { text-align: center; margin-bottom: 40px; margin-top: 10px; }
+        .main-title { font-size: 2.5rem; margin-bottom: 10px; }
+        .sub-title { font-size: 1rem; color: var(--blue); letter-spacing: 1px; }
+        .divider { width: 50px; height: 2px; background: var(--green); margin: 20px auto; }
+        .card-title { font-size: 1.1rem; }
+        .icon-green { color: var(--green); margin-right: 8px; }
+        .icon-blue { margin-right: 8px; }
+        .philosophy-text { font-size: 0.9rem; color: #555; margin-top: 12px; text-align: justify; line-height: 1.8; }
+        .loading-container { text-align: center; padding: 80px 20px; }
+        .spinner-icon { font-size: 2rem; color: var(--soft-green); margin-bottom: 20px; }
+        .blog-main-title { font-size: 2rem; margin-bottom: 5px; }
+        .blog-sub-title { font-size: 0.9rem; color: #888; font-style: italic; margin-top: 0; }
+        .empty-state { text-align: center; color: #999; }
+
         /* CARDS */
         .info-card { background: var(--white); border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: var(--shadow); border-top: 4px solid var(--green); }
         .hours-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 12px 0; }
@@ -224,6 +239,12 @@
     </style>
 </head>
 <body>
+    <noscript>
+        <div style="text-align:center; padding:50px; background: #fff; color: #d96c4a; border-bottom: 2px solid #d96c4a;">
+            <strong>JavaScript está deshabilitado en tu navegador.</strong><br>
+            Es necesario para visualizar nuestro menú interactivo. Por favor, realiza tu pedido directamente a nuestro WhatsApp: <a href="https://wa.me/584120767007">+58 412-0767007</a>
+        </div>
+    </noscript>
 
     <header id="main-header">
         <div class="header-logo-container">
@@ -242,38 +263,38 @@
 
     <div class="container">
         <div id="inicio" class="view-section">
-            <div style="text-align: center; margin-bottom: 40px; margin-top: 10px;">
-                <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Bandejita De Lata</h1>
-                <p style="font-size: 1rem; color: var(--blue); letter-spacing: 1px;">COCINA DE AUTOR</p>
-                <div style="width: 50px; height: 2px; background: var(--green); margin: 20px auto;"></div>
+            <div class="section-header">
+                <h1 class="main-title">Bandejita De Lata</h1>
+                <p class="sub-title">COCINA DE AUTOR</p>
+                <div class="divider"></div>
             </div>
 
             <div class="info-card" id="news-box" style="display:none; border-top-color: var(--blue);">
-                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-bullhorn" style="color:var(--green); margin-right:8px;"></i> Novedades</h3>
+                <h3 class="card-title"><i class="fa-solid fa-bullhorn icon-green"></i> Novedades</h3>
                 <div id="news-content"></div>
             </div>
 
             <div id="anchor-horarios" style="position:relative; top:-100px; visibility:hidden;"></div>
             <div class="info-card">
-                <h3 style="font-size:1.1rem;"><i class="fa-regular fa-clock" style="margin-right:8px;"></i> Horarios de Atención</h3>
-                <div id="hours-content"><p style="text-align:center; color:#999;">Cargando horarios...</p></div>
+                <h3 class="card-title"><i class="fa-regular fa-clock icon-blue"></i> Horarios de Atención</h3>
+                <div id="hours-content"><p class="empty-state">Cargando horarios...</p></div>
             </div>
 
             <div id="reviews-box" class="reviews-wrapper" style="display:none;">
-                <h3 style="font-size:1.1rem; margin-bottom:15px; margin-left:5px;"><i class="fa-solid fa-star" style="color:var(--green); margin-right:8px;"></i> Lo que dicen de nosotros</h3>
+                <h3 class="card-title" style="margin-bottom:15px; margin-left:5px;"><i class="fa-solid fa-star icon-green"></i> Lo que dicen de nosotros</h3>
                 <div id="reviews-container" class="reviews-scroll"></div>
             </div>
 
             <div class="info-card">
-                <h3 style="font-size:1.1rem;"><i class="fa-solid fa-utensils" style="margin-right:8px;"></i> Nuestra Filosofía</h3>
-                <p style="font-size:0.9rem; color:#555; margin-top: 12px; text-align: justify; line-height: 1.8;"><strong>Bandejita de Lata</strong> es cocina sincera, sin secretos ni complicaciones innecesarias. Creemos que la verdadera calidad está en el sabor real del plato, no en el adorno. ​Desde San Cristóbal, preparamos nuestras recetas con dedicación y oficio: no buscamos seguir modas, sino crear sabores que te traigan buenos recuerdos. Es una cocina hecha a mano, pensada para quienes saben que el verdadero lujo es, simplemente, disfrutar de lo bien hecho.</p>
+                <h3 class="card-title"><i class="fa-solid fa-utensils icon-blue"></i> Nuestra Filosofía</h3>
+                <p class="philosophy-text"><strong>Bandejita de Lata</strong> es cocina sincera, sin secretos ni complicaciones innecesarias. Creemos que la verdadera calidad está en el sabor real del plato, no en el adorno. ​Desde San Cristóbal, preparamos nuestras recetas con dedicación y oficio: no buscamos seguir modas, sino crear sabores que te traigan buenos recuerdos. Es una cocina hecha a mano, pensada para quienes saben que el verdadero lujo es, simplemente, disfrutar de lo bien hecho.</p>
             </div>
         </div>
 
         <div id="menu" class="view-section active">
             <div id="menu-content">
-                <div style="text-align:center; padding:80px 20px;">
-                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size:2rem; color:var(--soft-green); margin-bottom: 20px;"></i>
+                <div class="loading-container">
+                    <i class="fa-solid fa-circle-notch fa-spin spinner-icon"></i>
                     <p style="color:#999; font-style:italic;" id="status-msg">Cargando menú...</p>
                 </div>
             </div>
@@ -281,12 +302,12 @@
 
         <div id="blog" class="view-section">
             <div style="text-align:center; margin-bottom:30px;">
-                <h2 style="font-size:2rem; margin-bottom: 5px;">Aguamiel Con Leche</h2>
-                <p style="font-size:0.9rem; color:#888; font-style: italic; margin-top: 0;">Reflexiones de un cocinero</p>
+                <h2 class="blog-main-title">Aguamiel Con Leche</h2>
+                <p class="blog-sub-title">Reflexiones de un cocinero</p>
                 <div style="width: 40px; height: 3px; background: var(--blue); margin: 15px auto;"></div>
             </div>
             <div id="blog-content">
-                <p style="text-align:center; color:#999; margin-top:50px;">Pronto publicaremos nuestras historias...</p>
+                <p class="empty-state" style="margin-top:50px;">Pronto publicaremos nuestras historias...</p>
             </div>
         </div>
     </div>
@@ -299,7 +320,7 @@
             <a href="https://www.instagram.com/bandejitadelata/" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.tiktok.com/@bandejita.de.lata" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
             <a href="https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA" target="_blank" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://maps.app.goo.gl/uZUB528AqGXkZXmk9" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
+            <a href="https://maps.google.com/?q=Urb.+Mérida,+San+Cristóbal,+Táchira,+Venezuela" target="_blank" class="icon-btn" aria-label="Ubicación"><i class="fa-solid fa-location-dot"></i></a>
             <a href="mailto:bandejitadelata@gmail.com" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
             <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
         </div>
@@ -307,7 +328,7 @@
         <div id="social-angel" class="social-group">
             <a href="https://instagram.com/angelchaconcocinero" target="_blank" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://tiktok.com/@angelchaconcocinero" target="_blank" class="icon-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="mailto:angelchacon@protonmail.com.com" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+            <a href="mailto:angelchacon@protonmail.com" class="icon-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
             <button onclick="sharePage()" class="icon-btn" aria-label="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
         </div>
         
@@ -374,7 +395,7 @@
         function sharePage() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'Aguamiel Con Leche',
+                    title: 'Bandejita de Lata',
                     text: 'Nuestro menú y precios | Bandejita de Lata',
                     url: 'https://bandejitadelata.com'
                 }).catch(console.error);
@@ -443,9 +464,7 @@
         // --- LÓGICA DE TIEMPO SEGURA (UTC -4 VENEZUELA) ---
         function getVenezuelaDate() {
             const d = new Date();
-            // Obtenemos el tiempo en milisegundos UTC
             const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-            // Restamos 4 horas (en milisegundos) para Venezuela
             return new Date(utc + (3600000 * -4));
         }
 
@@ -545,8 +564,9 @@
 
         async function cargarTodo() {
             try {
-                // Cache Buster (&t=...) para que Google no nos de datos viejos
-                const sheetResponse = await fetch(SHEET_CSV_URL + '&t=' + Date.now());
+                // Cache Buster optimizado: Refresca el caché cada 5 minutos en lugar de cada milisegundo
+                const cacheBuster = Math.floor(Date.now() / 300000);
+                const sheetResponse = await fetch(SHEET_CSV_URL + '&t=' + cacheBuster);
                 const csvData = await sheetResponse.text();
                 
                 const filas = parseCSV(csvData);
@@ -554,10 +574,7 @@
                 // --- LÓGICA DE TASA MANUAL I2 ---
                 let tasaBCV = 0;
                 try {
-                    // Verificamos si la fila 2 existe. Y si no hay columna I, asumimos 1.
                     if (filas.length > 1) {
-                        // El índice 8 es la columna I (A=0, B=1 ... I=8)
-                        // Si el CSV es corto, puede que filas[1] no tenga indice 8.
                         if (filas[1].length > 8) {
                             let valorCelda = filas[1][8]; 
                             if(valorCelda) {
@@ -592,12 +609,16 @@
                 const reviewsBox = document.getElementById('reviews-box');
                 const blogContainer = document.getElementById('blog-content'); 
                 
+                // Variables acumuladoras para evitar repintado excesivo del DOM en el forEach
                 let htmlAcumuladoMenu = ''; 
+                let htmlHorarios = '';
+                let htmlReviews = '';
+                let htmlBlog = '';
+                let htmlNoticias = ''; 
 
                 const menuPorCategoria = {}; const ordenCategorias = []; 
                 let hayNoticias = false; let hayReviews = false; let hayBlog = false;
                 let filasHorarios = [];
-                let htmlNoticias = ''; 
 
                 filas.forEach((fila, index) => {
                     if (index === 0) return; 
@@ -614,22 +635,22 @@
                     if (nombre) {
                         if (categoria.toLowerCase() === 'noticias' && disponible === 'si') {
                             hayNoticias = true;
-                            htmlNoticias += `<div class="news-accordion"><div class="news-header" onclick="toggleNews(this)"><span><i class="fa-solid fa-bullhorn" style="margin-right:8px;"></i> ${nombre}</span><i class="fa-solid fa-chevron-down arrow"></i></div><div class="news-body"><div class="news-content">${desc}</div></div></div>`;
+                            htmlNoticias += `<div class="news-accordion"><div class="news-header" onclick="toggleNews(this)"><span><i class="fa-solid fa-bullhorn icon-green"></i> ${nombre}</span><i class="fa-solid fa-chevron-down arrow"></i></div><div class="news-body"><div class="news-content">${desc}</div></div></div>`;
                             return;
                         }
                         if (categoria.toLowerCase() === 'horarios' && disponible === 'si') {
-                            hoursContainer.innerHTML += `<div class="hours-item"><span style="font-weight:600; color:var(--blue);">${nombre}</span><span style="font-size:0.9rem;">${desc}</span></div>`;
+                            htmlHorarios += `<div class="hours-item"><span style="font-weight:600; color:var(--blue);">${nombre}</span><span style="font-size:0.9rem;">${desc}</span></div>`;
                             filasHorarios.push([nombre, desc]); 
                             return;
                         }
                         if (categoria.toLowerCase() === 'testimonios' && disponible === 'si') {
                             hayReviews = true;
-                            reviewsContainer.innerHTML += `<div class="review-card"><div class="review-header"><div class="review-author">${nombre}</div><div class="review-stars">${fila[2]}</div></div><p class="review-text">"${desc}"</p></div>`;
+                            htmlReviews += `<div class="review-card"><div class="review-header"><div class="review-author">${nombre}</div><div class="review-stars">${fila[2]}</div></div><p class="review-text">"${desc}"</p></div>`;
                             return;
                         }
                         if (categoria.toLowerCase() === 'blog' && disponible === 'si') {
-                            if (!hayBlog) { blogContainer.innerHTML = ''; hayBlog = true; }
-                            blogContainer.innerHTML += `<div class="blog-card" onclick="toggleBlogCard(this)"><span class="blog-date">${fila[2]}</span><h3 class="blog-title">${nombre}</h3><div class="blog-text-wrapper collapsed"><div class="blog-content">${desc}</div></div><button class="read-more-btn">Leer historia completa <i class="fa-solid fa-chevron-down"></i></button></div>`;
+                            hayBlog = true;
+                            htmlBlog += `<div class="blog-card" onclick="toggleBlogCard(this)"><span class="blog-date">${fila[2]}</span><h3 class="blog-title">${nombre}</h3><div class="blog-text-wrapper collapsed"><div class="blog-content">${desc}</div></div><button class="read-more-btn">Leer historia completa <i class="fa-solid fa-chevron-down"></i></button></div>`;
                             return;
                         }
 
@@ -663,6 +684,14 @@
                         }
                     }
                 });
+
+                // Inyecciones masivas al DOM optimizadas fuera del bucle forEach
+                if (htmlHorarios !== '') hoursContainer.innerHTML = htmlHorarios;
+                if (hayReviews) {
+                    reviewsContainer.innerHTML = htmlReviews;
+                    reviewsBox.style.display = 'block';
+                }
+                if (hayBlog) blogContainer.innerHTML = htmlBlog;
 
                 const datosTienda = checkEstadoTienda(filasHorarios);
                 const estado = datosTienda.estado; 
@@ -715,8 +744,7 @@
                     if (estado === 'PRE_ORDEN' && datosTienda.fechaApertura) { startCountdown(datosTienda.fechaApertura); }
                 }
                 menuContainer.innerHTML = htmlAcumuladoMenu;
-                if(hayReviews) reviewsBox.style.display = 'block';
-                if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p>Consultar WhatsApp</p>';
+                if(hoursContainer.innerHTML === '') hoursContainer.innerHTML = '<p class="empty-state">Consultar WhatsApp</p>';
 
             } catch (error) { 
                 console.error(error); 
