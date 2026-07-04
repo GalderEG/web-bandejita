@@ -9,12 +9,14 @@
       gtag('config', 'G-8R15RG0VZJ');
     </script>
     
+    <link rel="preload" as="image" href="Encabezado%20bandejita.jpg">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <title>Bandejita De Lata | Cocina de Autor y Delivery en San Cristóbal</title>
     
-    <meta name="description" content="Propuesta gastronómica con 12 años de trayectoria culinaria. Pastas, pastichos y platos de autor. Delivery y Pick-up en San Cristóbal (Urb. Mérida).">
+    <meta name="description" content="Propuesta gastronómica con 12 years de trayectoria culinaria. Pastas, pastichos y platos de autor. Delivery y Pick-up en San Cristóbal (Urb. Mérida).">
     <meta name="keywords" content="comida, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena">
     <meta name="author" content="Ángel Chacón">
 
@@ -74,7 +76,7 @@
         /* HEADER */
         header {
             height: 35vh; min-height: 250px; position: relative;
-            background-image: url('https://raw.githubusercontent.com/GalderEG/web-bandejita/2c9e405ea2773f4f431c75880bb058fdbb1eb9ed/Encabezado%20bandejita.jpg'); 
+            background-image: url('Encabezado%20bandejita.jpg'); 
             background-size: cover; background-position: center; 
         }
         header::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.1)); pointer-events: none; }
@@ -273,7 +275,7 @@
 
     <header id="main-header">
         <div class="header-logo-container">
-            <img src="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png" alt="Logo Bandejita" class="header-logo" id="logo-img">
+            <img src="Imagotipo.png" alt="Logo Bandejita" class="header-logo" id="logo-img">
         </div>
     </header>
 
@@ -312,7 +314,7 @@
 
             <div class="info-card">
                 <h3 class="card-title"><i class="fa-solid fa-utensils icon-blue"></i> Nuestra Filosofía</h3>
-                <p class="philosophy-text"><strong>Bandejita de Lata</strong> es cocina sincera, sin secretos ni complicaciones innecesarias. Creemos que la verdadera calidad está en el sabor real del plato, no en el adorno. ​Desde San Cristóbal, preparamos nuestras recetas con dedicación y oficio: no buscamos seguir modas, sino crear sabores que te traigan buenos recuerdos. Es una cocina hecha a mano, pensada para quienes saben que el verdadero lujo es, simplemente, disfrutar de lo bien hecho.</p>
+                <p class="philosophy-text"><strong>Bandejita de Lata</strong> es cocina sincera, sin secretos ni complicaciones innecesarias. Creemos que la verdadera calidad está en el sabor real del plato, no en el adorno. Desde San Cristóbal, preparamos nuestras recetas con dedicación y oficio: no buscamos seguir modas, sino crear sabores que te traigan buenos recuerdos. Es una cocina hecha a mano, pensada para quienes saben que el verdadero lujo es, simplemente, disfrutar de lo bien hecho.</p>
             </div>
         </div>
 
@@ -794,7 +796,7 @@
         }
         cargarTodo();
 
-        // REGISTRO DEL SERVICE WORKER (Para la PWA)
+        // REGISTRO DEL SERVICE WORKER
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').then(registration => {
