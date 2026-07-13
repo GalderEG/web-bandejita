@@ -4,16 +4,22 @@ on:
     types: [sheet_updated]
   workflow_dispatch:
 
+# Solución: Cancela automáticamente las ejecuciones viejas si haces cambios rápidos seguidos
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-menu:
     runs-on: ubuntu-latest
-    # Corrección: Otorga permisos explícitos para hacer push al repositorio
     permissions:
       contents: write
       
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Requerido para resolver sincronizaciones de git correctamente
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -31,4 +37,12 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
           git add menu-estatico.html
-          git diff --quiet && git diff --staged --quiet || (git commit -m "SEO: Menu estatico actualizado por cambio en Sheet" && git push)
+          
+          # Verifica si hay cambios reales antes de intentar operar
+          if ! git diff --quiet --staged; then
+            git commit -m "SEO: Menu estatico actualizado por cambio en Sheet"
+            git pull --rebase origin main # Sincroniza el repositorio en tiempo real si otro bot se adelantó
+            git push
+          else
+            echo "Sin cambios detectados en el HTML."
+          fi
