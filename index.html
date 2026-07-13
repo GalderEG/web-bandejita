@@ -20,7 +20,6 @@
     <meta name="keywords" content="comida, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena">
     <meta name="author" content="Ángel Chacón">
     
-    <!-- Corrección SEO: Marcado de Favicon -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
 
     <meta property="og:title" content="Bandejita De Lata | Menú Digital">
@@ -102,14 +101,11 @@
             color: var(--light-text); margin-bottom: 5px; letter-spacing: 1px; text-align: center;
         }
         .nav-buttons-wrapper { display: flex; width: 100%; justify-content: center; transition: all 0.3s ease; }
-        
-        /* Corrección SEO: Adaptación de los estilos de botones de pestañas para soportar enlaces nativos */
         .tab-btn {
             flex: 1; max-width: 33%; padding: 15px; border: none; background: none;
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
             font-size: 0.75rem; color: #999; cursor: pointer; transition: 0.3s;
             border-bottom: 3px solid transparent; letter-spacing: 1px;
-            text-decoration: none; text-align: center; box-sizing: border-box;
         }
         .tab-btn.active { color: var(--blue); border-bottom: 3px solid var(--green); }
 
@@ -270,7 +266,6 @@
             100% { box-shadow: 0 0 0 0 rgba(150, 183, 84, 0); }
         }
 
-        /* Corrección SEO: Texto oculto de accesibilidad para anclajes sin texto */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -300,17 +295,15 @@
     <nav class="nav-tabs" id="sticky-nav">
         <div class="nav-brand-title">Bandejita De Lata</div>
         <div class="nav-buttons-wrapper">
-            <!-- Corrección SEO: Cambiados los elementos <button> por etiquetas de enlace estructural real <a> -->
-            <a href="#inicio" class="tab-btn" onclick="switchTab('inicio'); event.preventDefault();">Principal</a>
-            <a href="#menu" class="tab-btn active" onclick="switchTab('menu'); event.preventDefault();">Menú</a>
-            <a href="#blog" class="tab-btn" onclick="switchTab('blog'); event.preventDefault();">Blog</a>
+            <button class="tab-btn" onclick="switchTab('inicio')">Principal</button>
+            <button class="tab-btn active" onclick="switchTab('menu')">Menú</button>
+            <button class="tab-btn" onclick="switchTab('blog')">Blog</button>
         </div>
     </nav>
 
     <div class="container">
         <div id="inicio" class="view-section">
             <div class="section-header">
-                <!-- Corrección SEO: H1 expandido para superar la longitud mínima obligatoria de caracteres -->
                 <h1 class="main-title">Bandejita De Lata | Cocina de Autor</h1>
                 <p class="sub-title">COCINA DE AUTOR</p>
                 <div class="divider"></div>
@@ -334,10 +327,10 @@
 
             <div class="info-card">
                 <h3 class="card-title"><i class="fa-solid fa-utensils icon-blue"></i> Nuestra Filosofía</h3>
-                <!-- Corrección SEO: Contenido de texto expandido a múltiples párrafos para superar las 250 palabras e incluir las palabras clave principales indexables de forma orgánica -->
-                <p class="philosophy-text"><strong>Bandejita de Lata</strong> es una propuesta gastronómica nacida en San Cristóbal, Táchira, enfocada en la cocina de autor y respaldada por una trayectoria culinaria comprometida con la excelencia. Nos especializamos en la elaboración dedicada de pasta artesanal, pastichos tradicionales, lasañas y platos exclusivos preparados desde cero con ingredientes frescos y pura mantequilla. Nuestro objetivo primordial es ofrecer una alternativa de almuerzo y cena completamente diferente, llevando sabores honestos directamente a tu hogar a través de nuestro servicio de delivery rápido y pick-up cómodo en la Urbanización Mérida.</p>
-                <p class="philosophy-text">Creemos firmemente que la verdadera calidad reside exclusivamente en el sabor real del plato y en el oficio culinario riguroso, alejándonos de adornos innecesarios o modas pasajeras de la industria. Cada receta del menú es el resultado de años de experiencia constante perfeccionando técnicas manuales en los fogones, logrando así una cocina sincera hecha en casa que evoca de inmediato buenos recuerdos y brinda una experiencia reconfortante en cada bocado.</p>
-                <p class="philosophy-text">Nuestra producción meticulosa hecha a mano está pensada minuciosamente para los entusiastas del buen comer que valoran el tiempo, la dedicación y el detalle invertido en la gastronomía artesanal. Al realizar tu pedido directo con nosotros, no solo resuelves tu comida, sino que disfrutas plenamente del compromiso de una cocina transparente diseñada con el único fin de ofrecer el verdadero lujo cotidiano: disfrutar de lo que está bien hecho.</p>
+                <!-- Corrección SEO: Frases divididas con puntos seguidos para optimizar la legibilidad y bajar el promedio de palabras por oración -->
+                <p class="philosophy-text"><strong>Bandejita de Lata</strong> es una propuesta gastronómica nacida en San Cristóbal, Táchira. Nos enfocamos exclusivamente en la cocina de autor. Contamos con una trayectoria culinaria plenamente comprometida con la excelencia. Nos especializamos en la elaboración dedicada de pasta artesanal, pastichos tradicionales y lasañas deliciosas. Cada uno de nuestros platos exclusivos se prepara desde cero. Seleccionamos rigurosamente ingredientes frescos y usamos pura mantequilla. Nuestro objetivo primordial es ofrecer una alternativa totalmente diferente para tu almuerzo y cena. Llevamos sabores honestos de forma directa a tu hogar. Para tu comodidad, ofrecemos un servicio de delivery rápido y un sistema de pick-up cómodo en la Urbanización Mérida.</p>
+                <p class="philosophy-text">Creemos firmemente que la verdadera calidad reside en el sabor real del plato. Apostamos siempre por el oficio culinario riguroso y transparente. Nos alejamos de adornos innecesarios o modas pasajeras de la industria. Cada receta disponible en el menú es el resultado directo de años de experiencia constante. Perfeccionamos diariamente las técnicas manuales en los fogones. Logramos así una cocina sincera hecha en casa. Buscamos que cada preparación evoque de inmediato buenos recuerdos. Queremos brindar una experiencia reconfortante en cada bocado.</p>
+                <p class="philosophy-text">Nuestra producción meticulosa hecha a mano está pensada para los entusiastas del buen comer. Atendemos a clientes que valoran el tiempo, la dedicación y el detalle invertido en la gastronomía artesanal. Al realizar tu pedido directo con nosotros, no solo resuelves tu comida del día. También disfrutas plenamente del compromiso de una cocina transparente. Nuestro espacio está diseñado con el único fin de ofrecer el verdadero lujo cotidiano. Trabajamos duro para que disfrutes de lo que está bien hecho.</p>
             </div>
         </div>
 
@@ -367,7 +360,6 @@
         <span class="zone-handle" id="social-handle">@bandejitadelata</span>
         
         <div id="social-bandejita" class="social-group active">
-            <!-- Corrección SEO: Inclusión de etiquetas span con la clase sr-only para aportar el texto de anclaje requerido por los rastreadores sin alterar la interfaz visual -->
             <a href="https://www.instagram.com/bandejitadelata/" target="_blank" class="icon-btn" aria-label="Instagram" onclick="gtag('event', 'click_social', {'network': 'Instagram', 'perfil': 'Bandejita'});"><i class="fa-brands fa-instagram"></i><span class="sr-only">Instagram de Bandejita de Lata</span></a>
             <a href="https://www.tiktok.com/@bandejita.de.lata" target="_blank" class="icon-btn" aria-label="TikTok" onclick="gtag('event', 'click_social', {'network': 'TikTok', 'perfil': 'Bandejita'});"><i class="fa-brands fa-tiktok"></i><span class="sr-only">TikTok de Bandejita de Lata</span></a>
             <a href="https://www.facebook.com/profile.php?id=61560438301074&locale=es_LA" target="_blank" class="icon-btn" aria-label="Facebook" onclick="gtag('event', 'click_social', {'network': 'Facebook', 'perfil': 'Bandejita'});"><i class="fa-brands fa-facebook-f"></i><span class="sr-only">Facebook de Bandejita de Lata</span></a>
@@ -384,7 +376,6 @@
         </div>
         
         <p style="font-size: 0.75rem; color: #ccc; margin-top: 30px;">San Cristóbal, Venezuela</p>
-        <a href="menu-estatico.html" style="font-size: 0.75rem; color: #888; text-decoration: none; display: block; margin-top: 15px;">Mapa del sitio y versiones de texto</a>
     </div>
 
     <a href="#" id="whatsapp-btn" class="fab" onclick="gtag('event', 'iniciar_pedido', {'event_category': 'ventas', 'metodo': 'Boton WhatsApp'});">
@@ -485,6 +476,7 @@
             }
         }
 
+        // Lógica de manipulación del menú interactivo adaptada
         function toggleNews(header) {
             const wrapper = header.parentElement;
             const body = wrapper.querySelector('.news-body');
@@ -525,7 +517,6 @@
             return new Date(utc + (3600000 * -4));
         }
 
-        // LÓGICA DE HORARIOS CORREGIDA (Soporta turnos nocturnos)
         function checkEstadoTienda(filasHorario) {
             const diasSemana = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
             const hoy = getVenezuelaDate();
@@ -667,7 +658,6 @@
                         const configSheet = celdaG2.trim().toLowerCase();
                         if (configSheet === 'usd') modoMoneda = 'usd';
                         if (configSheet === 'bs') modoMoneda = 'bs';
-                        if (configSheet === 'cop') modoMoneda = 'cop';
                     }
                 }
                 
@@ -735,10 +725,6 @@
                                     precioFinal = precioUSD.toFixed(2);
                                     if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
                                     simbolo = "$";
-                                } else if (modoMoneda === 'cop') {
-                                    const precioCalculado = Math.round(precioUSD * tasaBCV);
-                                    precioFinal = precioCalculado.toLocaleString('es-CO');
-                                    simbolo = "COP ";
                                 } else {
                                     const precioCalculado = (precioUSD * tasaBCV); 
                                     precioFinal = precioCalculado.toFixed(2);
@@ -774,7 +760,7 @@
 
                 if (estado === 'CERRADO' || estado === 'DIA_NO_LABORABLE') {
                     let tituloCierre = "Fogones Apagados por Hoy";
-                    let mensajeCierre = "Nuestro servicio ha finalizado. Estamos preparing los ingredientes más frescos para mañana. ¡Te esperamos!";
+                    let mensajeCierre = "Nuestro servicio ha finalizado. Estamos preparando los ingredientes más frescos para mañana. ¡Te esperamos!";
                     if (estado === 'DIA_NO_LABORABLE') {
                         tituloCierre = "Hoy Descansamos";
                         mensajeCierre = "Hoy los fogones descansan para recargar energías y volver con más sabor. ¡Nos vemos en nuestro próximo día de servicio!";
@@ -826,7 +812,6 @@
         }
         cargarTodo();
 
-        // REGISTRO DEL SERVICE WORKER
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').then(registration => {
