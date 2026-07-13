@@ -17,14 +17,19 @@ def build_html():
     if len(filas) <= 1:
         return
 
+    # Configuración global desde la fila 2 (índice 1)
     try:
         tasa_bcv = float(filas[1][8].replace(',', '.').strip())
     except:
         tasa_bcv = 1.0
 
     modo_moneda = 'bs'
-    if len(filas[1]) > 6 and filas[1][6].strip().lower() == 'usd':
-        modo_moneda = 'usd'
+    if len(filas[1]) > 6:
+        moneda_str = filas[1][6].strip().lower()
+        if moneda_str == 'usd':
+            modo_moneda = 'usd'
+        elif moneda_str == 'cop':
+            modo_moneda = 'cop'
 
     menu_por_categoria = {}
     bloque_horarios = []
@@ -57,11 +62,14 @@ def build_html():
         elif cat_lower == 'noticias':
             continue
 
+        # Procesamiento financiero (soporta bs, usd y cop)
         try:
             limpio = precio_raw.replace('$', '').replace(',', '.')
             precio_usd = float(limpio)
             if modo_moneda == 'usd':
                 precio_final = f"${precio_usd:.2f}".replace('.00', '')
+            elif modo_moneda == 'cop':
+                precio_final = f"COP {(precio_usd * tasa_bcv):,.0f}"
             else:
                 precio_final = f"Bs { (precio_usd * tasa_bcv):.2f}"
         except:
