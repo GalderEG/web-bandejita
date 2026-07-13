@@ -667,6 +667,7 @@
                         const configSheet = celdaG2.trim().toLowerCase();
                         if (configSheet === 'usd') modoMoneda = 'usd';
                         if (configSheet === 'bs') modoMoneda = 'bs';
+                        if (configSheet === 'cop') modoMoneda = 'cop';
                     }
                 }
                 
@@ -734,6 +735,10 @@
                                     precioFinal = precioUSD.toFixed(2);
                                     if (precioFinal.endsWith('.00')) precioFinal = precioFinal.slice(0, -3);
                                     simbolo = "$";
+                                } else if (modoMoneda === 'cop') {
+                                    const precioCalculado = Math.round(precioUSD * tasaBCV);
+                                    precioFinal = precioCalculado.toLocaleString('es-CO');
+                                    simbolo = "COP ";
                                 } else {
                                     const precioCalculado = (precioUSD * tasaBCV); 
                                     precioFinal = precioCalculado.toFixed(2);
@@ -769,7 +774,7 @@
 
                 if (estado === 'CERRADO' || estado === 'DIA_NO_LABORABLE') {
                     let tituloCierre = "Fogones Apagados por Hoy";
-                    let mensajeCierre = "Nuestro servicio ha finalizado. Estamos preparando los ingredientes más frescos para mañana. ¡Te esperamos!";
+                    let mensajeCierre = "Nuestro servicio ha finalizado. Estamos preparing los ingredientes más frescos para mañana. ¡Te esperamos!";
                     if (estado === 'DIA_NO_LABORABLE') {
                         tituloCierre = "Hoy Descansamos";
                         mensajeCierre = "Hoy los fogones descansan para recargar energías y volver con más sabor. ¡Nos vemos en nuestro próximo día de servicio!";
