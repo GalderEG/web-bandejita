@@ -7,6 +7,10 @@ on:
 jobs:
   build-menu:
     runs-on: ubuntu-latest
+    # Corrección: Otorga permisos explícitos para hacer push al repositorio
+    permissions:
+      contents: write
+      
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@v4
