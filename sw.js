@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bandejita-cache-v1';
+const CACHE_NAME = 'bandejita-cache-v2';
 
 // Aquí listamos los archivos estáticos que queremos guardar en el teléfono del usuario
 const urlsToCache = [
