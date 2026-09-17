@@ -9,35 +9,33 @@
       gtag('config', 'G-8R15RG0VZJ');
     </script>
     
-    <link rel="preload" as="image" href="Encabezado%20bandejita.jpg">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <title>Bandejita De Lata | Cocina de Autor y Delivery en San Cristóbal</title>
     
-    <meta name="description" content="Propuesta gastronómica con 12 years de trayectoria culinaria. Pastas, pastichos y platos de autor. Delivery y Pick-up en San Cristóbal (Urb. Mérida).">
+    <meta name="description" content="Propuesta gastronómica con 12 años de trayectoria culinaria. Pastas, pastichos y platos de autor. Delivery y Pick-up en San Cristóbal (Urb. Mérida).">
     <meta name="keywords" content="comida, san cristobal, tachira, pasticho, lasaña, delivery, pasta artesanal, cocina de autor, almuerzo, cena">
     <meta name="author" content="Ángel Chacón">
     
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
+    <link rel="icon" type="image/png" href="Imagotipo.png">
 
     <meta property="og:title" content="Bandejita De Lata | Menú Digital">
     <meta property="og:description" content="Mira nuestro menú actualizado, precios y horarios. Cocina sincera hecha en casa.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
+    <meta property="og:image" content="https://bandejitadelata.com/og-image.jpg">
     <meta property="og:url" content="https://bandejitadelata.com">
     <meta property="og:type" content="website">
 
     <meta name="theme-color" content="#135c96">
     <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png">
+    <link rel="apple-touch-icon" href="Imagotipo.png">
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Restaurant",
       "name": "Bandejita De Lata",
-      "image": "https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png",
+      "image": "https://bandejitadelata.com/og-image.jpg",
       "description": "Propuesta gastronómica de cocina de autor. Pastas, pastichos y recetas hechas en casa.",
       "address": {
         "@type": "PostalAddress",
@@ -78,9 +76,9 @@
         /* HEADER */
         header {
             height: 35vh; min-height: 250px; position: relative;
-            background-image: url('Encabezado%20bandejita.jpg'); 
-            background-size: cover; background-position: center; 
         }
+        .header-media { position: absolute; inset: 0; display: block; }
+        .header-bg { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
         header::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.1)); pointer-events: none; }
 
         .header-logo-container {
@@ -287,8 +285,12 @@
     </noscript>
 
     <header id="main-header">
+        <picture class="header-media">
+            <source srcset="Encabezado%20bandejita.webp" type="image/webp">
+            <img src="Encabezado%20bandejita.jpg" alt="" class="header-bg" width="1600" height="901" fetchpriority="high" decoding="async">
+        </picture>
         <div class="header-logo-container">
-            <img src="Imagotipo.png" alt="Logo Bandejita" class="header-logo" id="logo-img">
+            <img src="Imagotipo.png" alt="Logo Bandejita" class="header-logo" id="logo-img" width="100" height="100" decoding="async">
         </div>
     </header>
 

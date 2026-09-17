@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bandejita-cache-v3';
+const CACHE_NAME = 'bandejita-cache-v4';
 
 // Aquí listamos los archivos estáticos que queremos guardar en el teléfono del usuario
 const urlsToCache = [
@@ -7,8 +7,9 @@ const urlsToCache = [
   '/manifest.json',
   'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Imagotipo.png',
-  'https://raw.githubusercontent.com/GalderEG/web-bandejita/main/Encabezado%20bandejita.jpg'
+  '/Imagotipo.png',
+  '/Encabezado%20bandejita.jpg',
+  '/Encabezado%20bandejita.webp'
 ];
 
 // 1. INSTALACIÓN: Guardamos los archivos en caché la primera vez que entran
