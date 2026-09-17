@@ -66,10 +66,8 @@ refresco en los dispositivos de los clientes.
   `menu-estatico.html`.
 - **Diseño, estilos y lógica**: se editan en `index.html` y se publican por git.
 
-## Pendientes / mejoras opcionales
+## Notas
 
-- Añadir disparo `push` al workflow para regenerar `menu-estatico.html` también
-  al editar código.
-- `sw.js` referencia una imagen por SHA fijo (commit `2c9e405`); conviene
-  apuntarla a `main`.
-- Ampliar el `README.md` (hoy solo tiene el título).
+- El workflow también se dispara con `push` a `main` cuando cambian
+  `generate_menu.py`, `index.html` o el propio workflow.
+- Todas las imágenes remotas de `sw.js` apuntan a la rama `main`.

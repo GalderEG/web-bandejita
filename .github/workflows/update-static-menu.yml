@@ -3,6 +3,12 @@ on:
   repository_dispatch:
     types: [sheet_updated]
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'generate_menu.py'
+      - 'index.html'
+      - '.github/workflows/update-static-menu.yml'
 
 # Solución: Cancela automáticamente las ejecuciones viejas si haces cambios rápidos seguidos
 concurrency:
